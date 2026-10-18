@@ -1,0 +1,587 @@
+<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Website Sportwetenschappen</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Layout: sticky scoreboard-header, inklapbare menuboom links, inhoud rechts; home = jaren-rij + sporttegels */
+:root{
+  --bg:#f3f5f7; --surface:#ffffff; --ink:#14212e; --muted:#5a6876; --line:#d9e0e6;
+  --accent:#e2571c; --accent-ink:#ffffff; --court:#1d4e73; --court-soft:#e3edf5; --chip-off:#e9edf0;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f161d; --surface:#17212b; --ink:#e7edf2; --muted:#9aa8b5; --line:#2a3743;
+  --accent:#f07a42; --accent-ink:#16100c; --court:#7fb3dc; --court-soft:#1c2c3a; --chip-off:#222d37; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f161d; --surface:#17212b; --ink:#e7edf2; --muted:#9aa8b5; --line:#2a3743;
+  --accent:#f07a42; --accent-ink:#16100c; --court:#7fb3dc; --court-soft:#1c2c3a; --chip-off:#222d37; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--court)}
+a{color:var(--court)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--court);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) header.top{background:#132a3d}}
+:root[data-theme="dark"] header.top{background:#132a3d}
+header.top .wrap{display:flex;align-items:center;gap:16px;padding-block:10px;flex-wrap:wrap}
+.brand{font:800 1.5rem/1 var(--display);letter-spacing:.02em;text-transform:uppercase;color:#fff;text-decoration:none;display:flex;align-items:center;gap:10px}
+.brand i{display:inline-block;width:12px;height:28px;background:var(--accent);transform:skewX(-14deg)}
+.topnav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.topnav a{color:#fff;text-decoration:none;font:600 1.05rem/1 var(--display);text-transform:uppercase;letter-spacing:.06em;padding:8px 10px;border-radius:4px}
+.topnav a:hover,.topnav a.on{background:rgba(255,255,255,.14)}
+.search{position:relative}
+.search input{font:inherit;font-size:.95rem;padding:7px 10px;border-radius:4px;border:0;width:200px;max-width:100%;background:rgba(255,255,255,.95);color:#14212e}
+.results{position:absolute;right:0;top:110%;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:6px;width:300px;max-width:85vw;max-height:60vh;overflow:auto;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.results a{display:block;padding:8px 12px;text-decoration:none;color:var(--ink);border-bottom:1px solid var(--line)}
+.results a small{display:block;color:var(--muted)}
+.results a:hover{background:var(--court-soft)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:32px;padding-block:28px 64px}
+@media (max-width:600px){header.top{position:static}}
+@media (max-width:860px){.layout{grid-template-columns:minmax(0,1fr);gap:16px}}
+aside.tree{font-size:.95rem;align-self:start;position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);max-height:calc(100vh - 100px);overflow:auto}
+@media (max-width:860px){aside.tree{position:static;max-height:none}}
+.tree-toggle{display:none;font:600 1rem var(--display);text-transform:uppercase;letter-spacing:.06em;background:var(--surface);border:1px solid var(--line);color:var(--ink);padding:10px 14px;border-radius:6px;width:100%;text-align:left;cursor:pointer}
+@media (max-width:860px){.tree-toggle{display:block}aside.tree:not(.open) .tree-body{display:none}}
+.tree ul{list-style:none;margin:0;padding:0}
+.tree ul ul{padding-left:14px;border-left:1px solid var(--line);margin-left:6px}
+.tree li{margin:1px 0}
+.tree a{display:block;padding:4px 8px;border-radius:4px;color:var(--ink);text-decoration:none}
+.tree a:hover{background:var(--court-soft)}
+.tree a.on{background:var(--court);color:#fff}
+.tree .lvl0>li>a{font:700 1.1rem var(--display);text-transform:uppercase;letter-spacing:.05em}
+main{min-width:0}
+.crumbs{font-size:.88rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.crumbs a{color:var(--muted)}
+h1{font:800 clamp(2rem,5vw,3.1rem)/1.02 var(--display);text-transform:uppercase;letter-spacing:.01em;margin:0 0 20px;text-wrap:balance}
+h2{font:700 1.45rem/1.15 var(--display);text-transform:uppercase;letter-spacing:.03em;margin:28px 0 10px;text-wrap:balance}
+h3{font:700 1.15rem/1.2 var(--display);letter-spacing:.02em;margin:22px 0 8px;color:var(--court)}
+.prose{max-width:68ch}
+.prose p{margin:0 0 12px}
+.prose ul,.prose ol{margin:0 0 14px;padding-left:22px}
+.prose li{margin:3px 0}
+.attn{font:700 .85rem var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:8px 0 4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:6px 0 18px}
+.media{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+.media .frame{aspect-ratio:16/9;max-width:100%;background:var(--court-soft);display:grid;place-items:center;position:relative}
+.media .frame video{position:absolute;inset:0;width:100%;height:100%;background:#000}
+.media .frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.media .frame svg{width:44px;height:44px;color:var(--court)}
+.media .meta{padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.media .meta b{font-weight:600;line-height:1.3}
+.media .meta span{font-size:.82rem;color:var(--muted);word-break:break-word}
+.media .meta a{font-size:.88rem;font-weight:600}
+.media.doc{flex-direction:row;align-items:center}
+.media.doc .ico{flex:none;width:52px;align-self:stretch;display:grid;place-items:center;background:var(--court-soft);color:var(--court);font:800 .8rem var(--display);letter-spacing:.06em;text-transform:uppercase}
+.media.doc .meta{min-width:0}
+.linklist{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 18px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:600}
+.pill:hover{border-color:var(--court);background:var(--court-soft)}
+.pill.off{color:var(--muted);background:var(--chip-off);border-style:dashed;cursor:default}
+.figure{margin:8px 0 18px;max-width:900px}
+.figure img{display:block;width:100%;border-radius:8px;border:1px solid var(--line);background:var(--court-soft)}
+.imgph{border:1px dashed var(--line);border-radius:8px;padding:18px;color:var(--muted);font-size:.9rem;background:var(--surface)}
+.empty{color:var(--muted);font-style:italic}
+/* home */
+.hero{border-radius:12px;overflow:hidden;position:relative;background:var(--court);color:#fff;margin-bottom:26px;min-height:200px;display:flex;align-items:flex-end}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5}
+.hero .txt{position:relative;padding:28px;max-width:640px}
+.hero h1{color:#fff;margin:0 0 6px;font-size:clamp(1.8rem,7vw,3.1rem);overflow-wrap:anywhere}
+.hero p{margin:0;font-size:1.05rem}
+.years{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:34px}
+@media (max-width:560px){.years{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.year{display:flex;flex-direction:column;justify-content:space-between;gap:6px;padding:16px;border-radius:8px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:var(--ink);min-height:110px}
+.year b{font:800 2.6rem/1 var(--display)}
+.year span{font:600 .85rem var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+a.year:hover{border-color:var(--accent);box-shadow:inset 0 -4px 0 var(--accent)}
+.year.off{background:var(--chip-off);border-style:dashed;color:var(--muted)}
+.sports{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.sport{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.sport .pic{aspect-ratio:16/10;max-width:100%;background:linear-gradient(135deg,var(--court),var(--court-soft));position:relative}
+.sport .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sport .body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px}
+.sport h2{margin:0;font-size:1.35rem}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:600 .9rem var(--display);letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:4px;background:var(--accent);color:var(--accent-ink);text-decoration:none}
+.chip.off{background:var(--chip-off);color:var(--muted)}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+footer .wrap{padding-block:18px}
+@media (prefers-reduced-motion:no-preference){.pill,.year,.chip{transition:background .15s,border-color .15s,box-shadow .15s}}
+</style>
+</head><body style="margin:0">
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#home"><i></i>Website Sportwetenschappen</a>
+    <nav class="topnav" id="topnav"></nav>
+    <div class="search">
+      <input id="zoek" type="search" placeholder="Zoeken op deze site" aria-label="Zoeken op deze site" autocomplete="off">
+      <div class="results" id="results" hidden></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <aside class="tree" id="tree">
+    <button class="tree-toggle" id="treeToggle" aria-expanded="false">Menu</button>
+    <div class="tree-body" id="treeBody"></div>
+  </aside>
+  <main id="main"></main>
+</div>
+<footer><div class="wrap">Website Sportwetenschappen · Agnetencollege · 3de tot 6de jaar sportwetenschappen</div></footer>
+
+<script>
+/* ===== Instellingen =====
+   Video's en documenten staan op Google Drive. Vul bij een item de Drive-ID in
+   (het stuk tussen /d/ en /view in de deellink) om het te koppelen.
+   Een eigen videobestand in de map video/ koppel je met "video/bestandsnaam.mp4". */
+const IMG = "https://sites.google.com/sitesv-images-rt/";
+const IM = {
+  hero:"AMxu72v8oR49ptkt5x83Rp5g-gET3IPsqLdMRwzBf4SkPJ8ksIIi0imMinS1JYY9xCqaMlli06yEiejl_XhtXxPttHDOUky1qCsLG0tpoqZJPIOifZyDCy2bnkVJyaaXRrG9Ab52s9SDoe0oQzvQD2O0M1sxra9PiHq5IQsnC5CrGRkhl4E6RSxsNz6h0GdSmB5EvGZ_RRq_HOYECVNH--VkFvZijjuSVNWWPh1Jyj_T5yU=w1280",
+  zwemmen:"AMxu72tu1e99nFIm1pbBsyk1pBOwYmlCiRK9b_BaOB1xGEORiVoBN1YKSq_OWSsI06wPPcL3cJfz45rIJbzNH7RsxSG6y0zzDGDtlLbcQ1-A12bITgAoadqtob2MXc0ugFZNKp4nygeOtFA_2njHQ-tMMTb5NIvsb0v59yUFYvX_WogNnJ7s3-bwuFL6hzabTEkiS6Mhj75SpX1BzHqOY9_jnS15LKZhBQdxMHuJLk646hI=w1280",
+  gymnastiek:"AMxu72v6k-nZHcG2cSHu3Gdz1oQatHwzo7B5MshdATPJtZd71SJsrCL-OR4iFAgNxHI28Ncgg_B1gCVXZ5WdM4XZKnaQDcuY_gB7vinhZ2ALeEXfLrnGFtTVqJSCSLyWGEzeCi48JsXj2mDyZgIomCVbM8KL9XIWw2BMUDnRFdaGmBRkKxRU63Z7XCICUVFEzDWyRAiTI-nGVuWvJIYHWtK3ezKTnKpSU3ex2ahX2cc=w1280",
+  balsporten:"AMxu72ux-tX-0NEAfDGCVSooclAh3F36K3Uk8PNZakq6e8KOGzvPX7ysjwHNIs4g76e5S9_CjQAmXh7bLnp--guThrgrChCqoZrUMosL15fdf6YpRfXW6C2CRCF7LSSWWDfgxgkqPCzPsuw943PxJEWfZUkPAhNPX6p9Qaq65GvQLzsyLrPb51iS1fNhwGAEvnc=w1280",
+  atletiek:"AMxu72vpq55Q3ZVOe3zhDWkZp_MFG8-dyxt6l2gq9IMN8CHFnxtNgoQxaAMdMp21L9441vsELPMUhoj_yNt9nfPc8S5OXNLM2RlcM3ML_C2ehGy4Q1QbVCDmt6LKc_7tj2DL-y8R9JcnaAp8cCQpzx3TyCsi8uJrD8wNyaAjnBumOPt08GJvW1i9fbzvROfmQCXErfih3XfcT03fYBledR5mAlTlXabVI8Gh687QSBFybUg=w1280",
+  gevechtssport:"AMxu72uaNoME_B4XeiAuXozggGapRNOpqAXGPXaJk5uzN-tn7tAN0DbWxMaYNcDkLZ5OZZOYvnYLgYjPwYDQrU_eLkTfzQfXFHwF8PDyZo5SIpneWb3Mm3XBPEesQ1_pzkkT1l0tkvBGvcxoHP7wgv_XjfdjM1y13w2v8bOwqs_jvA2Zmb7yIru_apKo1_zpBQnEUwJZA1UT28Prs0CykU4FfitopsOKei3hjnVfkLZkovw=w1280",
+  basketbal:"AMxu72tgb50Dhs3B_D6EVUnHScwzUrnWFJevlWHg8HxoOjk58jBPZQ8DWlBIQH8X1scf0I0Kk7W_oi6W20MMEMlbNWAvNwd23_i4F6FZk8NnYEe0ghHZyMGTFam1sS9UAKiEz3RwfEVuBMPmoTqcI1ZFc55RtAddnnyF1HtJgaXVW1O6vqJZhAY4odqDZjGUlUueMMa9_HOZbq531BOsddUDdkfGBJaEVbbC0aZpnvQRLLk=w1280",
+  blok1:"AMxu72vKDvjHfZWVzlqiDTdMHLIY5KXYl7_qxmUKlBmuP1hu6McDHv3UvQ2FNyL0gEq3MS_ibtPL1Wwowjgf4t2HHZCwTt1C4_Sa4-NmLEYOry4vBtHlxHvkKHVBkJPhl7aIsZCcyBbw1Nsi5x_1Pt__voM6oFPn9D0mQ2R85oWv2SySBdSzaFVbFZNLSDgytkVKsHXl4qa-fCzYKu2aeuVuJn3skHTFYUPRs6O7LgPc=w1280",
+  blok23:"AMxu72tyqmGJj9pXJC9neSy0u-Rr860I1ZJLPbOrw2-Py4m3xMoWlhaTetUx7_hgFpUiRFh41XbnUp_r_Bwd6s6Asg0TwamXYsJhA1ME2juZcCNiFUkhhwWZ0c2xgtMYxIytHaDQTsfgMV3P1cCHcXO4cZuY1POtasvvUgeLoqT-IdZoGf37IMUZyEoKNMh2XbH1NC5v8ec78MXKggtBtdm4J6ixKKzQvehXoz1LAMh9=w1280",
+  gymband:"AMxu72u5q3FgMZJJtsfGlO5oyxSWKdZxiG29us9X7V6Z2CT1r9afg1T_IxdBPdiG34hEn1Nu06bUAH9LkHcnplPCRzEpc1M8yhR1j0Rik_F1FbiTOr2gWvSu-vqBIlM0VA8KGnNUthZZQsBUSvIDnAN0nTzQp54ias3p8hw8gb_5RtfFvAAsRzOCDy_CKyOBL-WEqVlEGNIdwtfUEiC7yDS3vDI1y_I6CiS3aAQQRGCz=w1280",
+  extra:"AMxu72u9U3Njv5shwh9_KlFJvAMKMkPi4oUO8jRTVRq1e_aT25L-ZFkKcxH-toD2KCuCTKZiquWc05kRNZcr7G2M5OhjlULya02MfPBnJ68fNUHf-o8XjqyHDVpZvgD6s9noqm0PWGOxFwT0gWsXpzPrm6-HVCs3U5BwTvd7agdkT-mK9dnNwEunKPMyQJjKewOuAWd-HlK8UWOsi1uMY4SfdKG3FblZVuTpOHUY82RjWOY=w1280",
+  werp1:"AMxu72vR6w3GqTXPXhrIbrCC6T7E58qWA_DFSvWwWl4u2ypnXJbuBPHBvC19hz2OwswpBYKO8qOHzeH4im_0mchJ_36zfJwUQYD8zeAp45ONUkymUhFxMtU46hJyiM4ffXAuxnPLLaiZVOpmA0rX0hgj686aVgDTU_3uRNq2-Uwgb7zKxIsnL3gJyIb93pa33mz6wIr7g9nWTtYUMPQ7jCbVP_F8oR3djHd_57NUfdi_3qI=w1280",
+  werp2:"AMxu72u10qz3QCF9GkLLp-TPzxQz1cPJEWw93OWvr2rg-f3Asi8272FWPZ22_sUaCEQf3dDr1bWfc0zWckBOMtd6zbjrNq_XJ4pbiT9Z-GOMJjiyIkiHGLTyByOnVeOr1WbbjvEWFIr1VR-CeUmJMd3yaXqlbYsChITE3S03Fg3bY8vIUwMJ_nxMV4k-kZ5tkQRvsHev447fOGKBnyQ9diwiW1QziSOJK1hIbJo1SQvK=w1280",
+  werp3:"AMxu72uxG4CTIrOVvGYTW50dLB6FjsRV7iychyyoFh7FdOP2RD2ZQ-xn4Q2gIw_UsaW9fqSa6Yv6IfMKjWCU4cJbhOHCabvNY1SENJaTG82mebh-y0m5zHLWPWT2vYGjkfycTiFOX9SZbfQGvf72Br9IpkmJLN7JizU9FLCcQ7QhZ4K0KA9i1sxEn7GLelRBpvwbQNTApS0yQ_qYe1EA95hQl_lz6qivevS-pFbQ4nJHbwA=w1280",
+  fout1:"AMxu72u0NFhFy6gQ4wa2Mi-LySGvxjvWTBiUf7qnski6SNGiEAzRUwvqTRvR3K2DpOYVQ6-mFiczqN33WWFyplGVi6GhGJ9ABAHJOpAynap9tDXjdcGf4AuWGfuTH-RcWmQShl_2t5XztlChGvNmUQrVadt0CXyyClR-i0zDJ3mHXwgj3b2Y4L3H34CUUHDoBvcGVxMSLupXsxiwXNHTtjoj8g48YyMOPmCKOAfvCf3JwdI=w1280",
+  fout2:"AMxu72uyUuIxr64JMpi943UE39ViT_VV37w4YS4gJZOD07_z5B5tcg5duYVwfs1wPrxH-vgAG0TgUT3qu6pZg5CxP4PeGhbEgUp_s_oA-jX6swA1gyJNpS4jMFhaIpxGHIJ46hNmg7tgsacbso7pF9sA6-hxpjX2Kx5UX6jzKWIFxBWGjxfjnzAq52cQ0Gb6mywhdSy6kjrRiZCcK7OYxoD-8SAZ5T_cV438KJYJaVxm=w1280",
+  fout3:"AMxu72tOS25V_Tf7c2_DbXhr0wBUC3cSFNxJR0eA4ACEMimY9VMk19osLnudIMdyuKlNDEvVm8RscYgEzjcaCvitWOTr6Lb9PNnWWGvt2r9jEQPyf2tqzYR2e2z-vNxjAb4Lhpcc70Ew7NIL4ryBCIGZWaHr6_Xr9cDz2J3u4gUAPpmjlJCmfRRG4Jggcovg2ELLHbIcEwCoQEziXPOXKNZYaK42e1wwQ9eJHXBZ-Afi=w1280",
+  fout4:"AMxu72v3FYXUYn7qP__9s_88EfMXQRNNc18Erj0uJYQ_uumiYdhmUU1vpwQyrQM0YCrEeIHKCVDJCUVqNTi71KIvmUkBeJExwoQheIki8dTYZnacLb9jiFvAMrUkZHdyQX7nLX165-_Ta4G2tlUKa1RlOUobJYVgeLvYlEHzk7aXocfjg8PJL24h--1EZGXxy1-yV_NMuNyLv9d97tmVaXOGyPtwu_XfncZNcVxRABUgmOI=w1280"
+};
+
+/* Bouwstenen voor pagina-inhoud */
+const H=t=>["h",t], P=t=>["p",t], UL=a=>["ul",a], OL=a=>["ol",a], ATT=()=>["attn","!! Aandachtspunten !!"];
+const V=(label,file,drive="")=>["v",label,file,drive];      // video
+const F=(label,file,drive="")=>["f",label,file,drive];      // document / bestand
+const S=(label,id)=>["s",label,id];                          // Google Sheet
+const IMGB=k=>["img",k];
+const L=(...items)=>["links",items];                          // [label, pagina-id] of [label] zonder link
+
+/* Pagina's: id -> {t: titel, p: bovenliggende pagina, m: titel in menu, c: inhoud} */
+const PAGES = {};
+function pg(id, p, t, c, m){ PAGES[id]={id,p,t,c:c||[],m:m||t}; }
+
+pg("home", null, "Home", []);
+
+/* --- 3de jaar --- */
+pg("3de-jaar","home","3 SPW",[L(["gymnastiek","gym3"],["zwemmen","zwem3"],["atletiek","atl3"],["dans-ritmiek"],["balsporten"])],"3de jaar");
+pg("gym3","3de-jaar","gymnastiek 3de jaar",[
+  H("Demo's blok 1"),L(["grond","g-b1-grond"],["herenbrug","g-b1-herenbrug"],["rekstok","g-b1-rekstok"],["sprong","g-b1-sprong"]),
+  H("Demo's blok 2"),L(["grond","g-b2-grond"],["herenbrug","g-b2-herenbrug"],["rekstok","g-b2-rekstok"],["sprong","g-b2-sprong"]),
+  H("Demo's blok 3"),L(["grond","g-b3-grond"],["herenbrug","g-b3-herenbrug"],["rekstok","g-b3-rekstok"],["sprong","g-b3-sprong"]),
+  H("Demo's blok 4"),L(["grond","g-b4-grond"],["herenbrug","g-b4-herenbrug"],["rekstok","g-b4-rekstok"],["sprong","g-b4-sprong"]),
+  H("Eindvormen"),L(["Eindvormen","g-eind"],["Grond","g-eind-grond"],["Herenbrug","g-eind-herenbrug"],["Rekstok","g-eind-rekstok"]),
+  H("Overige"),L(["Extra oefeningen","g-extra"],["Inhaaldata + deadlines","g-inhaal"])
+]);
+const blokLinks=n=>L(["Grond",`g-b${n}-grond`],["Herenbrug",`g-b${n}-herenbrug`],["Rekstok",`g-b${n}-rekstok`],["Sprong",`g-b${n}-sprong`]);
+pg("g-b1","gym3","Demo's blok 1",[blokLinks(1),IMGB("blok1")]);
+pg("g-b1-rekstok","g-b1","Blok 1 rekstok",[
+  V("borstomtrek - eindvorm 1","rekstok - borstomtrek - eindvorm 1.mp4","video/rekstok_-_borstomtrek_-_eindvorm_1.mp4"),
+  V("borstomtrek - eindvorm 2","rekstok - borstomtrek - eindvorm 2.mp4","video/rekstok_-_borstomtrek_-_eindvorm_2.mp4"),
+  V("borstomtrek - eindvorm 3","rekstok - borstomtrek - eindvorm 3.mp4","video/rekstok_-_borstomtrek_-_eindvorm_3.mp4"),
+  V("borstomtrek - eindvorm 4","rekstok - borstomtrek - eindvorm 4.mp4","video/rekstok_-_borstomtrek_-_eindvorm_4.mp4"),
+  V("borstomtrek - helpersfunctie","rekstok - borstomtrek - helpersfunctie.mp4","video/rekstok_-_borstomtrek_-_helpersfunctie.mp4"),
+  V("borstomtrek - opbouwoefening 1","rekstok - borstomtrek - opbouwoefening 1.mp4","video/rekstok_-_borstomtrek_-_opbouwoefening_1.mp4"),
+  V("borstomtrek - opbouwoefening 2","rekstok - borstomtrek - opbouwoefening 2.mp4","video/rekstok_-_borstomtrek_-_opbouwoefening_2.mp4")]);
+pg("g-b1-herenbrug","g-b1","Blok 1 herenbrug",[
+  V("herenbrug - opbouwoefening 1","Steunzwaai opbouw oefening 1.mp4"),
+  V("herenbrug - opbouwoefening 2","Steunzwaai opbouwoefening 2.mp4"),
+  V("herenbrug - opbouwoefening 3","Steunzwaai opbouwoefening 3.mp4"),
+  V("herenbrug - eindvorm","herenburg - opsprong tot spreidzit naar steunzwaaien.mp4")]);
+pg("g-b1-grond","g-b1","Blok 1 grond: koprol/zweefrol",[
+  V("eindvorm 1: koprol voorwaarts","koprol voorwaarts eindvorm.mp4"),
+  V("eindvorm 2: zweefrol","zweefrol eindvorm 2.mp4"),
+  V("eindvorm 3: zweefrol over 1,5m","zweefrol eindvorm 3.mp4"),
+  H("remediëringsoefening 1: rollen van een helling"),UL(["wanneer ik niet recht geraak","wanneer ik schuin om val"]),
+  V("rollen van een helling","koprol van een hellend vlak.mp4"),
+  H("remediëringsoefening 2: rollen met een voorwerp onder de kin"),UL(["wanneer ik op mijn hoofd steun tijdens het rollen"]),
+  V("voorwerp onder de kin","voorwerp onder de kin.mp4"),
+  H("remediëringsoefening 3: rollen vanaf een verhoogd vlak"),UL(["wanneer ik schuin rol (niet (even hard) steun op mijn handen)"]),
+  V("rollen vanaf een verhoogd vlak","koprol van een verhoogd vlak.mp4"),
+  H("remediëringsoefening 4: voorwerp tussen knieën of voeten"),UL(["wanneer ik mijn knieën of voeten niet kan samen houden"]),
+  V("voorwerp tussen knieën of voeten","voeten of knieën blijven niet samen.mp4")],"Blok 1 grond");
+pg("g-b1-sprong","g-b1","Blok 1 sprong",[
+  V("tussensteunsprong - eindvorm","sprong - tussensteunsprong - eindvorm.mp4"),
+  V("tussensteunsprong - helpersfunctie","sprong - tussensteunsprong - helpersfunctie.mp4"),
+  V("tussensteunsprong - opbouwoefening 1","tussensteunsprong - opbouwoefening 1.MP4"),
+  V("tussensteunsprong - opbouwoefening 2","tussensteunsprong - opbouwoefening 2.MP4")],"blok 1 sprong");
+
+pg("g-b2","gym3","Demo's blok 2",[blokLinks(2),IMGB("blok23")]);
+pg("g-b2-grond","g-b2","Blok 2 grond",[
+  V("Eindvorm 1: achterwaartse rol","AW rol eindvorm (1)_Trim.mp4"),
+  V("Eindvorm 2: achterwaartse rol met gespreide benen","AW rol gespreide benen (uitbreiding) _Trim.mp4"),
+  V("Achterwaartse rol opbouwoefening 1","AW rol oef 1 verhoogd vlak_Trim.mp4"),
+  V("Achterwaartse rol opbouwoefening 2","AW rol opbouwende oefening 2.mp4"),
+  V("Achterwaartse rol opbouwoefening 3","AW rol opbouwende oefening 3.mp4"),
+  H("Remediëringsoefening 1: pittenzakje in knieholtes"),UL(["benen blijven niet opgetrokken tegen borst"]),
+  V("pittenzakje in knieholtes","AW rol geen klein bolletje remediëring.mp4"),
+  H("Remediëringsoefening 2: pittenzakje tussen kin en borst + achterwaarts schommelen met actieve duw op handen"),UL(["wanneer ik schuin achterwaarts rol","wanneer ik niet volledig rond raak"]),
+  V("pittenzakje tussen kin en borst","AW rol kin niet tegen borst remediëring_Trim.mp4"),
+  H("Remediëringsoefening 3: pittenzakje tussen knieën"),UL(["knieën blijven niet gesloten tijdens de rol"]),
+  V("pittenzakje tussen knieën","AW rol knieën open remediëring _Trim.mp4")]);
+pg("g-b2-rekstok","g-b2","Blok 2 rekstok",[
+  V("Molendraai voorwaarts","Molendraai vw_Trim.mp4"),
+  V("Molendraai voorwaarts helpersfunctie","Helpersfunctie molendraai vw_Trim.mp4"),
+  V("molendraai voorwaarts opbouwoefening 1","Opbouw oefening 1 molendraai vw_Trim.mp4"),
+  V("molendraai voorwaarts opbouwoefening 2","Opbouwoefening 2 molendraai_Trim.mp4")]);
+pg("g-b2-sprong","g-b2","Blok 2 sprong",[
+  V("Tijgersprong eindvorm 1","Tijgersprong eindvorm_Trim.mp4"),
+  V("Tijgersprong eindvorm 2 (moeilijkere variant)","tijgersprong eindvorm 2 goed"),
+  V("Tijgersprong helpersfunctie","Helpersfunctie tijgersporng_Trim.mp4"),
+  V("Tijgersprong opbouw 1","Opbouwoefening 1 tijgersprong_Trim.mp4"),
+  V("Tijgersprong opbouw 2","Opbouwoefening 2 tijgersprong_Trim.mp4"),
+  V("Tijgersprong opbouw 3","Opbouwoefening 3 tijgersprong_Trim.mp4"),
+  V("Opbouw tijgersprong 4","Opbouwoefening 4 tijgersprong_Trim.mp4"),
+  V("Opbouw tijgersprong 5","Opbouwoefening 5 tijgersprong_Trim.mp4")]);
+pg("g-b2-herenbrug","g-b2","Blok 2 herenbrug",[
+  V("Schouderrol eindvorm 1","Schouderrol herenbrug eindvorm_Trim.mp4"),
+  V("Schouderrol eindvorm 2","Schouderrol eindvorm 2_Trim.mp4"),
+  V("Schouderrol helpersfunctie","Schouderrol helpersfunctie _Trim.mp4"),
+  V("Schouderrol opbouwoefening 1","Opbouw schouderrol herenbrug 1 goed_Trim.mp4"),
+  V("Schouderrol opbouwoefening 3","Opbouw schouderrol herenbrug 3_Trim.mp4"),
+  V("Schouderrol opbouwoefening 2","Opbouw schouderrol herenbrug 2 goed_Trim.mp4")]);
+
+pg("g-b3","gym3","Demo's blok 3",[blokLinks(3),IMGB("blok23")]);
+const vids=(prefix,list)=>list.map(([l,f])=>V(l,f));
+pg("g-b3-rekstok","g-b3","Blok 3 rekstok",vids("",[
+  ["Eindvorm 1","22-01-08-19-36-24_01.mp4"],["Helpersfunctie","22-01-08-19-29-18_01.mp4"],
+  ["Opbouwoefening 1","22-01-08-16-55-17_01.mp4"],["Opbouwoefening 2","22-01-08-17-01-51_01.mp4"],
+  ["Opbouwoefening 3","22-01-08-17-05-34_01.mp4"],["Opbouwoefening 4","22-01-08-17-11-04_01.mp4"],
+  ["Opbouwoefening 5","22-01-08-19-19-32_01.mp4"],["Opbouwoefening 6","22-01-08-19-31-57_01.mp4"]]));
+pg("g-b3-grond","g-b3","Blok 3 grond",vids("",[
+  ["Eindvorm 1","22-01-07-14-12-08_01.mp4"],["Helpersfunctie handstand","22-01-07-11-47-26_01.mp4"],
+  ["Opbouwoefening 1","GH011045~2.mp4"],["Opbouwoefening 2","22-01-07-12-00-21_01.mp4"],
+  ["Opbouwoefening 3","22-01-07-14-01-15_01.mp4"],["Opbouwoefening 4","22-01-07-14-07-17_01.mp4"]]));
+pg("g-b3-herenbrug","g-b3","Blok 3 herenbrug",vids("",[
+  ["Eindvorm 1","22-01-07-15-44-08_01.mp4"],["Eindvorm 2","22-01-07-15-52-08_01.mp4"],
+  ["Helpersfunctie","22-01-07-15-40-02_01.mp4"],["Opbouwoefening 1","22-01-07-14-20-56_01.mp4"],
+  ["Opbouwoefening 2","22-01-07-14-28-34_01.mp4"],["Opbouwoefening 3","22-01-07-15-36-16_01.mp4"]]));
+pg("g-b3-sprong","g-b3","Blok 3 sprong",vids("",[
+  ["Eindvorm 1 (zonder sprong -> minst aantal punten)","22-01-08-16-43-00_01.mp4"],
+  ["Eindvorm 2 (makkelijkere variant)","22-01-08-16-37-55_01.mp4"],
+  ["Eindvorm 3 (moeilijkere variant)","22-01-08-16-40-36_01.mp4"],
+  ["Helpersfunctie","22-01-08-15-09-46_01.mp4"],
+  ["Opbouwoefening 1","22-01-08-15-04-57_01.mp4"],["Opbouwoefening 2","22-01-08-15-07-58_01.mp4"],
+  ["Opbouwoefening 3","22-01-08-15-12-25_01.mp4"],["Opbouwoefening 4","22-01-08-15-15-36_01.mp4"],
+  ["Opbouwoefening 5","22-01-08-15-18-50_01.mp4"],["Opbouwoefening 6","22-01-08-16-17-45_01.mp4"],
+  ["Opbouwoefening 7","22-01-08-16-21-24_01.mp4"],["Opbouwoefening 8","22-01-08-16-27-33_01.mp4"],
+  ["Opbouwoefening 9","22-01-08-16-32-43_01.mp4"]]));
+
+pg("g-b4","gym3","Demo's blok 4",[blokLinks(4)]);
+pg("g-b4-rekstok","g-b4","Blok 4 rekstok",vids("",[
+  ["Helpersfunctie","22-04-17-15-12-26_01.mp4"],["Opbouwoefening 1","22-04-17-14-45-55_01.mp4"],
+  ["Opbouwoefening 2","22-04-17-14-48-27_01.mp4"],["Opbouwoefening 3","22-04-17-14-50-05_01.mp4"],
+  ["Opbouwoefening 4","22-04-17-14-51-58_01.mp4"],["Eindvorm","22-04-17-14-59-23_01.mp4"]]));
+pg("g-b4-grond","g-b4","Blok 4 grond",vids("",[
+  ["Opbouwoefening","22-04-15-21-36-44_01.mp4"],["Eindvorm 1","22-04-15-21-30-48_01.mp4"],
+  ["Eindvorm 2 (uitbreiding)","22-04-15-21-33-29_01.mp4"]]));
+pg("g-b4-herenbrug","g-b4","Blok 4 herenbrug",vids("",[
+  ["Opbouwoefening 1","22-04-17-14-20-32_01.mp4"],["Opbouwoefening 2","22-04-17-14-25-26_01.mp4"],
+  ["Opbouwoefening 3","22-04-17-14-40-13_01.mp4"],["Eindvorm 1","22-04-17-14-30-09_01.mp4"],
+  ["Eindvorm 2","22-04-17-14-34-09_01.mp4"],["Eindvorm 3","22-04-17-14-36-45_01.mp4"],
+  ["Eindvorm 4","22-04-17-14-42-44_01.mp4"]]));
+pg("g-b4-sprong","g-b4","Blok 4 sprong",vids("",[
+  ["Opbouwoefening 1","22-04-15-21-52-59.mp4"],["Opbouwoefening 2","22-04-15-21-57-26_01.mp4"],
+  ["Eindvorm","22-04-15-22-00-15_01.mp4"]]));
+
+pg("g-eind","gym3","Eindoefeningen",[F("puntensleutel eindtest gymnastiek 3SPW","puntensleutel eindtest gymnastiek 3SPW.docx"),IMGB("gymband")]);
+pg("g-eind-rekstok","g-eind","Rekstok eindoefening",[V("Rekstok eindoefening","GH011157.MP4")]);
+pg("g-eind-herenbrug","g-eind","Herenbrug eindoefening",[V("Herenbrug eindoefening","GH011161.MP4")]);
+pg("g-eind-grond","g-eind","Grond eindoefening",[V("Grond eindoefening (1)","GH011146.MP4"),V("Grond eindoefening (2)","GH011154.MP4")]);
+pg("g-extra","gym3","Oefeningen voor extra punten",[
+  IMGB("extra"),
+  H("Oefening 1 · Pompen"),V("Pompen","GH010989_1636722793096~2.mp4"),ATT(),
+  UL(["Neus komt steeds tot tegen de grond","Lichaam blijft gestrekt (poep hangt niet door of komt niet omhoog)"]),
+  H("Oefening 2 · Optrekken"),V("Optrekken","VID_20211109_134944.mp4"),ATT(),
+  UL(["Starten uit hang (voeten van de grond) met gestrekte armen","Kin wordt volledig boven de rekstok/buis gebracht","Tussen elke herhaling keren we terug tot hang met gestrekte armen (voeten blijven van de grond)"]),
+  H("Oefening 3 · Stretching tegen muur links"),V("Stretching tegen muur links","GH010995_1636722613941~2.mp4"),ATT(),
+  UL(["Zitvlak en onderrug maken contact met de grond","Horizontaal been maakt contact met de grond en is volledig gestrekt","Verticaal been is los van de muur en volledig gestrekt"]),
+  H("Oefening 3 · Stretching tegen muur rechts"),V("Stretching tegen muur rechts","GH010996_1636722613941~2.mp4"),ATT(),
+  UL(["Zitvlak en onderrug maken contact met de grond","Horizontaal been maakt contact met de grond en is volledig gestrekt","Verticaal been is los van de muur en volledig gestrekt"]),
+  H("Oefening 4 · Spreidzit"),V("Spreidzit","GH010997_1636724514058~2.mp4"),ATT(),
+  UL(["Benen zijn volledig uitgestrekt en maken contact met de grond","Handen worden NIET gebruikt om de benen achteruit te duwen","Denkbeeldige hoek ter hoogte van het kruis is 120°"]),
+  H("Oefening 5 · Planken"),V("Planken","GH010990_1636722613941~2.mp4"),ATT(),
+  UL(["Lichaam is mooi opgespannen, geen doorhangend of omhoogstekend zitvlak"]),
+  H("Oefening 6 · Hazensprong"),V("Hazensprong","Video van Michiel Paesen"),ATT(),
+  UL(["Voeten en benen blijven aaneengesloten","Benen blijven gestrekt","Afwisselend kaatsen op voeten en handen waarbij een zweeffase gecreëerd wordt"]),
+  H("Oefening 7 · Lenigheid schoudergordel"),V("Lenigheid schoudergordel","GH010988_1636722793096~2.mp4"),ATT(),
+  UL(["De denkbeeldige hoek tussen de hand en bezemsteel is 35°","De armen blijven gedurende de beweging/oefening gestrekt"]),
+  IMGB("gymband")],"Extra oefeningen");
+pg("g-inhaal","gym3","Inhaal data + deadlines",[
+  F("inhaaldata gymnastiek","inhaaldata gymnastiek.xlsx"),
+  F("Afspraken en deadlines 3SPW gymnastiek","Afspraken en deadlines 3SPW gymanstiek.docx"),
+  F("inleidende ppt gymnastiek","inleidende ppt gymnastiek.pptx"),IMGB("gymband")]);
+
+pg("zwem3","3de-jaar","zwemmen 3de jaar",[L(["Lesopbouw borstcrawl","z-crawl"],["Remediëringsoefeningen","z-rem"],["Lesopbouw schoolslag","z-school"],["Prestatietabellen","z-prest"])]);
+pg("z-crawl","zwem3","lesopbouw borstcrawl",[
+  ...[1,2,3,4,5,6,7,8,9,11,12,13].map(n=>F(`effectieve leerlijn borstcrawl - les ${n}`,`effectieve leerlijn borstcrawl - les ${n}.docx`)),
+  F("fouten en remediëringen borstcrawl - bijlage les 13","fouten en remediëringen borstcrawl - bijlage les 13.docx")]);
+pg("z-school","zwem3","Lesopbouw schoolslag",[F("effectieve leerlijn schoolslag","effectieve leerlijn schoolslag.pdf")]);
+pg("z-prest","zwem3","Prestatietabellen",[
+  H("100m borstcrawl"),F("prestatietabel 100m borstcrawl","prestatietabel 100m borstcrawl.xlsx"),
+  H("100m & 200m schoolslag"),F("prestatietabel 100m & 200m schoolslag","prestatietabel 100m & 200m schoolslag.xlsx")],"prestatietabellen");
+pg("z-rem","zwem3","remediëringsoefeningen",[L(["Borstcrawl","z-rem-crawl"],["Schoolslag","z-rem-school"],["Rugcrawl"])]);
+pg("z-rem-crawl","z-rem","remediëringsoefeningen borstcrawl",[L(["Voorbereidende oefeningen","zr-voorb"],["Beenbeweging/Kick","zr-kick"],["Rotatie","zr-rotatie"],["Ademhaling","zr-adem"],["Reach","zr-reach"],["Catch","zr-catch"],["Pull","zr-pull"],["Push","zr-push"],["Recovery","zr-recovery"])]);
+pg("zr-voorb","z-rem-crawl","voorbereidende oefeningen",[
+  H("Drijven & pijlen"),
+  P("Voor je kan beginnen met zwemmen is het belangrijk dat je eerst goed leert drijven en pijlen, zodat je vlak in het water kan liggen en kan starten met een zekere snelheid om deze horizontale positie aan te houden."),
+  P("Aandachtspunten voor de pijlfase:"),
+  OL(["Handen correct op elkaar leggen (handen boven op elkaar, waarbij de duim van de bovenste hand de onderste klemt)","Armen volledig gestrekt, de oren zitten geklemd tussen de bovenarmen.","Buikspieren, bilspieren, beenspieren volledig opgespannen - voeten gestrekt.","Wanneer je in pijlfase tegen een muur staat, moeten handen, hoofd, rug, billen en voeten allen gelijktijdig de muur raken."]),
+  P("Voor het afstoten laat je je zijwaarts zakken tot je schouders net onder het wateroppervlak zijn, vervolgens breng je je bovenste arm over tot de handen op elkaar liggen, je laat je armen en hoofd de juiste positie aannemen en stoot krachtig af."),
+  P("Je zou minstens 5m ver moeten kunnen pijlen (voeten voorbij de vlaggetjes van de rugcrawl)."),
+  H("oefeningen drijven"),
+  P("1. drijven op de rug en drijven op de buik"),
+  UL(["maak je oppervlak zo groot mogelijk, spreid armen en benen","zorg voor spanning in je lichaam","houd veel lucht vast in je longen, je longen zijn boeien die zich in je lichaam bevinden"]),
+  V("drijven op de buik","drijven op de buik.MP4"),V("pijlen op de buik","pijlen op de buik.MP4")]);
+pg("zr-kick","z-rem-crawl","kick (beenbeweging)",[
+  H("typische, meest voorkomende fouten"),
+  UL(["beenbeweging vanuit de knieën/fietsen","kleine trillende beenbeweging","benen diep in het water"]),
+  H("Remediëringsoefeningen"),
+  P("1. Beenslag vanuit de heupen van op de kant op rug."),
+  UL(["Benen zo gestrekt mogelijk","Voeten/enkels strekken","Grote krachtige beenbeweging","Visuele controle"]),V("Beenslag op de kant op rug","NORM0101.MP4"),
+  P("2. Beenslag vanuit de heupen van op de kant op buik."),
+  UL(["Idem vorige oefening: benen zo gestrekt mogelijk, voeten/enkels strekken, grote krachtige beenbeweging","Meer waarheidsgetrouwe houding"]),V("Beenslag op de kant op buik","NORM0102.MP4"),
+  P("3. Beenslag vanuit de heupen met plankje op de rug."),
+  UL(["Idem vorige oefeningen: benen zo gestrekt mogelijk, voeten/enkels strekken, grote krachtige beenbeweging","Spetters maken met de voeten (om ligging te verbeteren)","Visuele controle (indien hoofd opheffen)","Goede ligging (indien hoofd neutraal in het water, bekken/buik aan wateroppervlak houden zoals in filmpje)"]),V("Beenslag met plankje op de rug","NORM0103.MP4"),
+  P("4. Beenslag vanuit de heupen met plankje op de buik."),
+  UL(["Idem vorige oefeningen: benen zo gestrekt mogelijk, voeten/enkels strekken, grote krachtige beenbeweging","Spetters maken","Hoofd tussen armen in het water leggen voor betere ligging","ademhaling kan zijwaarts, zijwaarts met doorhalen arm of voorwaarts"]),V("Beenslag met plankje op de buik","NORM0104.MP4")],"kick");
+pg("zr-rotatie","z-rem-crawl","rotatie",[
+  H("typische fouten"),
+  UL(["geen vormspanning (=> veel remming, door het water zigzaggen)","onvoldoende rotatie of te veel rotatie (=> later problemen met ademhaling of meer weerstand creëeren dan nodig is)","rotatie komt niet vanuit de heupen (=> trage rotatie)","hoofd blijft niet ontspannen naar de bodem kijken"]),
+  H("remediëringsoefeningen"),
+  P("1. rotatie vanuit de heupen zonder ademhaling:"),
+  UL(["startpositie volledig op de zijkant","goede vormspanning (hele lichaam opgespannen)","armen gestrekt tegen het lichaam, handen op de dijen","hoofd ontspannen naar de bodem laten kijken","rotatie wordt ingezet in de heupen"]),
+  V("roteren vanuit de heupen zonder ademhaling","roteren vanuit de heupen zonder ademhaling.MOV"),
+  P("2. rotatie vanuit de heupen zonder ademhaling 1/2m onder het wateroppervlak:"),
+  UL(["startpositie volledig op de zijkant","goede vormspanning (hele lichaam opgespannen)","armen gestrekt tegen het lichaam, handen op de dijen","hoofd ontspannen naar de bodem laten kijken","rotatie wordt ingezet in de heupen"]),
+  P("=> meer weerstand => proberen de rotatie even snel te maken"),
+  V("snelle rotatie heupen onderwater","snelle rotatie heupen onderwater.MOV")]);
+pg("zr-adem","z-rem-crawl","ademhaling",[
+  H("Zijwaartse ademhaling"),
+  P("Bij de borstcrawl adem je zijwaarts. Zo blijf je horizontaal in het water liggen en heb je minder weerstand."),
+  UL(["Houd je hoofd in een neutrale positie en roteer vanuit die positie, zonder je hoofd op te heffen of te knikken.","Zodra je mond in het water draait, begin je bellen te blazen en kijk je naar de tegels recht onder je.","Na het inademen stop je met uitademen. Je kijkt naar de onderste twee tegels van de zijwand, met je onderste brillenglas half onder water."]),
+  H("typische fouten"),
+  UL(["onvoldoende of te veel rotatie","hoofd opheffen tijdens het ademen"]),
+  P("Gevolgen: je benen zakken, waardoor je niet meer horizontaal ligt. Je mond komt ook lager te liggen, waardoor je je hoofd nog meer opheft."),
+  V("van foute naar neutrale positie van het hoofd","ademhaling - foute positie hoofd naar neutrale positie hoofd.MP4"),
+  H("remediëringsoefeningen"),
+  P("1. Zijwaartse superman met plankje: zwemmen op de zij zonder hoofdrotatie, met rustige ademhaling. Je hoofd ligt tegen je bovenarm, je mond raakt net het wateroppervlak."),
+  V("neutrale positie hoofd tegen bovenarm met plankje","ademhaling - neutrale positie hoofd tegen bovenarm met plankje.MP4"),
+  P("2. Superman zonder plankje en zonder hoofdrotatie: zoals oefening 1, maar je houdt je arm actief zo'n 5 cm onder het wateroppervlak. Je hoofd blijft tegen je bovenarm, je ademt vrij."),
+  P("3. Zoals oefening 1, met rotatie van het hoofd in neutrale positie en ontspannen nekspieren. Blaas bellen zodra je mond onder water gaat en kijk naar de onderste twee rijen tegels, zonder te ver te roteren."),
+  V("rotatie hoofd met bellen blazen, met plankje","ademhaling - rotatie hoofd in neutrale positie met bellen blazen onder water met plankje.MP4"),
+  P("4. Zoals oefening 3, maar zonder plankje. Houd je onderste hand en arm net onder het wateroppervlak."),
+  V("rotatie hoofd met bellen blazen","ademhaling - rotatie hoofd in neutrale positie met bellen blazen onder water.MP4"),
+  P("5. Torpedo met ademhaling: op de zij in gestroomlijnde houding, armen langs het lichaam en handen op de dijen. Roteer je hoofd in neutrale positie, blaas bellen terwijl je naar de bodem kijkt en kijk daarna zijwaarts naar de onderste tegels, met je onderste brillenglas in het water.")]);
+pg("zr-reach","z-rem-crawl","Armbeweging : reach",[],"reach");
+pg("zr-catch","z-rem-crawl","catch",[]);
+pg("zr-pull","z-rem-crawl","pull",[]);
+pg("zr-push","z-rem-crawl","push",[]);
+pg("zr-recovery","z-rem-crawl","recovery",[]);
+pg("z-rem-school","z-rem","remediëringsoefeningen schoolslag",[]);
+
+pg("atl3","3de-jaar","atletiek 3de jaar",[L(["Prestatietabellen","atl3-prest"])]);
+pg("atl3-prest","atl3","Prestatietabellen",[
+  S("Prestatietabel 3km 3SPW","1EmvXc8oYuDpwndgUZqbrxs8k3bFRhCxUHoNe4DPDDQU"),
+  S("Prestatietabel kogelstoten 3SPW","1wsK98MK6hIuPG9GNowvCF7XuMnkB9BtX1As306Of0PA"),
+  S("Prestatietabel fosburyflop 3SPW","1gx6Jc-7U5HcvhlET0dgAJX8evfVM_PsgXKvIgU-fw7g")]);
+
+/* --- 4de jaar --- */
+pg("4de-jaar","home","4de jaar",[L(["Basketbal","bb4"],["Gevechtssport","gv4"],["zwemmen","zwem4"])]);
+pg("bb4","4de-jaar","basketbal 4de jaar",[L(["Test shot + lay-up","bb4-test"],["Fundamentals","bb4-fund"],["spelregels 3x3","bb4-3x3"])],"basketbal");
+pg("bb4-test","bb4","test shot + lay-up",[
+  H("Test shot (15 ptn)"),
+  UL(["5 shots vanop de vrijworplijn","bij score: 2ptn (totaal 10ptn op scoren)","bij binnenkant ring raken bij niet score: 1pt (totaal 10ptn op scoren)","technisch juist: 1pt (totaal 5ptn op techniek):"]),
+  UL(["voeten heup breedte, voet shotarm licht voor de andere, benen licht gebogen","bal vanuit de pocket laten vertrekken (thv. de heup) en vloeiend opwaarts brengen met de werphand onder de bal","bal ligt op de vingertoppen (moet een vinger tussen bal en handpalm passen) en rolt af over wijs- en middelvinger","back-spin, arm eindigt gestrekt met de wijsvinger neerwaarts richting de basket","richthand is ontspannen, mag niet duwen (ook de duim niet)"]),
+  H("Test lay-up (20 ptn)"),
+  UL(["5 lay-ups rechts vanuit dribbel","5 lay-ups links vanuit dribbel","elke lay-up die je scoort krijg je 1pt op 10ptn","elke lay-up die je correct uitvoert krijg je 1pt op 10ptn:"]),
+  UL(["2 steunen","afstoten met de juiste voet (R lay-up = L voet & L lay-up = R voet)","afwerpen met de juiste hand (R lay-up = R hand & L lay-up = L hand)"]),
+  V("test shot + lay-up","20221115_141706.mp4")]);
+pg("bb4-fund","bb4","fundamentals",[
+  H("normale dribbel"),UL(["kniehoogte","blikvrij (niet kijken naar de bal)","niet slaan op de bal","rechts en links","30s elke zijde"]),
+  V("normale dribbel - rechts","normal dribble - rechts.mp4"),V("normale dribbel - links","normal dribble - links.mp4"),
+  H("lage dribbels"),UL(["enkelhoogte","niet slaan op de bal","rechts en links","30s elke zijde"]),
+  V("lage dribbel - rechts","low dribble - rechts.mp4"),V("lage dribbel - links","low dribble - links.mp4"),
+  H("In-and-outs"),UL(["dribbel waarbij je de bal naar van buiten naar binnen beweegt met je hand om deze vervolgens in een V terug naar buiten te botsen","rechts en links","normale dribbel hoogte","30s"]),
+  V("in and out - rechts","in and out - rechts.mp4"),V("in and out - links","in and out - links.mp4"),
+  H("cross-over"),UL(["van linkerhand naar rechterhand en terug","gewicht shiften van links naar rechts","blikvrij (niet naar de bal kijken)","30s"]),
+  V("cross-overs","cross-overs shifting weight.mp4"),
+  H("Between the legs"),UL(["normale dribbel hoogte","eerste bots voor je, tweede bots tussen de benen door, opvangen met de andere hand, vervolgens de bal met 2 handen controleren","rechts en links","30s"]),
+  V("between the legs - rechts","between the legs - rechts.mp4"),V("between the legs - links","between the legs - links.mp4"),
+  H("Behind the back"),UL(["normale dribbel hoogte","eerste bots licht achterwaarts, tweede bots behind the back, opvangen met ander hand vervolgens de bal met 2 handen controleren","rechts en links","30s"]),
+  V("behind the back - rechts","behind the back - rechts.mp4"),V("behind the back - links","behind the back - links.mp4")]);
+pg("bb4-3x3","bb4","Spelregels 3x3",[
+  H("Voor het spel"),P("Het team dat de toss wint, kiest tussen balbezit aan het begin of de bal bij een eventuele over-time."),
+  H("Start en hervatting"),UL(["Het spel begint met een check ball, een pas tussen een offensieve en een defensieve speler.","Na elk dood spelmoment (bal buiten, overtreding of loopfout) wordt het spel hervat met een check ball. Na een score is dat niet nodig.","De shotclock start wanneer de bal weer in handen van de aanvallende speler is."]),
+  H("Na een score"),P("Een speler van het niet-scorende team neemt de rebound en moet de bal buiten de 2-puntslijn passen of dribbelen. In het halve maantje onder de ring mag niet verdedigd worden."),
+  H("Na een offensieve rebound"),P("De aanvallende ploeg mag direct opnieuw proberen te scoren."),
+  H("Na een defensieve rebound, steal of block"),P("De bal moet eerst buiten de 2-puntslijn gebracht worden. Ook bij een rebound van een shot dat bord of ring niet raakt."),
+  H("Jump ball"),P("De bal gaat naar de verdedigende ploeg, en het spel hervat met een check ball on top."),
+  H("Fouten en vrijworpen"),UL(["Teamfouten 1 tot 6 tijdens een doelpoging: 1 vrijworp binnen de 2-puntslijn, 2 vrijworpen erbuiten.","Teamfouten 1 tot 6 zonder doelpoging: balbezit met check ball on top.","Teamfouten 7 tot 9: 2 vrijworpen.","Teamfouten 10 of meer: 2 vrijworpen plus balbezit.","Er zijn geen persoonlijke fouten. Een speler wordt pas uitgesloten na 2 onsportieve fouten."]),
+  H("Wissels"),P("Toegestaan voor beide ploegen tijdens een dood spelmoment, vóór de check ball. Ze gebeuren aan de achterlijn, zonder aanvraag bij de scheidsrechters. De wisselspeler betreedt het veld wanneer de vervangen speler het veld verlaat en hem aanraakt (hand clap).")],"spelregels 3x3");
+pg("gv4","4de-jaar","Gevechtssport",[L(["Regels + ceremonie","gv-regels"],["Knopen obi","gv-obi"],["Zuki wasa","gv-zuki"],["Geri wasa","gv-geri"],["Uke wasa","gv-uke"],["Shisei kata","gv-shisei"],["Gekisai dai ichi","gv-gekisai"],["Bevrijdingscombinaties","gv-bevr"])],"gevechtssport");
+pg("gv-regels","gv4","regels + ceremonie",[F("dojo regels 4SPW les 1","dojo regels 4SPW les 1.docx"),F("groet ceremonie 4SPW les 1","groet ceremonie 4SPW les 1.docx"),F("woordenlijst karate 4SPW les 1","woordenlijst karate 4SPW les 1.docx")]);
+pg("gv-obi","gv4","knopen obi",[V("knopen obi","knopen obi.mp4")]);
+pg("gv-zuki","gv4","zuki wasa",[V("zuki waza","zuki waza.mp4")]);
+pg("gv-geri","gv4","geri wasa",[V("geri waza","geri waza.mp4")]);
+pg("gv-uke","gv4","uke wasa",[V("uke waza","uke waza.mp4")]);
+pg("gv-shisei","gv4","shisei kata",[V("shisei kata vooraanzicht","shisei kata vooraanzicht.mp4"),V("shisei kata zijaanzicht","shisei kata zijaanzicht.mp4"),V("shisei kata met uitleg","shisei kata vooraanzicht met uitleg.mp4")]);
+pg("gv-gekisai","gv4","gekisai dai ichi",[V("gekisai dai ichi normale snelheid","gekisai dai ichi vooraanzicht.mp4"),V("gekisai dai ichi traag","gekisai dai ichi vooraanzicht slowmotion.mp4"),V("gekisai dai ichi met uitleg","gekisai dai ichi met uitleg.mp4")]);
+pg("gv-bevr","gv4","bevrijdingscombinaties",vids("",[
+  ["Vast nemen rond het middel langs achter","vast nemen rond het middel langs achter.mp4"],
+  ["Vast nemen bij de haren langs achter","vast nemen bij de haren langs achter.mp4"],
+  ["Vast nemen bij de keel langs voor met 2 handen","vast nemen bij de keel langs voor.mp4"],
+  ["Vast nemen bij de pols langs voor gekruist","vast nemen bij de pols langs voor gekruist.mp4"],
+  ["Vast nemen bij de pols langs zijkant","aanval met mes langs boven.mp4"],
+  ["Aanval met mes langs boven","aanval met mes langs boven.mp4"],
+  ["Aanval met mes langs onder","aanval met mes langs onder.mp4"],
+  ["Vast nemen bij de schouder langs achter","vast nemen bij de schouder langs achter.mp4"],
+  ["Vast nemen bij de schouder langs voor","vast nemen bij de schouder langs voor.mp4"],
+  ["Vast nemen bij de nek langs voor","vast nemen aan de nek langs voor.mp4"]]));
+pg("zwem4","4de-jaar","zwemmen 4de jaar",[L(["Lesopbouw borstcrawl","z-crawl"],["Remediëringsoefeningen borstcrawl","z-rem-crawl"],["Prestatietabellen","z-prest"])]);
+
+/* --- 5de jaar --- */
+pg("5de-jaar","home","5 SPW",[L(["Omnisport","omni5"])],"5de jaar");
+pg("omni5","5de-jaar","omnisport 5de jaar",[L(["speerwerpen","speer"],["padel","padel"],["basketbal"],["klimmen","klimmen"])]);
+pg("speer","omni5","speerwerpen",[L(["kijkwijzers werpanalyse","speer-werp"],["kijkwijzers foutenanalyse","speer-fout"],["Evaluatie","speer-eval"])]);
+pg("speer-werp","speer","kijkwijzers werpanalyse",[IMGB("werp1"),IMGB("werp2"),IMGB("werp3")]);
+pg("speer-fout","speer","kijkwijzers foutenanalyse",[IMGB("fout1"),IMGB("fout2"),IMGB("fout3"),IMGB("fout4")]);
+pg("speer-eval","speer","Evaluatie",[
+  H("Formule punt op afstand"),
+  UL(["jongens: punt = (afstand (m) + 0,2) / 0,334 => punt op 20","meisjes: punt = (afstand (m) + 4,5) / 0,334 => punt op 20"]),
+  H("Criteria techniek"),
+  UL(["Hoge ellenboog (schilderen)","Polsslag (kloppen op speer – speer steekt (45°))","Punt blijft gecontroleerd (bij de slaap)","Speer vliegt recht (niet dwars door de lucht – schuine follow through – verlies punt op laatste moment)","Voorwaartse kruispas met versnelling in de laatste twee passen"]),
+  P("=> punt op 10")],"evaluatie");
+pg("klimmen","omni5","klimmen",[
+  H("Les 1"),F("klimmen les 1","klimmen les 1.docx"),
+  H("Les 2"),F("klimmen les 2","klimmen les 2.docx"),
+  H("Puntensleutel test klimmen"),F("puntensleutel muurklimmen toprope","puntensleutel muurklimmen toprope.xlsx")]);
+pg("padel","omni5","padel",[
+  H("spelregels padel"),V("Spelregels Padel Tennis Vlaanderen","Spelregels Padel Tennis Vlaanderen.mp4"),
+  H("lessenreeks padel"),F("lessenreeks padel","lessenreeks padel.docx")]);
+
+/* Home: sporttegels zoals op de oorspronkelijke site */
+const SPORTS = [
+  ["zwemmen","zwemmen",[["3de jaar","zwem3"],["4de jaar","zwem4"]]],
+  ["gymnastiek","gymnastiek",[["3de jaar","gym3"],["4de jaar"],["5de jaar"],["6de jaar"]]],
+  ["balsporten","balsporten",[]],
+  ["dans/atletiek","atletiek",[["3de jaar","atl3"]]],
+  ["gevechtssport","gevechtssport",[["4de jaar","gv4"]]],
+  ["basketbal","basketbal",[["4de jaar","bb4"],["5de jaar"],["6de jaar"]]],
+  ["omnisport",null,[["5de jaar","omni5"],["6de jaar"]]]
+];
+
+/* ===== Weergave ===== */
+const framed = (()=>{try{return window.self!==window.top}catch(e){return true}})();
+const esc = s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const kids = id=>Object.values(PAGES).filter(p=>p.p===id);
+const trail = id=>{const a=[];let p=PAGES[id];while(p){a.unshift(p);p=PAGES[p.p];}return a;};
+const PLAY='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>';
+
+function img(key, alt, deco){
+  const src = IMG + IM[key];
+  const fail = deco ? "this.remove()" : "this.replaceWith(Object.assign(document.createElement('div'),{className:'imgph',textContent:'Afbeelding van de oorspronkelijke site (kon hier niet geladen worden).'}))";
+  return `<img src="${esc(src)}" alt="${esc(alt||"")}" loading="lazy" onerror="${fail}">`;
+}
+function ext(f){const m=/\.([a-z0-9]+)$/i.exec(f);return m?m[1].toLowerCase():"";}
+function block(b){
+  switch(b[0]){
+    case "h": return `<h3>${esc(b[1])}</h3>`;
+    case "p": return `<div class="prose"><p>${esc(b[1])}</p></div>`;
+    case "ul": return `<div class="prose"><ul>${b[1].map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
+    case "ol": return `<div class="prose"><ol>${b[1].map(x=>`<li>${esc(x)}</li>`).join("")}</ol></div>`;
+    case "attn": return `<div class="attn">${esc(b[1])}</div>`;
+    case "img": return `<div class="figure">${img(b[1])}</div>`;
+    case "links": return `<div class="linklist">${b[1].map(([l,to])=>to&&PAGES[to]?`<a class="pill" href="#${to}">${esc(l)}</a>`:`<span class="pill off" title="Nog geen pagina">${esc(l)}</span>`).join("")}</div>`;
+    case "v": {
+      const [,label,file,drive]=b;
+      const local = drive && drive.startsWith("video/");
+      if(local) return `<div class="media"><div class="frame"><video src="${esc(drive)}" controls preload="metadata" playsinline></video></div><div class="meta"><b>${esc(label)}</b><span>${esc(file)}</span></div></div>`;
+      const frame = drive && !framed
+        ? `<iframe src="https://drive.google.com/file/d/${esc(drive)}/preview" allow="autoplay" allowfullscreen title="${esc(label)}"></iframe>`
+        : PLAY;
+      const act = drive ? `<a href="https://drive.google.com/file/d/${esc(drive)}/view" target="_blank" rel="noopener">Bekijk video op Drive</a>` : `<span>Video nog te koppelen</span>`;
+      return `<div class="media"><div class="frame">${frame}</div><div class="meta"><b>${esc(label)}</b><span>${esc(file)}</span>${act}</div></div>`;
+    }
+    case "f": {
+      const [,label,file,drive]=b;
+      const act = drive ? `<a href="https://drive.google.com/file/d/${esc(drive)}/view" target="_blank" rel="noopener">Openen</a>` : `<span>Bestand nog te koppelen</span>`;
+      return `<div class="media doc"><div class="ico">${esc(ext(file)||"doc")}</div><div class="meta"><b>${esc(label)}</b><span>${esc(file)}</span>${act}</div></div>`;
+    }
+    case "s": return `<div class="media doc"><div class="ico">sheet</div><div class="meta"><b>${esc(b[1])}</b><span>Google Spreadsheet</span><a href="https://drive.google.com/open?id=${esc(b[2])}" target="_blank" rel="noopener">Openen in Google Sheets</a></div></div>`;
+  }
+  return "";
+}
+function renderBlocks(list){
+  // opeenvolgende video's/bestanden samen in een raster
+  let out="",buf=[];
+  const flush=()=>{if(buf.length){out+=`<div class="grid">${buf.join("")}</div>`;buf=[];}};
+  for(const b of list){ if(["v","f","s"].includes(b[0])) buf.push(block(b)); else {flush(); out+=block(b);} }
+  flush(); return out;
+}
+function renderHome(){
+  const years=[["3","3de-jaar"],["4","4de-jaar"],["5","5de-jaar"],["6",null]];
+  return `<section class="hero">${img("hero","",true)}<div class="txt"><h1>Website Sportwetenschappen</h1><p>Oefeningen, demo's, prestatietabellen en afspraken voor het 3de tot 6de jaar sportwetenschappen.</p></div></section>
+  <h2>Kies je jaar</h2>
+  <div class="years">${years.map(([n,id])=>id?`<a class="year" href="#${id}"><b>${n}</b><span>${n}de jaar</span></a>`:`<div class="year off"><b>${n}</b><span>${n}de jaar · binnenkort</span></div>`).join("")}</div>
+  <h2>Per sport</h2>
+  <div class="sports">${SPORTS.map(([name,key,yrs])=>`<article class="sport"><div class="pic">${key?img(key,name,true):""}</div><div class="body"><h2>${esc(name)}</h2><div class="chips">${yrs.length?yrs.map(([l,to])=>to?`<a class="chip" href="#${to}">${esc(l)}</a>`:`<span class="chip off">${esc(l)}</span>`).join(""):`<span class="chip off">nog geen pagina's</span>`}</div></div></article>`).join("")}</div>`;
+}
+function renderPage(id){
+  const p=PAGES[id]; const t=trail(id);
+  const crumbs=t.slice(0,-1).map(x=>`<a href="#${x.id}">${esc(x.m)}</a><span>›</span>`).join("");
+  let body=renderBlocks(p.c);
+  const sub=kids(id);
+  if(!p.c.some(b=>b[0]==="links") && sub.length) body+=`<div class="linklist">${sub.map(k=>`<a class="pill" href="#${k.id}">${esc(k.m)}</a>`).join("")}</div>`;
+  if(!body) body=`<p class="empty">Deze pagina heeft nog geen inhoud.</p>`;
+  return `<nav class="crumbs" aria-label="Kruimelpad">${crumbs}</nav><h1>${esc(p.t)}</h1>${body}`;
+}
+function renderTree(cur){
+  const open=new Set(trail(cur).map(x=>x.id));
+  const ul=(pid,lvl)=>{const k=kids(pid);if(!k.length)return"";return `<ul class="lvl${lvl}">${k.map(x=>`<li><a href="#${x.id}" class="${x.id===cur?"on":""}">${esc(x.m)}</a>${(open.has(x.id)||lvl===0&&false)?ul(x.id,lvl+1):""}</li>`).join("")}</ul>`;};
+  document.getElementById("treeBody").innerHTML=`<ul class="lvl0"><li><a href="#home" class="${cur==="home"?"on":""}">Home</a></li></ul>`+ul("home",0);
+}
+function renderTopnav(cur){
+  const top=trail(cur)[1]?.id;
+  document.getElementById("topnav").innerHTML=[["home","Home"],["3de-jaar","3de jaar"],["4de-jaar","4de jaar"],["5de-jaar","5de jaar"]]
+    .map(([id,l])=>`<a href="#${id}" class="${(id===top||(id==="home"&&cur==="home"))?"on":""}">${l}</a>`).join("");
+}
+function route(){
+  let id=decodeURIComponent(location.hash.slice(1))||"home";
+  if(!PAGES[id]) id="home";
+  document.getElementById("main").innerHTML = id==="home"?renderHome():renderPage(id);
+  renderTree(id); renderTopnav(id);
+  document.title = id==="home"?"Website Sportwetenschappen":`${PAGES[id].t} · Website Sportwetenschappen`;
+  document.getElementById("tree").classList.remove("open");
+  document.getElementById("treeToggle").setAttribute("aria-expanded","false");
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",route);
+document.getElementById("treeToggle").addEventListener("click",e=>{
+  const t=document.getElementById("tree"); t.classList.toggle("open");
+  e.currentTarget.setAttribute("aria-expanded",t.classList.contains("open"));
+});
+/* zoeken */
+const zoek=document.getElementById("zoek"), res=document.getElementById("results");
+zoek.addEventListener("input",()=>{
+  const q=zoek.value.trim().toLowerCase();
+  if(q.length<2){res.hidden=true;return;}
+  const hits=Object.values(PAGES).filter(p=>p.id!=="home"&&(p.t+" "+p.m+" "+JSON.stringify(p.c)).toLowerCase().includes(q)).slice(0,30);
+  res.innerHTML=hits.length?hits.map(p=>`<a href="#${p.id}">${esc(p.t)}<small>${trail(p.id).slice(1,-1).map(x=>esc(x.m)).join(" › ")}</small></a>`).join(""):`<a>Niets gevonden voor “${esc(q)}”</a>`;
+  res.hidden=false;
+});
+res.addEventListener("click",()=>{res.hidden=true;zoek.value="";});
+document.addEventListener("click",e=>{if(!e.target.closest(".search"))res.hidden=true;});
+route();
+</script>
+</body></html>
