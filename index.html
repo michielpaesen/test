@@ -505,7 +505,7 @@ const PLAY='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><pat
 
 function img(key, alt, deco){
   const src = IMG + IM[key];
-  const fail = deco ? "this.remove()" : "this.replaceWith(Object.assign(document.createElement('div'),{className:'imgph',textContent:'Afbeelding van de oorspronkelijke site (kon hier niet geladen worden).'}))";
+  const fail = deco ? "this.remove()" : "this.closest('.figure')?this.closest('.figure').remove():this.remove()";
   return `<img src="${esc(src)}" alt="${esc(alt||"")}" loading="lazy" onerror="${fail}">`;
 }
 function ext(f){const m=/\.([a-z0-9]+)$/i.exec(f);return m?m[1].toLowerCase():"";}
