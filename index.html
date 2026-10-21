@@ -300,6 +300,7 @@ pg("g-eind-herenbrug","g-eind","Herenbrug eindoefening",[V("Herenbrug eindoefeni
 pg("g-eind-grond","g-eind","Grond eindoefening",[V("Grond eindoefening (1)","GH011146.MP4"),V("Grond eindoefening (2)","GH011154.MP4")]);
 pg("g-extra","gym3","Oefeningen voor extra punten",[
   IMGB("extra"),
+  H("Oefenbundel"),F("Oefenbundel extra oefeningen gymnastiek 3SPW","Oefenbundel extra oefeningen gymnastiek 3SPW.docx","docs/Oefenbundel_extra_oefeningen_gymnastiek_3SPW.docx"),
   H("Oefening 1 · Pompen"),V("Pompen","GH010989_1636722793096~2.mp4"),ATT(),
   UL(["Neus komt steeds tot tegen de grond","Lichaam blijft gestrekt (poep hangt niet door of komt niet omhoog)"]),
   H("Oefening 2 · Optrekken"),V("Optrekken","VID_20211109_134944.mp4"),ATT(),
@@ -515,7 +516,8 @@ function block(b){
     }
     case "f": {
       const [,label,file,drive]=b;
-      const act = drive ? `<a href="https://drive.google.com/file/d/${esc(drive)}/view" target="_blank" rel="noopener">Openen</a>` : `<span>Bestand nog te koppelen</span>`;
+      const act = drive && drive.startsWith("docs/") ? `<a href="${esc(drive)}" download>Downloaden</a>`
+        : drive ? `<a href="https://drive.google.com/file/d/${esc(drive)}/view" target="_blank" rel="noopener">Openen</a>` : `<span>Bestand nog te koppelen</span>`;
       return `<div class="media doc"><div class="ico">${esc(ext(file)||"doc")}</div><div class="meta"><b>${esc(label)}</b><span>${esc(file)}</span>${act}</div></div>`;
     }
     case "s": return `<div class="media doc"><div class="ico">sheet</div><div class="meta"><b>${esc(b[1])}</b><span>Google Spreadsheet</span><a href="https://drive.google.com/open?id=${esc(b[2])}" target="_blank" rel="noopener">Openen in Google Sheets</a></div></div>`;
