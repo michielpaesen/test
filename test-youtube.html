@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Test video via YouTube</title>
+<style>
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;background:#fff;color:#1f2a29}
+header{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #e3eeec}
+header img{height:36px}
+header span{color:#2e7a72;font-weight:600}
+main{max-width:860px;margin:0 auto;padding:16px}
+h1{color:#2e7a72;font-size:1.3rem;margin:0 0 4px}
+.sub{border-left:3px solid #c95f55;padding-left:10px;color:#5c6b69;margin:0 0 14px}
+.v{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:8px;overflow:hidden}
+.v>div,.v iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.speed{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px}
+.speed span{color:#5c6b69;font-size:.9rem;margin-right:4px}
+.speed button{font:inherit;font-size:.95rem;padding:8px 16px;border-radius:8px;border:1px solid #2e7a72;background:#fff;color:#2e7a72;cursor:pointer}
+.speed button.on{background:#2e7a72;color:#fff}
+.speed button:focus-visible{outline:2px solid #65a8a1;outline-offset:2px}
+.note{font-size:.85rem;color:#5c6b69;margin-top:16px}
+</style>
+</head>
+<body>
+<header><img src="img/logo.png" alt="Agnetencollege"><span>Sportwetenschappen</span></header>
+<main>
+<h1>Test: rekstok - borstomtrek</h1>
+<p class="sub">Eindvorm 1 (via YouTube)</p>
+<div class="v"><div id="player"></div></div>
+<div class="speed" role="group" aria-label="Afspeelsnelheid">
+  <span>Snelheid</span>
+  <button type="button" data-r="0.25">0,25x</button>
+  <button type="button" data-r="0.5">0,5x</button>
+  <button type="button" data-r="1" class="on">1x</button>
+</div>
+<p class="note">Testpagina. Speelt het filmpje zonder aanmelden, en werken de snelheidsknoppen?</p>
+</main>
+<script>
+var player;
+function onYouTubeIframeAPIReady(){
+  player=new YT.Player('player',{videoId:'D3ED6aEdhBc',playerVars:{rel:0,playsinline:1,modestbranding:1}});
+}
+document.querySelectorAll('.speed button').forEach(function(b){
+  b.addEventListener('click',function(){
+    var r=parseFloat(b.dataset.r);
+    if(player&&player.setPlaybackRate){player.setPlaybackRate(r);}
+    document.querySelectorAll('.speed button').forEach(function(x){x.classList.toggle('on',x===b);});
+  });
+});
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>
