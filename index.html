@@ -177,8 +177,9 @@ const IM = {
 };
 
 /* Bouwstenen voor pagina-inhoud */
+const SEC=t=>["h2",t];                                       // sectietitel (Helpersfunctie, Opbouwoefeningen, ...)
 const H=t=>["h",t], P=t=>["p",t], UL=a=>["ul",a], OL=a=>["ol",a], ATT=()=>["attn","!! Aandachtspunten !!"];
-const V=(label,file,drive="")=>["v",label,file,drive];      // video
+const V=(label,file,drive="")=>["v",label,file,drive];      // video: 3de argument = "video/naam.mp4" of YouTube-link (https://youtu.be/...)
 const F=(label,file,drive="")=>["f",label,file,drive];      // document / bestand
 const S=(label,id)=>["s",label,id];                          // Google Sheet
 const IMGB=k=>["img",k];
@@ -191,130 +192,209 @@ function pg(id, p, t, c, m){ PAGES[id]={id,p,t,c:c||[],m:m||t}; }
 pg("home", null, "Home", []);
 
 /* --- 3de jaar --- */
-pg("3de-jaar","home","3 SPW",[L(["gymnastiek","gym3"],["zwemmen","zwem3"],["atletiek","atl3"],["dans-ritmiek"],["balsporten"])],"3de jaar");
-pg("gym3","3de-jaar","gymnastiek 3de jaar",[
-  H("Demo's blok 1"),L(["grond","g-b1-grond"],["herenbrug","g-b1-herenbrug"],["rekstok","g-b1-rekstok"],["sprong","g-b1-sprong"]),
-  H("Demo's blok 2"),L(["grond","g-b2-grond"],["herenbrug","g-b2-herenbrug"],["rekstok","g-b2-rekstok"],["sprong","g-b2-sprong"]),
-  H("Demo's blok 3"),L(["grond","g-b3-grond"],["herenbrug","g-b3-herenbrug"],["rekstok","g-b3-rekstok"],["sprong","g-b3-sprong"]),
-  H("Demo's blok 4"),L(["grond","g-b4-grond"],["herenbrug","g-b4-herenbrug"],["rekstok","g-b4-rekstok"],["sprong","g-b4-sprong"]),
+pg("3de-jaar","home","3SPW",[L(["Gymnastiek","gym3"],["Zwemmen","zwem3"],["Atletiek","atl3"],["Dans-ritmiek"],["Balsporten"])]);
+pg("gym3","3de-jaar","Gymnastiek",[
+  H("Demo's blok 1"),L(["Grond","g-b1-grond"],["Herenbrug","g-b1-herenbrug"],["Rekstok","g-b1-rekstok"],["Sprong","g-b1-sprong"]),
+  H("Demo's blok 2"),L(["Grond","g-b2-grond"],["Herenbrug","g-b2-herenbrug"],["Rekstok","g-b2-rekstok"],["Sprong","g-b2-sprong"]),
+  H("Demo's blok 3"),L(["Grond","g-b3-grond"],["Herenbrug","g-b3-herenbrug"],["Rekstok","g-b3-rekstok"],["Sprong","g-b3-sprong"]),
+  H("Demo's blok 4"),L(["Grond","g-b4-grond"],["Herenbrug","g-b4-herenbrug"],["Rekstok","g-b4-rekstok"],["Sprong","g-b4-sprong"]),
   H("Eindvormen"),L(["Eindvormen","g-eind"],["Grond","g-eind-grond"],["Herenbrug","g-eind-herenbrug"],["Rekstok","g-eind-rekstok"]),
   H("Overige"),L(["Extra oefeningen","g-extra"],["Inhaaldata + deadlines","g-inhaal"])
 ]);
 const blokLinks=n=>L(["Grond",`g-b${n}-grond`],["Herenbrug",`g-b${n}-herenbrug`],["Rekstok",`g-b${n}-rekstok`],["Sprong",`g-b${n}-sprong`]);
-pg("g-b1","gym3","Demo's blok 1",[blokLinks(1),IMGB("blok1")]);
-pg("g-b1-rekstok","g-b1","Blok 1 rekstok",[
-  V("borstomtrek - eindvorm 1","rekstok - borstomtrek - eindvorm 1.mp4","video/rekstok_-_borstomtrek_-_eindvorm_1.mp4"),
-  V("borstomtrek - eindvorm 2","rekstok - borstomtrek - eindvorm 2.mp4","video/rekstok_-_borstomtrek_-_eindvorm_2.mp4"),
-  V("borstomtrek - eindvorm 3","rekstok - borstomtrek - eindvorm 3.mp4","video/rekstok_-_borstomtrek_-_eindvorm_3.mp4"),
-  V("borstomtrek - eindvorm 4","rekstok - borstomtrek - eindvorm 4.mp4","video/rekstok_-_borstomtrek_-_eindvorm_4.mp4"),
-  V("borstomtrek - helpersfunctie","rekstok - borstomtrek - helpersfunctie.mp4","video/rekstok_-_borstomtrek_-_helpersfunctie.mp4"),
-  V("borstomtrek - opbouwoefening 1","rekstok - borstomtrek - opbouwoefening 1.mp4","video/rekstok_-_borstomtrek_-_opbouwoefening_1.mp4"),
-  V("borstomtrek - opbouwoefening 2","rekstok - borstomtrek - opbouwoefening 2.mp4","video/rekstok_-_borstomtrek_-_opbouwoefening_2.mp4")]);
+pg("g-b1","gym3","Blok 1",[blokLinks(1),IMGB("blok1")]);
+pg("g-b1-rekstok","g-b1","Blok 1 rekstok: borstomtrek",[
+  SEC("Helpersfunctie"),
+  V("Helpersfunctie","rekstok - borstomtrek - helpersfunctie.mp4","video/rekstok_-_borstomtrek_-_helpersfunctie.mp4"),
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1","rekstok - borstomtrek - opbouwoefening 1.mp4","video/rekstok_-_borstomtrek_-_opbouwoefening_1.mp4"),
+  V("Opbouwoefening 2","rekstok - borstomtrek - opbouwoefening 2.mp4","video/rekstok_-_borstomtrek_-_opbouwoefening_2.mp4"),
+  SEC("Eindvormen"),
+  V("Eindvorm 1","rekstok - borstomtrek - eindvorm 1.mp4","video/rekstok_-_borstomtrek_-_eindvorm_1.mp4"),
+  V("Eindvorm 2","rekstok - borstomtrek - eindvorm 2.mp4","video/rekstok_-_borstomtrek_-_eindvorm_2.mp4"),
+  V("Eindvorm 3","rekstok - borstomtrek - eindvorm 3.mp4","video/rekstok_-_borstomtrek_-_eindvorm_3.mp4"),
+  V("Eindvorm 4","rekstok - borstomtrek - eindvorm 4.mp4","video/rekstok_-_borstomtrek_-_eindvorm_4.mp4")],"Rekstok");
 pg("g-b1-herenbrug","g-b1","Blok 1 herenbrug",[
-  V("herenbrug - opbouwoefening 1","Steunzwaai opbouw oefening 1.mp4","video/Steunzwaai_opbouw_oefening_1.mp4"),
-  V("herenbrug - opbouwoefening 2","Steunzwaai opbouwoefening 2.mp4","video/Steunzwaai_opbouwoefening_2.mp4"),
-  V("herenbrug - opbouwoefening 3","Steunzwaai opbouwoefening 3.mp4","video/Steunzwaai_opbouwoefening_3.mp4"),
-  V("herenbrug - eindvorm","herenburg - opsprong tot spreidzit naar steunzwaaien.mp4","video/herenbrug_opsprong_steunzwaaien_eindvorm.mp4")]);
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1","Steunzwaai opbouw oefening 1.mp4","video/Steunzwaai_opbouw_oefening_1.mp4"),
+  V("Opbouwoefening 2","Steunzwaai opbouwoefening 2.mp4","video/Steunzwaai_opbouwoefening_2.mp4"),
+  V("Opbouwoefening 3","Steunzwaai opbouwoefening 3.mp4","video/Steunzwaai_opbouwoefening_3.mp4"),
+  SEC("Eindvorm"),
+  V("Eindvorm","herenburg - opsprong tot spreidzit naar steunzwaaien.mp4","video/herenbrug_opsprong_steunzwaaien_eindvorm.mp4")],"Herenbrug");
 pg("g-b1-grond","g-b1","Blok 1 grond: koprol/zweefrol",[
-  V("eindvorm 1: koprol voorwaarts","koprol voorwaarts eindvorm.mp4","video/koprol_voorwaarts_eindvorm.mp4"),
-  V("eindvorm 2: zweefrol","zweefrol eindvorm 2.mp4","video/zweefrol_eindvorm_2.mp4"),
-  V("eindvorm 3: zweefrol over 1,5m","zweefrol eindvorm 3.mp4","video/zweefrol_eindvorm_3.mp4"),
-  H("remediëringsoefening 1: rollen van een helling"),UL(["wanneer ik niet recht geraak","wanneer ik schuin om val"]),
-  V("rollen van een helling","koprol van een hellend vlak.mp4","video/koprol_van_een_hellend_vlak.mp4"),
-  H("remediëringsoefening 2: rollen met een voorwerp onder de kin"),UL(["wanneer ik op mijn hoofd steun tijdens het rollen"]),
-  V("voorwerp onder de kin","voorwerp onder de kin.mp4","video/voorwerp_onder_de_kin.mp4"),
-  H("remediëringsoefening 3: rollen vanaf een verhoogd vlak"),UL(["wanneer ik schuin rol (niet (even hard) steun op mijn handen)"]),
-  V("rollen vanaf een verhoogd vlak","koprol van een verhoogd vlak.mp4","video/koprol_van_een_verhoogd_vlak.mp4"),
-  H("remediëringsoefening 4: voorwerp tussen knieën of voeten"),UL(["wanneer ik mijn knieën of voeten niet kan samen houden"]),
-  V("voorwerp tussen knieën of voeten","voeten of knieën blijven niet samen.mp4","video/voeten_of_knieen_blijven_niet_samen.mp4")],"Blok 1 grond");
-pg("g-b1-sprong","g-b1","Blok 1 sprong",[
-  V("tussensteunsprong - eindvorm","sprong - tussensteunsprong - eindvorm.mp4","video/sprong_-_tussensteunsprong_-_eindvorm.mp4"),
-  V("tussensteunsprong - helpersfunctie","sprong - tussensteunsprong - helpersfunctie.mp4","video/sprong_-_tussensteunsprong_-_helpersfunctie.mp4"),
-  V("tussensteunsprong - opbouwoefening 1","tussensteunsprong - opbouwoefening 1.MP4","video/tussensteunsprong_-_opbouwoefening_1.mp4"),
-  V("tussensteunsprong - opbouwoefening 2","tussensteunsprong - opbouwoefening 2.MP4","video/opbouwoefening_2_tussensteunsprong.mp4")],"blok 1 sprong");
+  SEC("Eindvormen"),
+  V("Eindvorm 1: koprol voorwaarts","koprol voorwaarts eindvorm.mp4","video/koprol_voorwaarts_eindvorm.mp4"),
+  V("Eindvorm 2: zweefrol","zweefrol eindvorm 2.mp4","video/zweefrol_eindvorm_2.mp4"),
+  V("Eindvorm 3: zweefrol over 1,5m","zweefrol eindvorm 3.mp4","video/zweefrol_eindvorm_3.mp4"),
+  SEC("Remediëring"),
+  H("Remediëring 1: rollen van een helling"),
+  UL(["wanneer ik niet recht geraak","wanneer ik schuin om val"]),
+  V("Rollen van een helling","koprol van een hellend vlak.mp4","video/koprol_van_een_hellend_vlak.mp4"),
+  H("Remediëring 2: rollen met een voorwerp onder de kin"),
+  UL(["wanneer ik op mijn hoofd steun tijdens het rollen"]),
+  V("Voorwerp onder de kin","voorwerp onder de kin.mp4","video/voorwerp_onder_de_kin.mp4"),
+  H("Remediëring 3: rollen vanaf een verhoogd vlak"),
+  UL(["wanneer ik schuin rol (niet (even hard) steun op mijn handen)"]),
+  V("Rollen vanaf een verhoogd vlak","koprol van een verhoogd vlak.mp4","video/koprol_van_een_verhoogd_vlak.mp4"),
+  H("Remediëring 4: voorwerp tussen knieën of voeten"),
+  UL(["wanneer ik mijn knieën of voeten niet kan samen houden"]),
+  V("Voorwerp tussen knieën of voeten","voeten of knieën blijven niet samen.mp4","video/voeten_of_knieen_blijven_niet_samen.mp4")],"Grond");
+pg("g-b1-sprong","g-b1","Blok 1 sprong: tussensteunsprong",[
+  SEC("Helpersfunctie"),
+  V("Helpersfunctie","sprong - tussensteunsprong - helpersfunctie.mp4","video/sprong_-_tussensteunsprong_-_helpersfunctie.mp4"),
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1","tussensteunsprong - opbouwoefening 1.MP4","video/tussensteunsprong_-_opbouwoefening_1.mp4"),
+  V("Opbouwoefening 2","tussensteunsprong - opbouwoefening 2.MP4","video/opbouwoefening_2_tussensteunsprong.mp4"),
+  SEC("Eindvorm"),
+  V("Eindvorm","sprong - tussensteunsprong - eindvorm.mp4","video/sprong_-_tussensteunsprong_-_eindvorm.mp4")],"Sprong");
 
-pg("g-b2","gym3","Demo's blok 2",[blokLinks(2),IMGB("blok23")]);
-pg("g-b2-grond","g-b2","Blok 2 grond",[
+pg("g-b2","gym3","Blok 2",[blokLinks(2),IMGB("blok23")]);
+pg("g-b2-grond","g-b2","Blok 2 grond: achterwaartse rol",[
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1","AW rol oef 1 verhoogd vlak_Trim.mp4","video/AW_rol_oef_1_verhoogd_vlak_Trim.mp4"),
+  V("Opbouwoefening 2","AW rol opbouwende oefening 2.mp4","video/AW_rol_opbouwende_oefening_2.mp4"),
+  V("Opbouwoefening 3","AW rol opbouwende oefening 3.mp4","video/AW_rol_opbouwende_oefening_3.mp4"),
+  SEC("Eindvormen"),
   V("Eindvorm 1: achterwaartse rol","AW rol eindvorm (1)_Trim.mp4","video/AW_rol_eindvorm_1_Trim.mp4"),
   V("Eindvorm 2: achterwaartse rol met gespreide benen","AW rol gespreide benen (uitbreiding) _Trim.mp4","video/AW_rol_gespreide_benen_uitbreiding_Trim.mp4"),
-  V("Achterwaartse rol opbouwoefening 1","AW rol oef 1 verhoogd vlak_Trim.mp4","video/AW_rol_oef_1_verhoogd_vlak_Trim.mp4"),
-  V("Achterwaartse rol opbouwoefening 2","AW rol opbouwende oefening 2.mp4","video/AW_rol_opbouwende_oefening_2.mp4"),
-  V("Achterwaartse rol opbouwoefening 3","AW rol opbouwende oefening 3.mp4","video/AW_rol_opbouwende_oefening_3.mp4"),
-  H("Remediëringsoefening 1: pittenzakje in knieholtes"),UL(["benen blijven niet opgetrokken tegen borst"]),
-  V("pittenzakje in knieholtes","AW rol geen klein bolletje remediëring.mp4","video/AW_rol_geen_klein_bolletje_remediering.mp4"),
-  H("Remediëringsoefening 2: pittenzakje tussen kin en borst + achterwaarts schommelen met actieve duw op handen"),UL(["wanneer ik schuin achterwaarts rol","wanneer ik niet volledig rond raak"]),
-  V("pittenzakje tussen kin en borst","AW rol kin niet tegen borst remediëring_Trim.mp4","video/AW_rol_kin_niet_tegen_borst_remediering_Trim.mp4"),
-  H("Remediëringsoefening 3: pittenzakje tussen knieën"),UL(["knieën blijven niet gesloten tijdens de rol"]),
-  V("pittenzakje tussen knieën","AW rol knieën open remediëring _Trim.mp4","video/AW_rol_knieen_open_remediering_Trim.mp4")]);
-pg("g-b2-rekstok","g-b2","Blok 2 rekstok",[
-  V("Molendraai voorwaarts","Molendraai vw_Trim.mp4","video/Molendraai_vw_Trim.mp4"),
-  V("Molendraai voorwaarts helpersfunctie","Helpersfunctie molendraai vw_Trim.mp4","video/Helpersfunctie_molendraai_vw_Trim.mp4"),
-  V("molendraai voorwaarts opbouwoefening 1","Opbouw oefening 1 molendraai vw_Trim.mp4","video/Opbouw_oefening_1_molendraai_vw_Trim.mp4"),
-  V("molendraai voorwaarts opbouwoefening 2","Opbouwoefening 2 molendraai_Trim.mp4","video/Opbouwoefening_2_molendraai_Trim.mp4")]);
-pg("g-b2-sprong","g-b2","Blok 2 sprong",[
-  V("Tijgersprong eindvorm 1","Tijgersprong eindvorm_Trim.mp4","video/Tijgersprong_eindvorm_Trim.mp4"),
-  V("Tijgersprong eindvorm 2 (moeilijkere variant)","tijgersprong eindvorm 2 goed","video/tijgersprong_eindvorm_2_goed.mp4"),
-  V("Tijgersprong helpersfunctie","Helpersfunctie tijgersporng_Trim.mp4","video/Helpersfunctie_tijgersporng_Trim.mp4"),
-  V("Tijgersprong opbouw 1","Opbouwoefening 1 tijgersprong_Trim.mp4","video/Opbouwoefening_1_tijgersprong_Trim.mp4"),
-  V("Tijgersprong opbouw 2","Opbouwoefening 2 tijgersprong_Trim.mp4","video/Opbouwoefening_2_tijgersprong_Trim.mp4"),
-  V("Tijgersprong opbouw 3","Opbouwoefening 3 tijgersprong_Trim.mp4","video/Opbouwoefening_3_tijgersprong_Trim.mp4"),
-  V("Opbouw tijgersprong 4","Opbouwoefening 4 tijgersprong_Trim.mp4","video/Opbouwoefening_4_tijgersprong_Trim.mp4"),
-  V("Opbouw tijgersprong 5","Opbouwoefening 5 tijgersprong_Trim.mp4","video/Opbouwoefening_5_tijgersprong_Trim.mp4")]);
-pg("g-b2-herenbrug","g-b2","Blok 2 herenbrug",[
-  V("Schouderrol eindvorm 1","Schouderrol herenbrug eindvorm_Trim.mp4","video/Schouderrol_herenbrug_eindvorm_Trim.mp4"),
-  V("Schouderrol eindvorm 2","Schouderrol eindvorm 2_Trim.mp4","video/Schouderrol_eindvorm_2_Trim.mp4"),
-  V("Schouderrol helpersfunctie","Schouderrol helpersfunctie _Trim.mp4","video/Schouderrol_helpersfunctie_Trim.mp4"),
-  V("Schouderrol opbouwoefening 1","Opbouw schouderrol herenbrug 1 goed_Trim.mp4","video/Opbouw_schouderrol_herenbrug_1_goed_Trim.mp4"),
-  V("Schouderrol opbouwoefening 3","Opbouw schouderrol herenbrug 3_Trim.mp4","video/Opbouw_schouderrol_herenbrug_3_Trim.mp4"),
-  V("Schouderrol opbouwoefening 2","Opbouw schouderrol herenbrug 2 goed_Trim.mp4","video/Opbouw_schouderrol_herenbrug_2_goed_Trim.mp4")]);
+  SEC("Remediëring"),
+  H("Remediëring 1: pittenzakje in knieholtes"),
+  UL(["benen blijven niet opgetrokken tegen borst"]),
+  V("Pittenzakje in knieholtes","AW rol geen klein bolletje remediëring.mp4","video/AW_rol_geen_klein_bolletje_remediering.mp4"),
+  H("Remediëring 2: pittenzakje tussen kin en borst + achterwaarts schommelen met actieve duw op handen"),
+  UL(["wanneer ik schuin achterwaarts rol","wanneer ik niet volledig rond raak"]),
+  V("Pittenzakje tussen kin en borst","AW rol kin niet tegen borst remediëring_Trim.mp4","video/AW_rol_kin_niet_tegen_borst_remediering_Trim.mp4"),
+  H("Remediëring 3: pittenzakje tussen knieën"),
+  UL(["knieën blijven niet gesloten tijdens de rol"]),
+  V("Pittenzakje tussen knieën","AW rol knieën open remediëring _Trim.mp4","video/AW_rol_knieen_open_remediering_Trim.mp4")],"Grond");
+pg("g-b2-rekstok","g-b2","Blok 2 rekstok: molendraai voorwaarts",[
+  SEC("Helpersfunctie"),
+  V("Helpersfunctie","Helpersfunctie molendraai vw_Trim.mp4","video/Helpersfunctie_molendraai_vw_Trim.mp4"),
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1","Opbouw oefening 1 molendraai vw_Trim.mp4","video/Opbouw_oefening_1_molendraai_vw_Trim.mp4"),
+  V("Opbouwoefening 2","Opbouwoefening 2 molendraai_Trim.mp4","video/Opbouwoefening_2_molendraai_Trim.mp4"),
+  SEC("Eindvorm"),
+  V("Eindvorm: molendraai voorwaarts","Molendraai vw_Trim.mp4","video/Molendraai_vw_Trim.mp4")],"Rekstok");
+pg("g-b2-sprong","g-b2","Blok 2 sprong: tijgersprong",[
+  SEC("Helpersfunctie"),
+  V("Helpersfunctie","Helpersfunctie tijgersporng_Trim.mp4","video/Helpersfunctie_tijgersporng_Trim.mp4"),
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1","Opbouwoefening 1 tijgersprong_Trim.mp4","video/Opbouwoefening_1_tijgersprong_Trim.mp4"),
+  V("Opbouwoefening 2","Opbouwoefening 2 tijgersprong_Trim.mp4","video/Opbouwoefening_2_tijgersprong_Trim.mp4"),
+  V("Opbouwoefening 3","Opbouwoefening 3 tijgersprong_Trim.mp4","video/Opbouwoefening_3_tijgersprong_Trim.mp4"),
+  V("Opbouwoefening 4","Opbouwoefening 4 tijgersprong_Trim.mp4","video/Opbouwoefening_4_tijgersprong_Trim.mp4"),
+  V("Opbouwoefening 5","Opbouwoefening 5 tijgersprong_Trim.mp4","video/Opbouwoefening_5_tijgersprong_Trim.mp4"),
+  SEC("Eindvormen"),
+  V("Eindvorm 1","Tijgersprong eindvorm_Trim.mp4","video/Tijgersprong_eindvorm_Trim.mp4"),
+  V("Eindvorm 2: moeilijkere variant","tijgersprong eindvorm 2 goed","video/tijgersprong_eindvorm_2_goed.mp4")],"Sprong");
+pg("g-b2-herenbrug","g-b2","Blok 2 herenbrug: schouderrol",[
+  SEC("Helpersfunctie"),
+  V("Helpersfunctie","Schouderrol helpersfunctie _Trim.mp4","video/Schouderrol_helpersfunctie_Trim.mp4"),
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1","Opbouw schouderrol herenbrug 1 goed_Trim.mp4","video/Opbouw_schouderrol_herenbrug_1_goed_Trim.mp4"),
+  V("Opbouwoefening 2","Opbouw schouderrol herenbrug 2 goed_Trim.mp4","video/Opbouw_schouderrol_herenbrug_2_goed_Trim.mp4"),
+  V("Opbouwoefening 3","Opbouw schouderrol herenbrug 3_Trim.mp4","video/Opbouw_schouderrol_herenbrug_3_Trim.mp4"),
+  SEC("Eindvormen"),
+  V("Eindvorm 1","Schouderrol herenbrug eindvorm_Trim.mp4","video/Schouderrol_herenbrug_eindvorm_Trim.mp4"),
+  V("Eindvorm 2","Schouderrol eindvorm 2_Trim.mp4","video/Schouderrol_eindvorm_2_Trim.mp4")],"Herenbrug");
 
-pg("g-b3","gym3","Demo's blok 3",[blokLinks(3),IMGB("blok23")]);
+pg("g-b3","gym3","Blok 3",[blokLinks(3),IMGB("blok23")]);
 const vids=(prefix,list)=>list.map(([l,f,d])=>V(l,f,d));
-pg("g-b3-rekstok","g-b3","Blok 3 rekstok",vids("",[
-  ["Eindvorm 1","rekstok - kniekiep - eindvorm.mp4","video/rekstok_-_kniekiep_-_eindvorm.mp4"],["Helpersfunctie","rekstok - kniekiep - helpersfunctie.mp4","video/rekstok_-_kniekiep_-_helpersfunctie.mp4"],
-  ["Opbouwoefening 1","rekstok - kniekiep - opbouwoefening 1.mp4","video/rekstok_-_kniekiep_-_opbouwoefening_1.mp4"],["Opbouwoefening 2","rekstok - kniekiep - opbouwoefening 2.mp4","video/rekstok_-_kniekiep_-_opbouwoefening_2.mp4"],
-  ["Opbouwoefening 3","rekstok - kniekiep - opbouwoefening 3.mp4","video/rekstok_-_kniekiep_-_opbouwoefening_3.mp4"],["Opbouwoefening 4","rekstok - kniekiep - opbouwoefening 4.mp4","video/rekstok_-_kniekiep_-_opbouwoefening_4.mp4"],
-  ["Opbouwoefening 5","rekstok - kniekiep - opbouwoefening 5.mp4","video/rekstok_-_kniekiep_-_opbouwoefening_5.mp4"],["Opbouwoefening 6","rekstok - kniekiep - opbouwoefening 6.mp4","video/rekstok_-_kniekiep_-_opbouwoefening_6.mp4"]]));
-pg("g-b3-grond","g-b3","Blok 3 grond",vids("",[
-  ["Eindvorm 1","22-01-07-14-12-08_01.mp4","video/22-01-07-14-12-08_01.mp4"],["Helpersfunctie handstand","22-01-07-11-47-26_01.mp4","video/22-01-07-11-47-26_01.mp4"],
-  ["Opbouwoefening 1","GH011045-2.mp4","video/GH011045-2.mp4"],["Opbouwoefening 2","22-01-07-12-00-21_01.mp4","video/22-01-07-12-00-21_01.mp4"],
-  ["Opbouwoefening 3","22-01-07-14-01-15_01.mp4","video/22-01-07-14-01-15_01.mp4"],["Opbouwoefening 4","22-01-07-14-07-17_01.mp4","video/22-01-07-14-07-17_01.mp4"]]));
-pg("g-b3-herenbrug","g-b3","Blok 3 herenbrug",vids("",[
-  ["Eindvorm 1","22-01-07-15-44-08_01.mp4","video/22-01-07-15-44-08_01.mp4"],["Eindvorm 2","22-01-07-15-52-08_01.mp4","video/22-01-07-15-52-08_01.mp4"],
-  ["Helpersfunctie","22-01-07-15-40-02_01.mp4","video/22-01-07-15-40-02_01.mp4"],["Opbouwoefening 1","22-01-07-14-20-56_01.mp4","video/22-01-07-14-20-56_01.mp4"],
-  ["Opbouwoefening 2","22-01-07-14-28-34_01.mp4","video/22-01-07-14-28-34_01.mp4"],["Opbouwoefening 3","22-01-07-15-36-16_01.mp4","video/22-01-07-15-36-16_01.mp4"]]));
-pg("g-b3-sprong","g-b3","Blok 3 sprong",vids("",[
-  ["Eindvorm 1 (zonder sprong -> minst aantal punten)","22-01-08-16-43-00_01.mp4","video/22-01-08-16-43-00_01.mp4"],
-  ["Eindvorm 2 (makkelijkere variant)","22-01-08-16-37-55_01.mp4","video/22-01-08-16-37-55_01.mp4"],
-  ["Eindvorm 3 (moeilijkere variant)","22-01-08-16-40-36_01.mp4","video/22-01-08-16-40-36_01.mp4"],
-  ["Helpersfunctie","22-01-08-15-09-46_01.mp4","video/22-01-08-15-09-46_01.mp4"],
-  ["Opbouwoefening 1","22-01-08-15-04-57_01.mp4","video/22-01-08-15-04-57_01.mp4"],["Opbouwoefening 2","22-01-08-15-07-58_01.mp4","video/22-01-08-15-07-58_01.mp4"],
-  ["Opbouwoefening 3","22-01-08-15-12-25_01.mp4","video/22-01-08-15-12-25_01.mp4"],["Opbouwoefening 4","22-01-08-15-15-36_01.mp4","video/22-01-08-15-15-36_01.mp4"],
-  ["Opbouwoefening 5","22-01-08-15-18-50_01.mp4","video/22-01-08-15-18-50_01.mp4"],["Opbouwoefening 6","22-01-08-16-17-45_01.mp4","video/22-01-08-16-17-45_01.mp4"],
-  ["Opbouwoefening 7","22-01-08-16-21-24_01.mp4","video/22-01-08-16-21-24_01.mp4"],["Opbouwoefening 8","22-01-08-16-27-33_01.mp4","video/22-01-08-16-27-33_01.mp4"],
-  ["Opbouwoefening 9","22-01-08-16-32-43_01.mp4","video/22-01-08-16-32-43_01.mp4"]]));
+pg("g-b3-rekstok","g-b3","Blok 3 rekstok",[
+  SEC("Helpersfunctie"),
+  V("Helpersfunctie","rekstok - kniekiep - helpersfunctie.mp4","video/rekstok_-_kniekiep_-_helpersfunctie.mp4"),
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1","rekstok - kniekiep - opbouwoefening 1.mp4","video/rekstok_-_kniekiep_-_opbouwoefening_1.mp4"),
+  V("Opbouwoefening 2","rekstok - kniekiep - opbouwoefening 2.mp4","video/rekstok_-_kniekiep_-_opbouwoefening_2.mp4"),
+  V("Opbouwoefening 3","rekstok - kniekiep - opbouwoefening 3.mp4","video/rekstok_-_kniekiep_-_opbouwoefening_3.mp4"),
+  V("Opbouwoefening 4","rekstok - kniekiep - opbouwoefening 4.mp4","video/rekstok_-_kniekiep_-_opbouwoefening_4.mp4"),
+  V("Opbouwoefening 5","rekstok - kniekiep - opbouwoefening 5.mp4","video/rekstok_-_kniekiep_-_opbouwoefening_5.mp4"),
+  V("Opbouwoefening 6","rekstok - kniekiep - opbouwoefening 6.mp4","video/rekstok_-_kniekiep_-_opbouwoefening_6.mp4"),
+  SEC("Eindvorm"),
+  V("Eindvorm","rekstok - kniekiep - eindvorm.mp4","video/rekstok_-_kniekiep_-_eindvorm.mp4")],"Rekstok");
+pg("g-b3-grond","g-b3","Blok 3 grond",[
+  SEC("Helpersfunctie"),
+  V("Helpersfunctie","22-01-07-11-47-26_01.mp4","video/22-01-07-11-47-26_01.mp4"),
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1","GH011045-2.mp4","video/GH011045-2.mp4"),
+  V("Opbouwoefening 2","22-01-07-12-00-21_01.mp4","video/22-01-07-12-00-21_01.mp4"),
+  V("Opbouwoefening 3","22-01-07-14-01-15_01.mp4","video/22-01-07-14-01-15_01.mp4"),
+  V("Opbouwoefening 4","22-01-07-14-07-17_01.mp4","video/22-01-07-14-07-17_01.mp4"),
+  SEC("Eindvorm"),
+  V("Eindvorm","22-01-07-14-12-08_01.mp4","video/22-01-07-14-12-08_01.mp4")],"Grond");
+pg("g-b3-herenbrug","g-b3","Blok 3 herenbrug",[
+  SEC("Helpersfunctie"),
+  V("Helpersfunctie","22-01-07-15-40-02_01.mp4","video/22-01-07-15-40-02_01.mp4"),
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1","22-01-07-14-20-56_01.mp4","video/22-01-07-14-20-56_01.mp4"),
+  V("Opbouwoefening 2","22-01-07-14-28-34_01.mp4","video/22-01-07-14-28-34_01.mp4"),
+  V("Opbouwoefening 3","22-01-07-15-36-16_01.mp4","video/22-01-07-15-36-16_01.mp4"),
+  SEC("Eindvormen"),
+  V("Eindvorm 1","22-01-07-15-44-08_01.mp4","video/22-01-07-15-44-08_01.mp4"),
+  V("Eindvorm 2","22-01-07-15-52-08_01.mp4","video/22-01-07-15-52-08_01.mp4")],"Herenbrug");
+pg("g-b3-sprong","g-b3","Blok 3 sprong",[
+  SEC("Helpersfunctie"),
+  V("Helpersfunctie","22-01-08-15-09-46_01.mp4","video/22-01-08-15-09-46_01.mp4"),
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1","22-01-08-15-04-57_01.mp4","video/22-01-08-15-04-57_01.mp4"),
+  V("Opbouwoefening 2","22-01-08-15-07-58_01.mp4","video/22-01-08-15-07-58_01.mp4"),
+  V("Opbouwoefening 3","22-01-08-15-12-25_01.mp4","video/22-01-08-15-12-25_01.mp4"),
+  V("Opbouwoefening 4","22-01-08-15-15-36_01.mp4","video/22-01-08-15-15-36_01.mp4"),
+  V("Opbouwoefening 5","22-01-08-15-18-50_01.mp4","video/22-01-08-15-18-50_01.mp4"),
+  V("Opbouwoefening 6","22-01-08-16-17-45_01.mp4","video/22-01-08-16-17-45_01.mp4"),
+  V("Opbouwoefening 7","22-01-08-16-21-24_01.mp4","video/22-01-08-16-21-24_01.mp4"),
+  V("Opbouwoefening 8","22-01-08-16-27-33_01.mp4","video/22-01-08-16-27-33_01.mp4"),
+  V("Opbouwoefening 9","22-01-08-16-32-43_01.mp4","video/22-01-08-16-32-43_01.mp4"),
+  SEC("Eindvormen"),
+  V("Eindvorm 1: zonder sprong -> minst aantal punten","22-01-08-16-43-00_01.mp4","video/22-01-08-16-43-00_01.mp4"),
+  V("Eindvorm 2: makkelijkere variant","22-01-08-16-37-55_01.mp4","video/22-01-08-16-37-55_01.mp4"),
+  V("Eindvorm 3: moeilijkere variant","22-01-08-16-40-36_01.mp4","video/22-01-08-16-40-36_01.mp4")],"Sprong");
 
-pg("g-b4","gym3","Demo's blok 4",[blokLinks(4)]);
-pg("g-b4-rekstok","g-b4","Blok 4 rekstok",vids("",[
-  ["Helpersfunctie","22-04-17-15-12-26_01.mp4"],["Opbouwoefening 1","22-04-17-14-45-55_01.mp4"],
-  ["Opbouwoefening 2","22-04-17-14-48-27_01.mp4"],["Opbouwoefening 3","22-04-17-14-50-05_01.mp4"],
-  ["Opbouwoefening 4","22-04-17-14-51-58_01.mp4"],["Eindvorm","22-04-17-14-59-23_01.mp4"]]));
-pg("g-b4-grond","g-b4","Blok 4 grond",vids("",[
-  ["Opbouwoefening","22-04-15-21-36-44_01.mp4"],["Eindvorm 1","22-04-15-21-30-48_01.mp4"],
-  ["Eindvorm 2 (uitbreiding)","22-04-15-21-33-29_01.mp4"]]));
-pg("g-b4-herenbrug","g-b4","Blok 4 herenbrug",vids("",[
-  ["Opbouwoefening 1","22-04-17-14-20-32_01.mp4"],["Opbouwoefening 2","22-04-17-14-25-26_01.mp4"],
-  ["Opbouwoefening 3","22-04-17-14-40-13_01.mp4"],["Eindvorm 1","22-04-17-14-30-09_01.mp4"],
-  ["Eindvorm 2","22-04-17-14-34-09_01.mp4"],["Eindvorm 3","22-04-17-14-36-45_01.mp4"],
-  ["Eindvorm 4","22-04-17-14-42-44_01.mp4"]]));
-pg("g-b4-sprong","g-b4","Blok 4 sprong",vids("",[
-  ["Opbouwoefening 1","22-04-15-21-52-59.mp4"],["Opbouwoefening 2","22-04-15-21-57-26_01.mp4"],
-  ["Eindvorm","22-04-15-22-00-15_01.mp4"]]));
+pg("g-b4","gym3","Blok 4",[blokLinks(4)]);
+pg("g-b4-rekstok","g-b4","Blok 4 rekstok",[
+  SEC("Helpersfunctie"),
+  V("Helpersfunctie","22-04-17-15-12-26_01.mp4"),
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1","22-04-17-14-45-55_01.mp4"),
+  V("Opbouwoefening 2","22-04-17-14-48-27_01.mp4"),
+  V("Opbouwoefening 3","22-04-17-14-50-05_01.mp4"),
+  V("Opbouwoefening 4","22-04-17-14-51-58_01.mp4"),
+  SEC("Eindvorm"),
+  V("Eindvorm","22-04-17-14-59-23_01.mp4")],"Rekstok");
+pg("g-b4-grond","g-b4","Blok 4 grond",[
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1","22-04-15-21-36-44_01.mp4"),
+  SEC("Eindvormen"),
+  V("Eindvorm 1","22-04-15-21-30-48_01.mp4"),
+  V("Eindvorm 2: uitbreiding","22-04-15-21-33-29_01.mp4")],"Grond");
+pg("g-b4-herenbrug","g-b4","Blok 4 herenbrug",[
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1","22-04-17-14-20-32_01.mp4"),
+  V("Opbouwoefening 2","22-04-17-14-25-26_01.mp4"),
+  V("Opbouwoefening 3","22-04-17-14-40-13_01.mp4"),
+  SEC("Eindvormen"),
+  V("Eindvorm 1","22-04-17-14-30-09_01.mp4"),
+  V("Eindvorm 2","22-04-17-14-34-09_01.mp4"),
+  V("Eindvorm 3","22-04-17-14-36-45_01.mp4"),
+  V("Eindvorm 4","22-04-17-14-42-44_01.mp4")],"Herenbrug");
+pg("g-b4-sprong","g-b4","Blok 4 sprong",[
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1","22-04-15-21-52-59.mp4"),
+  V("Opbouwoefening 2","22-04-15-21-57-26_01.mp4"),
+  SEC("Eindvorm"),
+  V("Eindvorm","22-04-15-22-00-15_01.mp4")],"Sprong");
 
 pg("g-eind","gym3","Eindoefeningen",[F("puntensleutel eindtest gymnastiek 3SPW","puntensleutel eindtest gymnastiek 3SPW.docx"),IMGB("gymband")]);
-pg("g-eind-rekstok","g-eind","Rekstok eindoefening",[V("Rekstok eindoefening","GH011157.MP4")]);
-pg("g-eind-herenbrug","g-eind","Herenbrug eindoefening",[V("Herenbrug eindoefening","GH011161.MP4")]);
-pg("g-eind-grond","g-eind","Grond eindoefening",[V("Grond eindoefening (1)","GH011146.MP4"),V("Grond eindoefening (2)","GH011154.MP4")]);
+pg("g-eind-rekstok","g-eind","Rekstok eindoefening",[
+  SEC("Eindvorm"),
+  V("Eindvorm","GH011157.MP4")],"Rekstok");
+pg("g-eind-herenbrug","g-eind","Herenbrug eindoefening",[
+  SEC("Eindvorm"),
+  V("Eindvorm","GH011161.MP4")],"Herenbrug");
+pg("g-eind-grond","g-eind","Grond eindoefening",[
+  SEC("Eindvormen"),
+  V("Eindvorm 1","GH011146.MP4"),
+  V("Eindvorm 2","GH011154.MP4")],"Grond");
 pg("g-extra","gym3","Oefeningen voor extra punten",[
   IMGB("extra"),
   H("Oefenbundel"),L(["Oefenbundel bekijken","g-bundel"],["Oefenbundel downloaden","docs/Oefenbundel_extra_oefeningen_gymnastiek_3SPW.docx"]),
@@ -345,17 +425,17 @@ pg("g-inhaal","gym3","Inhaal data + deadlines",[
   F("Afspraken en deadlines 3SPW gymnastiek","Afspraken en deadlines 3SPW gymanstiek.docx"),
   F("inleidende ppt gymnastiek","inleidende ppt gymnastiek.pptx"),IMGB("gymband")]);
 
-pg("zwem3","3de-jaar","zwemmen 3de jaar",[L(["Lesopbouw borstcrawl","z-crawl"],["Remediëringsoefeningen","z-rem"],["Lesopbouw schoolslag","z-school"],["Prestatietabellen","z-prest"])]);
-pg("z-crawl","zwem3","lesopbouw borstcrawl",[
+pg("zwem3","3de-jaar","Zwemmen",[L(["Lesopbouw borstcrawl","z-crawl"],["Remediëringsoefeningen","z-rem"],["Lesopbouw schoolslag","z-school"],["Prestatietabellen","z-prest"])]);
+pg("z-crawl","zwem3","Lesopbouw borstcrawl",[
   ...[1,2,3,4,5,6,7,8,9,11,12,13].map(n=>F(`effectieve leerlijn borstcrawl - les ${n}`,`effectieve leerlijn borstcrawl - les ${n}.docx`)),
   F("fouten en remediëringen borstcrawl - bijlage les 13","fouten en remediëringen borstcrawl - bijlage les 13.docx")]);
 pg("z-school","zwem3","Lesopbouw schoolslag",[F("effectieve leerlijn schoolslag","effectieve leerlijn schoolslag.pdf")]);
 pg("z-prest","zwem3","Prestatietabellen",[
   H("100m borstcrawl"),F("prestatietabel 100m borstcrawl","prestatietabel 100m borstcrawl.xlsx"),
-  H("100m & 200m schoolslag"),F("prestatietabel 100m & 200m schoolslag","prestatietabel 100m & 200m schoolslag.xlsx")],"prestatietabellen");
-pg("z-rem","zwem3","remediëringsoefeningen",[L(["Borstcrawl","z-rem-crawl"],["Schoolslag","z-rem-school"],["Rugcrawl"])]);
-pg("z-rem-crawl","z-rem","remediëringsoefeningen borstcrawl",[L(["Voorbereidende oefeningen","zr-voorb"],["Beenbeweging/Kick","zr-kick"],["Rotatie","zr-rotatie"],["Ademhaling","zr-adem"],["Reach","zr-reach"],["Catch","zr-catch"],["Pull","zr-pull"],["Push","zr-push"],["Recovery","zr-recovery"])]);
-pg("zr-voorb","z-rem-crawl","voorbereidende oefeningen",[
+  H("100m & 200m schoolslag"),F("prestatietabel 100m & 200m schoolslag","prestatietabel 100m & 200m schoolslag.xlsx")],"Prestatietabellen");
+pg("z-rem","zwem3","Remediëringsoefeningen",[L(["Borstcrawl","z-rem-crawl"],["Schoolslag","z-rem-school"],["Rugcrawl"])]);
+pg("z-rem-crawl","z-rem","Remediëringsoefeningen borstcrawl",[L(["Voorbereidende oefeningen","zr-voorb"],["Beenbeweging/Kick","zr-kick"],["Rotatie","zr-rotatie"],["Ademhaling","zr-adem"],["Reach","zr-reach"],["Catch","zr-catch"],["Pull","zr-pull"],["Push","zr-push"],["Recovery","zr-recovery"])]);
+pg("zr-voorb","z-rem-crawl","Voorbereidende oefeningen",[
   H("Drijven & pijlen"),
   P("Voor je kan beginnen met zwemmen is het belangrijk dat je eerst goed leert drijven en pijlen, zodat je vlak in het water kan liggen en kan starten met een zekere snelheid om deze horizontale positie aan te houden."),
   P("Aandachtspunten voor de pijlfase:"),
@@ -366,7 +446,7 @@ pg("zr-voorb","z-rem-crawl","voorbereidende oefeningen",[
   P("1. drijven op de rug en drijven op de buik"),
   UL(["maak je oppervlak zo groot mogelijk, spreid armen en benen","zorg voor spanning in je lichaam","houd veel lucht vast in je longen, je longen zijn boeien die zich in je lichaam bevinden"]),
   V("drijven op de buik","drijven op de buik.MP4"),V("pijlen op de buik","pijlen op de buik.MP4")]);
-pg("zr-kick","z-rem-crawl","kick (beenbeweging)",[
+pg("zr-kick","z-rem-crawl","Kick (beenbeweging)",[
   H("typische, meest voorkomende fouten"),
   UL(["beenbeweging vanuit de knieën/fietsen","kleine trillende beenbeweging","benen diep in het water"]),
   H("Remediëringsoefeningen"),
@@ -377,8 +457,8 @@ pg("zr-kick","z-rem-crawl","kick (beenbeweging)",[
   P("3. Beenslag vanuit de heupen met plankje op de rug."),
   UL(["Idem vorige oefeningen: benen zo gestrekt mogelijk, voeten/enkels strekken, grote krachtige beenbeweging","Spetters maken met de voeten (om ligging te verbeteren)","Visuele controle (indien hoofd opheffen)","Goede ligging (indien hoofd neutraal in het water, bekken/buik aan wateroppervlak houden zoals in filmpje)"]),V("Beenslag met plankje op de rug","NORM0103.MP4"),
   P("4. Beenslag vanuit de heupen met plankje op de buik."),
-  UL(["Idem vorige oefeningen: benen zo gestrekt mogelijk, voeten/enkels strekken, grote krachtige beenbeweging","Spetters maken","Hoofd tussen armen in het water leggen voor betere ligging","ademhaling kan zijwaarts, zijwaarts met doorhalen arm of voorwaarts"]),V("Beenslag met plankje op de buik","NORM0104.MP4")],"kick");
-pg("zr-rotatie","z-rem-crawl","rotatie",[
+  UL(["Idem vorige oefeningen: benen zo gestrekt mogelijk, voeten/enkels strekken, grote krachtige beenbeweging","Spetters maken","Hoofd tussen armen in het water leggen voor betere ligging","ademhaling kan zijwaarts, zijwaarts met doorhalen arm of voorwaarts"]),V("Beenslag met plankje op de buik","NORM0104.MP4")],"Kick");
+pg("zr-rotatie","z-rem-crawl","Rotatie",[
   H("typische fouten"),
   UL(["geen vormspanning (=> veel remming, door het water zigzaggen)","onvoldoende rotatie of te veel rotatie (=> later problemen met ademhaling of meer weerstand creëeren dan nodig is)","rotatie komt niet vanuit de heupen (=> trage rotatie)","hoofd blijft niet ontspannen naar de bodem kijken"]),
   H("remediëringsoefeningen"),
@@ -389,7 +469,7 @@ pg("zr-rotatie","z-rem-crawl","rotatie",[
   UL(["startpositie volledig op de zijkant","goede vormspanning (hele lichaam opgespannen)","armen gestrekt tegen het lichaam, handen op de dijen","hoofd ontspannen naar de bodem laten kijken","rotatie wordt ingezet in de heupen"]),
   P("=> meer weerstand => proberen de rotatie even snel te maken"),
   V("snelle rotatie heupen onderwater","snelle rotatie heupen onderwater.MOV")]);
-pg("zr-adem","z-rem-crawl","ademhaling",[
+pg("zr-adem","z-rem-crawl","Ademhaling",[
   H("Zijwaartse ademhaling"),
   P("Bij de borstcrawl adem je zijwaarts. Zo blijf je horizontaal in het water liggen en heb je minder weerstand."),
   UL(["Houd je hoofd in een neutrale positie en roteer vanuit die positie, zonder je hoofd op te heffen of te knikken.","Zodra je mond in het water draait, begin je bellen te blazen en kijk je naar de tegels recht onder je.","Na het inademen stop je met uitademen. Je kijkt naar de onderste twee tegels van de zijwand, met je onderste brillenglas half onder water."]),
@@ -406,23 +486,23 @@ pg("zr-adem","z-rem-crawl","ademhaling",[
   P("4. Zoals oefening 3, maar zonder plankje. Houd je onderste hand en arm net onder het wateroppervlak."),
   V("rotatie hoofd met bellen blazen","ademhaling - rotatie hoofd in neutrale positie met bellen blazen onder water.MP4"),
   P("5. Torpedo met ademhaling: op de zij in gestroomlijnde houding, armen langs het lichaam en handen op de dijen. Roteer je hoofd in neutrale positie, blaas bellen terwijl je naar de bodem kijkt en kijk daarna zijwaarts naar de onderste tegels, met je onderste brillenglas in het water.")]);
-pg("zr-reach","z-rem-crawl","Armbeweging : reach",[],"reach");
-pg("zr-catch","z-rem-crawl","catch",[]);
-pg("zr-pull","z-rem-crawl","pull",[]);
-pg("zr-push","z-rem-crawl","push",[]);
-pg("zr-recovery","z-rem-crawl","recovery",[]);
-pg("z-rem-school","z-rem","remediëringsoefeningen schoolslag",[]);
+pg("zr-reach","z-rem-crawl","Armbeweging : reach",[],"Reach");
+pg("zr-catch","z-rem-crawl","Catch",[]);
+pg("zr-pull","z-rem-crawl","Pull",[]);
+pg("zr-push","z-rem-crawl","Push",[]);
+pg("zr-recovery","z-rem-crawl","Recovery",[]);
+pg("z-rem-school","z-rem","Remediëringsoefeningen schoolslag",[]);
 
-pg("atl3","3de-jaar","atletiek 3de jaar",[L(["Prestatietabellen","atl3-prest"])]);
+pg("atl3","3de-jaar","Atletiek",[L(["Prestatietabellen","atl3-prest"])]);
 pg("atl3-prest","atl3","Prestatietabellen",[
   S("Prestatietabel 3km 3SPW","1EmvXc8oYuDpwndgUZqbrxs8k3bFRhCxUHoNe4DPDDQU"),
   S("Prestatietabel kogelstoten 3SPW","1wsK98MK6hIuPG9GNowvCF7XuMnkB9BtX1As306Of0PA"),
   S("Prestatietabel fosburyflop 3SPW","1gx6Jc-7U5HcvhlET0dgAJX8evfVM_PsgXKvIgU-fw7g")]);
 
 /* --- 4de jaar --- */
-pg("4de-jaar","home","4de jaar",[L(["Basketbal","bb4"],["Gevechtssport","gv4"],["zwemmen","zwem4"])]);
-pg("bb4","4de-jaar","basketbal 4de jaar",[L(["Test shot + lay-up","bb4-test"],["Fundamentals","bb4-fund"],["spelregels 3x3","bb4-3x3"])],"basketbal");
-pg("bb4-test","bb4","test shot + lay-up",[
+pg("4de-jaar","home","4SPW",[L(["Basketbal","bb4"],["Gevechtssport","gv4"],["Zwemmen","zwem4"])]);
+pg("bb4","4de-jaar","Basketbal",[L(["Test shot + lay-up","bb4-test"],["Fundamentals","bb4-fund"],["Spelregels 3x3","bb4-3x3"])]);
+pg("bb4-test","bb4","Test shot + lay-up",[
   H("Test shot (15 ptn)"),
   UL(["5 shots vanop de vrijworplijn","bij score: 2ptn (totaal 10ptn op scoren)","bij binnenkant ring raken bij niet score: 1pt (totaal 10ptn op scoren)","technisch juist: 1pt (totaal 5ptn op techniek):"]),
   UL(["voeten heup breedte, voet shotarm licht voor de andere, benen licht gebogen","bal vanuit de pocket laten vertrekken (thv. de heup) en vloeiend opwaarts brengen met de werphand onder de bal","bal ligt op de vingertoppen (moet een vinger tussen bal en handpalm passen) en rolt af over wijs- en middelvinger","back-spin, arm eindigt gestrekt met de wijsvinger neerwaarts richting de basket","richthand is ontspannen, mag niet duwen (ook de duim niet)"]),
@@ -430,7 +510,7 @@ pg("bb4-test","bb4","test shot + lay-up",[
   UL(["5 lay-ups rechts vanuit dribbel","5 lay-ups links vanuit dribbel","elke lay-up die je scoort krijg je 1pt op 10ptn","elke lay-up die je correct uitvoert krijg je 1pt op 10ptn:"]),
   UL(["2 steunen","afstoten met de juiste voet (R lay-up = L voet & L lay-up = R voet)","afwerpen met de juiste hand (R lay-up = R hand & L lay-up = L hand)"]),
   V("test shot + lay-up","20221115_141706.mp4")]);
-pg("bb4-fund","bb4","fundamentals",[
+pg("bb4-fund","bb4","Fundamentals",[
   H("normale dribbel"),UL(["kniehoogte","blikvrij (niet kijken naar de bal)","niet slaan op de bal","rechts en links","30s elke zijde"]),
   V("normale dribbel - rechts","normal dribble - rechts.mp4"),V("normale dribbel - links","normal dribble - links.mp4"),
   H("lage dribbels"),UL(["enkelhoogte","niet slaan op de bal","rechts en links","30s elke zijde"]),
@@ -451,16 +531,16 @@ pg("bb4-3x3","bb4","Spelregels 3x3",[
   H("Na een defensieve rebound, steal of block"),P("De bal moet eerst buiten de 2-puntslijn gebracht worden. Ook bij een rebound van een shot dat bord of ring niet raakt."),
   H("Jump ball"),P("De bal gaat naar de verdedigende ploeg, en het spel hervat met een check ball on top."),
   H("Fouten en vrijworpen"),UL(["Teamfouten 1 tot 6 tijdens een doelpoging: 1 vrijworp binnen de 2-puntslijn, 2 vrijworpen erbuiten.","Teamfouten 1 tot 6 zonder doelpoging: balbezit met check ball on top.","Teamfouten 7 tot 9: 2 vrijworpen.","Teamfouten 10 of meer: 2 vrijworpen plus balbezit.","Er zijn geen persoonlijke fouten. Een speler wordt pas uitgesloten na 2 onsportieve fouten."]),
-  H("Wissels"),P("Toegestaan voor beide ploegen tijdens een dood spelmoment, vóór de check ball. Ze gebeuren aan de achterlijn, zonder aanvraag bij de scheidsrechters. De wisselspeler betreedt het veld wanneer de vervangen speler het veld verlaat en hem aanraakt (hand clap).")],"spelregels 3x3");
-pg("gv4","4de-jaar","Gevechtssport",[L(["Regels + ceremonie","gv-regels"],["Knopen obi","gv-obi"],["Zuki wasa","gv-zuki"],["Geri wasa","gv-geri"],["Uke wasa","gv-uke"],["Shisei kata","gv-shisei"],["Gekisai dai ichi","gv-gekisai"],["Bevrijdingscombinaties","gv-bevr"])],"gevechtssport");
-pg("gv-regels","gv4","regels + ceremonie",[F("dojo regels 4SPW les 1","dojo regels 4SPW les 1.docx"),F("groet ceremonie 4SPW les 1","groet ceremonie 4SPW les 1.docx"),F("woordenlijst karate 4SPW les 1","woordenlijst karate 4SPW les 1.docx")]);
-pg("gv-obi","gv4","knopen obi",[V("knopen obi","knopen obi.mp4")]);
-pg("gv-zuki","gv4","zuki wasa",[V("zuki waza","zuki waza.mp4")]);
-pg("gv-geri","gv4","geri wasa",[V("geri waza","geri waza.mp4")]);
-pg("gv-uke","gv4","uke wasa",[V("uke waza","uke waza.mp4")]);
-pg("gv-shisei","gv4","shisei kata",[V("shisei kata vooraanzicht","shisei kata vooraanzicht.mp4"),V("shisei kata zijaanzicht","shisei kata zijaanzicht.mp4"),V("shisei kata met uitleg","shisei kata vooraanzicht met uitleg.mp4")]);
-pg("gv-gekisai","gv4","gekisai dai ichi",[V("gekisai dai ichi normale snelheid","gekisai dai ichi vooraanzicht.mp4"),V("gekisai dai ichi traag","gekisai dai ichi vooraanzicht slowmotion.mp4"),V("gekisai dai ichi met uitleg","gekisai dai ichi met uitleg.mp4")]);
-pg("gv-bevr","gv4","bevrijdingscombinaties",vids("",[
+  H("Wissels"),P("Toegestaan voor beide ploegen tijdens een dood spelmoment, vóór de check ball. Ze gebeuren aan de achterlijn, zonder aanvraag bij de scheidsrechters. De wisselspeler betreedt het veld wanneer de vervangen speler het veld verlaat en hem aanraakt (hand clap).")],"Spelregels 3x3");
+pg("gv4","4de-jaar","Gevechtssport",[L(["Regels + ceremonie","gv-regels"],["Knopen obi","gv-obi"],["Zuki wasa","gv-zuki"],["Geri wasa","gv-geri"],["Uke wasa","gv-uke"],["Shisei kata","gv-shisei"],["Gekisai dai ichi","gv-gekisai"],["Bevrijdingscombinaties","gv-bevr"])]);
+pg("gv-regels","gv4","Regels + ceremonie",[F("dojo regels 4SPW les 1","dojo regels 4SPW les 1.docx"),F("groet ceremonie 4SPW les 1","groet ceremonie 4SPW les 1.docx"),F("woordenlijst karate 4SPW les 1","woordenlijst karate 4SPW les 1.docx")]);
+pg("gv-obi","gv4","Knopen obi",[V("knopen obi","knopen obi.mp4")]);
+pg("gv-zuki","gv4","Zuki wasa",[V("zuki waza","zuki waza.mp4")]);
+pg("gv-geri","gv4","Geri wasa",[V("geri waza","geri waza.mp4")]);
+pg("gv-uke","gv4","Uke wasa",[V("uke waza","uke waza.mp4")]);
+pg("gv-shisei","gv4","Shisei kata",[V("shisei kata vooraanzicht","shisei kata vooraanzicht.mp4"),V("shisei kata zijaanzicht","shisei kata zijaanzicht.mp4"),V("shisei kata met uitleg","shisei kata vooraanzicht met uitleg.mp4")]);
+pg("gv-gekisai","gv4","Gekisai dai ichi",[V("gekisai dai ichi normale snelheid","gekisai dai ichi vooraanzicht.mp4"),V("gekisai dai ichi traag","gekisai dai ichi vooraanzicht slowmotion.mp4"),V("gekisai dai ichi met uitleg","gekisai dai ichi met uitleg.mp4")]);
+pg("gv-bevr","gv4","Bevrijdingscombinaties",vids("",[
   ["Vast nemen rond het middel langs achter","vast nemen rond het middel langs achter.mp4"],
   ["Vast nemen bij de haren langs achter","vast nemen bij de haren langs achter.mp4"],
   ["Vast nemen bij de keel langs voor met 2 handen","vast nemen bij de keel langs voor.mp4"],
@@ -471,95 +551,96 @@ pg("gv-bevr","gv4","bevrijdingscombinaties",vids("",[
   ["Vast nemen bij de schouder langs achter","vast nemen bij de schouder langs achter.mp4"],
   ["Vast nemen bij de schouder langs voor","vast nemen bij de schouder langs voor.mp4"],
   ["Vast nemen bij de nek langs voor","vast nemen aan de nek langs voor.mp4"]]));
-pg("zwem4","4de-jaar","zwemmen 4de jaar",[L(["Lesopbouw borstcrawl","z-crawl"],["Remediëringsoefeningen borstcrawl","z-rem-crawl"],["Prestatietabellen","z-prest"])]);
+pg("zwem4","4de-jaar","Zwemmen",[L(["Lesopbouw borstcrawl","z-crawl"],["Remediëringsoefeningen borstcrawl","z-rem-crawl"],["Prestatietabellen","z-prest"])]);
 
 /* --- 5de jaar --- */
-pg("5de-jaar","home","5 SPW",[L(["gymnastiek","gym5"],["Omnisport","omni5"])],"5de jaar");
+pg("5de-jaar","home","5SPW",[L(["Gymnastiek","gym5"],["Omnisport","omni5"])]);
 /* --- 5de jaar gymnastiek --- */
-pg("gym5","5de-jaar","gymnastiek 5de jaar",[H("Demo's blok 1"),L(["Handstand doorrollen","g5-b1-handstand"],["Rondat","g5-b1-rondat"],["Overslag","g5-b1-overslag"],["Rondatsprong","g5-b1-rondatsprong"],["Zolendraai","g5-b1-zolendraai"],["Radslag"])]);
-pg("g5-b1-handstand","gym5","Blok 1 handstand doorrollen",[
-  H("Niveaus"),
+pg("gym5","5de-jaar","Gymnastiek",[L(["Blok 1","g5-b1"])],"Gymnastiek");
+pg("g5-b1","gym5","Blok 1",[L(["Handstand doorrollen","g5-b1-handstand"],["Rondat","g5-b1-rondat"],["Overslag","g5-b1-overslag"],["Rondatsprong","g5-b1-rondatsprong"],["Zolendraai","g5-b1-zolendraai"],["Radslag"])]);
+pg("g5-b1-handstand","g5-b1","Blok 1 handstand doorrollen",[
+  SEC("Niveaus"),
   V("Niveau 1: handstand doorrollen","niveau 1 - handstand doorrollen.mp4","video/niveau_1_-_handstand_doorrollen.mp4"),
   V("Niveau 2: ophurken tot handstand en doorrollen","niveau 2 - ophurken tot handstand en doorrollen.mp4","video/niveau_2_-_ophurken_tot_handstand_en_doorrollen.mp4"),
   V("Niveau 3: opspreiden tot handstand en doorrollen","niveau 3 - opspreiden tot handstand en doorrollen.mp4","video/niveau_3_-_opspreiden_tot_handstand_en_doorrollen.mp4"),
   V("Niveau 4: ophoeken tot handstand en doorrollen","niveau 4 - ophoeken tot handstand en doorrollen.mp4","video/niveau_4_-_ophoeken_tot_handstand_en_doorrollen.mp4"),
-  H("Aandachtspunten"),
+  SEC("Aandachtspunten"),
   V("Aandachtspunt 1: één rechte lijn in de heup- en schouderhoek","aandachtspunt 1 - één rechte lijn in de heup- en schouderhoek.mp4","video/aandachtspunt_1_-_een_rechte_lijn_in_de_heup-_en_schouderhoek.mp4"),
   V("Aandachtspunt 2: met ronde rug doorrollen","aandachtspunt 2 - met ronde rug doorrollen.mp4","video/aandachtspunt_2_-_met_ronde_rug_doorrollen.mp4"),
-  V("Aandachtspunt 3: knieën en voeten samen tijdens doorrollen en rechtkomen","aandachtspunt 3 - knieën en voeten samen tijdens doorrollen en rechtkomen.mp4","video/aandachtspunt_3_-_knieen_en_voeten_samen_tijdens_doorrollen_en_rechtkomen.mp4")],"Blok 1 handstand doorrollen");
-pg("g5-b1-rondat","gym5","Blok 1 rondat",[
-  H("Niveaus"),
+  V("Aandachtspunt 3: knieën en voeten samen tijdens doorrollen en rechtkomen","aandachtspunt 3 - knieën en voeten samen tijdens doorrollen en rechtkomen.mp4","video/aandachtspunt_3_-_knieen_en_voeten_samen_tijdens_doorrollen_en_rechtkomen.mp4")],"Handstand doorrollen");
+pg("g5-b1-rondat","g5-b1","Blok 1 rondat",[
+  SEC("Niveaus"),
   V("Niveau 1: rondat vanaf de plint","niveau 1 - rondat vanaf de plint.mp4","video/niveau_1_-_rondat_vanaf_de_plint.mp4"),
   V("Niveau 2: rondat vanuit opsprong","niveau 2 - rondat vanuit opsprong.mp4","video/niveau_2_-_rondat_vanuit_opsprong.mp4"),
   V("Niveau 3: rondat gevolgd door streksprong","niveau 3 - rondat gevolgd door streksprong.mp4","video/niveau_3_-_rondat_gevolgd_door_streksprong.mp4"),
   V("Niveau 4: rondat met landen op verhoog (dikke mat)","niveau 4 - rondat met landen op verhoog (dikke mat).mp4","video/niveau_4_-_rondat_met_landen_op_verhoog_dikke_mat.mp4"),
   V("Niveau 5: rondat met landen op verhoog (dikke mat + 2 kleine matjes)","niveau 5 - rondat met landen op verhoog (dikke mat + 2 kleine matjes).mp4","video/niveau_5_-_rondat_met_landen_op_verhoog_dikke_mat_2_kleine_matjes.mp4"),
-  H("Aandachtspunten"),
+  SEC("Aandachtspunten"),
   V("Aandachtspunt 1: alles op 1 lijn en benen sluiten in handstandfase","aandachtspunt 1 - alles op 1 lijn en benen sluiten in handstandfase.mp4","video/aandachtspunt_1_-_alles_op_1_lijn_en_benen_sluiten_in_handstandfase.mp4"),
   V("Aandachtspunt 2: afstoten-kaatsen op beide handen","aandachtspunt 2 - afstoten-kaatsen op beide handen.mp4","video/aandachtspunt_2_-_afstoten-kaatsen_op_beide_handen.mp4"),
-  V("Aandachtspunt 3: landen op beide voeten met aangezicht naar startplaats","aandachtspunt 3 - landen op beide voeten met aangezicht naar startplaats.mp4","video/aandachtspunt_3_-_landen_op_beide_voeten_met_aangezicht_naar_startplaats.mp4")],"Blok 1 rondat");
-pg("g5-b1-overslag","gym5","Blok 1 overslag",[
-  H("Niveaus"),
+  V("Aandachtspunt 3: landen op beide voeten met aangezicht naar startplaats","aandachtspunt 3 - landen op beide voeten met aangezicht naar startplaats.mp4","video/aandachtspunt_3_-_landen_op_beide_voeten_met_aangezicht_naar_startplaats.mp4")],"Rondat");
+pg("g5-b1-overslag","g5-b1","Blok 1 overslag",[
+  SEC("Helpersfunctie"),
+  V("Helpersfunctie","niveau 2 - overslag met 2 helpers.mp4","video/niveau_2_-_overslag_met_2_helpers.mp4"),
+  V("Helpersfunctie 2","aandachtspunt 2 - juiste techniek helpersfunctie.mp4","video/aandachtspunt_2_-_juiste_techniek_helpersfunctie.mp4"),
+  SEC("Niveaus"),
   V("Niveau 1: overslag van plint","niveau 1 - overslag van plint.mp4","video/niveau_1_-_overslag_van_plint.mp4"),
-  V("Niveau 2: overslag met 2 helpers","niveau 2 - overslag met 2 helpers.mp4","video/niveau_2_-_overslag_met_2_helpers.mp4"),
   V("Niveau 3: overslag met 1 helper","niveau 3 - overslag met 1 helper.mp4","video/niveau_3_-_overslag_met_1_helper.mp4"),
   V("Niveau 4: overslag zonder helper","niveau 4 - overslag zonder helper.mp4","video/niveau_4_-_overslag_zonder_helper.mp4"),
   V("Niveau 5: overslag met landen op valmat","niveau 5 - overslag met landen op valmat.mp4","video/niveau_5_-_overslag_met_landen_op_valmat.mp4"),
-  H("Aandachtspunten"),
-  V("Aandachtspunt 1: afstoten-kaatsen op 2 handen","aandachtspunt 1 - afstoten-kaatsen op 2 handen.mp4","video/aandachtspunt_1_-_afstoten-kaatsen_op_2_handen.mp4"),
-  V("Aandachtspunt 2: juiste techniek helpersfunctie","aandachtspunt 2 - juiste techniek helpersfunctie.mp4","video/aandachtspunt_2_-_juiste_techniek_helpersfunctie.mp4")],"Blok 1 overslag");
-pg("g5-b1-rondatsprong","gym5","Blok 1 rondatsprong",[
-  H("Niveaus"),
+  SEC("Aandachtspunten"),
+  V("Aandachtspunt 1: afstoten-kaatsen op 2 handen","aandachtspunt 1 - afstoten-kaatsen op 2 handen.mp4","video/aandachtspunt_1_-_afstoten-kaatsen_op_2_handen.mp4")],"Overslag");
+pg("g5-b1-rondatsprong","g5-b1","Blok 1 rondatsprong",[
+  SEC("Niveaus"),
   V("Niveau 1: rondatsprong met trampoline","niveau 1 - rondatsprong met trampoline.mp4","video/niveau_1_-_rondatsprong_met_trampoline.mp4"),
   V("Niveau 2: rondatsprong met springplank","niveau 2 - rondatsprong met springplank.mp4","video/niveau_2_-_rondatsprong_met_springplank.mp4"),
   V("Niveau 3: rondatsprong met trampoline (kast in lengte)","niveau 3 - rondatsprong met trampoline (kast in lengte).mp4","video/niveau_3_-_rondatsprong_met_trampoline_kast_in_lengte.mp4"),
   V("Niveau 4: rondatsprong met springplank (kast in lengte)","niveau 4 - rondatsprong met springplank (kast in lengte).mp4","video/niveau_4_-_rondatsprong_met_springplank_kast_in_lengte.mp4"),
   V("Niveau 5: rondatsprong met halve draai","niveau 5 - rondatsprong met halve draai .mp4","video/niveau_5_-_rondatsprong_met_halve_draai.mp4"),
-  H("Aandachtspunten"),
+  SEC("Aandachtspunten"),
   V("Aandachtspunt 1: ver inspringen, met 2 voeten afstoten","aandachtspunt 1 - ver inspringen, met 2 voeten afstoten.mp4","video/aandachtspunt_1_-_ver_inspringen_met_2_voeten_afstoten.mp4"),
   V("Aandachtspunt 2: handen plat, bekken heffen, schouders boven handen","aandachtspunt 2 - handen plat, bekken heffen, schouders boven handen.mp4","video/aandachtspunt_2_-_handen_plat_bekken_heffen_schouders_boven_handen.mp4"),
-  V("Aandachtspunt 3: landen op 2 voeten in evenwicht met aangezicht naar kast","aandachtspunt 3 - landen op 2 voeten in evenwicht met aangezicht naar kast.mp4","video/aandachtspunt_3_-_landen_op_2_voeten_in_evenwicht_met_aangezicht_naar_kast.mp4")],"Blok 1 rondatsprong");
-pg("g5-b1-zolendraai","gym5","Blok 1 zolendraai",[
-  H("Opbouwoefeningen"),
-  V("Opbouw 1: opspreiden op bank en verhoog","Opbouw 1 - opspreiden op bank en verhoog.mp4","video/Opbouw_1_-_opspreiden_op_bank_en_verhoog.mp4"),
-  V("Opbouw 2: spreidstand op lage rekstok","Opbouw 2 spreidstand op lage rekstok - AHS Gymnastiek (1080p).mp4","video/Opbouw_2_spreidstand_op_lage_rekstok_-_AHS_Gymnastiek_1080p.mp4"),
-  V("Opbouw 3: plint van 4delen en gespreid opspringen op rekstok","Opbouw 3 plint van 4delen en gespreid opspringen op rekstok - AHS Gymnastiek (1080p).mp4","video/Opbouw_3_plint_van_4delen_en_gespreid_opspringen_op_rekstok_-_AHS_Gymnastiek_1080p.mp4"),
-  V("Opbouw 4: streksteun en opzwaaien tot spreidstand - variaties","Opbouw 4 streksteun en opzwaaien tot spreidstand - variaties.mp4","video/Opbouw_4_streksteun_en_opzwaaien_tot_spreidstand_-_variaties.mp4"),
-  V("Opbouw 5: schommelen onder de rekstok","Opbouw 5 schommelen onder de rekstok.mp4","video/Opbouw_5_schommelen_onder_de_rekstok.mp4"),
-  V("Opbouw 6: onderzwaai vanaf plintdeel","Opbouw 6 onderzwaai vanaf plintdeel.mp4","video/Opbouw_6_onderzwaai_vanaf_plintdeel.mp4"),
-  V("Opbouw 7: onderzwaai","Opbouw 7 onderzwaai.mp4","video/Opbouw_7_onderzwaai.mp4"),
-  V("Opbouw 8: Zolendraai verpakken op de rekstok met 2 baren - variatie","Opbouw 8 Zolendraai verpakken op de rekstok met 2 baren - variatie.mp4","video/Opbouw_8_Zolendraai_verpakken_op_de_rekstok_met_2_baren_-_variatie.mp4"),
-  H("Alle opbouwoefeningen na elkaar"),
-  V("Opbouwoefeningen zolendraai volledig rond","opbouwoefeningen zolendraai volledig rond.mp4","video/opbouwoefeningen_zolendraai_volledig_rond.mp4"),
-  H("Helpersfunctie"),
-  V("Zolendraai - Helpersfunctie","Zolendraai - Helpersfunctie.mp4","video/Zolendraai_-_Helpersfunctie.mp4")],"Blok 1 zolendraai");
-pg("omni5","5de-jaar","omnisport 5de jaar",[L(["speerwerpen","speer"],["padel","padel"],["basketbal"],["klimmen","klimmen"])]);
-pg("speer","omni5","speerwerpen",[IMGB("speerwerpen"),L(["kijkwijzers werpanalyse","speer-werp"],["kijkwijzers foutenanalyse","speer-fout"],["Evaluatie","speer-eval"])]);
-pg("speer-werp","speer","kijkwijzers werpanalyse",[IMGB("werp1"),IMGB("werp2"),IMGB("werp3")]);
-pg("speer-fout","speer","kijkwijzers foutenanalyse",[IMGB("fout1"),IMGB("fout2"),IMGB("fout3"),IMGB("fout4")]);
+  V("Aandachtspunt 3: landen op 2 voeten in evenwicht met aangezicht naar kast","aandachtspunt 3 - landen op 2 voeten in evenwicht met aangezicht naar kast.mp4","video/aandachtspunt_3_-_landen_op_2_voeten_in_evenwicht_met_aangezicht_naar_kast.mp4")],"Rondatsprong");
+pg("g5-b1-zolendraai","g5-b1","Blok 1 zolendraai",[
+  SEC("Helpersfunctie"),
+  V("Helpersfunctie","Zolendraai - Helpersfunctie.mp4","video/Zolendraai_-_Helpersfunctie.mp4"),
+  SEC("Opbouwoefeningen"),
+  V("Opbouwoefening 1: opspreiden op bank en verhoog","Opbouw 1 - opspreiden op bank en verhoog.mp4","video/Opbouw_1_-_opspreiden_op_bank_en_verhoog.mp4"),
+  V("Opbouwoefening 2: spreidstand op lage rekstok","Opbouw 2 spreidstand op lage rekstok - AHS Gymnastiek (1080p).mp4","video/Opbouw_2_spreidstand_op_lage_rekstok_-_AHS_Gymnastiek_1080p.mp4"),
+  V("Opbouwoefening 3: plint van 4delen en gespreid opspringen op rekstok","Opbouw 3 plint van 4delen en gespreid opspringen op rekstok - AHS Gymnastiek (1080p).mp4","video/Opbouw_3_plint_van_4delen_en_gespreid_opspringen_op_rekstok_-_AHS_Gymnastiek_1080p.mp4"),
+  V("Opbouwoefening 4: streksteun en opzwaaien tot spreidstand - variaties","Opbouw 4 streksteun en opzwaaien tot spreidstand - variaties.mp4","video/Opbouw_4_streksteun_en_opzwaaien_tot_spreidstand_-_variaties.mp4"),
+  V("Opbouwoefening 5: schommelen onder de rekstok","Opbouw 5 schommelen onder de rekstok.mp4","video/Opbouw_5_schommelen_onder_de_rekstok.mp4"),
+  V("Opbouwoefening 6: onderzwaai vanaf plintdeel","Opbouw 6 onderzwaai vanaf plintdeel.mp4","video/Opbouw_6_onderzwaai_vanaf_plintdeel.mp4"),
+  V("Opbouwoefening 7: onderzwaai","Opbouw 7 onderzwaai.mp4","video/Opbouw_7_onderzwaai.mp4"),
+  V("Opbouwoefening 8: zolendraai verpakken op de rekstok met 2 baren - variatie","Opbouw 8 Zolendraai verpakken op de rekstok met 2 baren - variatie.mp4","video/Opbouw_8_Zolendraai_verpakken_op_de_rekstok_met_2_baren_-_variatie.mp4"),
+  V("Alle opbouwoefeningen na elkaar","opbouwoefeningen zolendraai volledig rond.mp4","video/opbouwoefeningen_zolendraai_volledig_rond.mp4")],"Zolendraai");
+pg("omni5","5de-jaar","Omnisport",[L(["Speerwerpen","speer"],["Padel","padel"],["Basketbal"],["Klimmen","klimmen"])]);
+pg("speer","omni5","Speerwerpen",[IMGB("speerwerpen"),L(["Kijkwijzers werpanalyse","speer-werp"],["Kijkwijzers foutenanalyse","speer-fout"],["Evaluatie","speer-eval"])]);
+pg("speer-werp","speer","Kijkwijzers werpanalyse",[IMGB("werp1"),IMGB("werp2"),IMGB("werp3")]);
+pg("speer-fout","speer","Kijkwijzers foutenanalyse",[IMGB("fout1"),IMGB("fout2"),IMGB("fout3"),IMGB("fout4")]);
 pg("speer-eval","speer","Evaluatie",[
   H("Formule punt op afstand"),
   UL(["jongens: punt = (afstand (m) + 0,2) / 0,334 => punt op 20","meisjes: punt = (afstand (m) + 4,5) / 0,334 => punt op 20"]),
   H("Criteria techniek"),
   UL(["Hoge ellenboog (schilderen)","Polsslag (kloppen op speer – speer steekt (45°))","Punt blijft gecontroleerd (bij de slaap)","Speer vliegt recht (niet dwars door de lucht – schuine follow through – verlies punt op laatste moment)","Voorwaartse kruispas met versnelling in de laatste twee passen"]),
-  P("=> punt op 10")],"evaluatie");
-pg("klimmen","omni5","klimmen",[IMGB("klimmen"),
+  P("=> punt op 10")],"Evaluatie");
+pg("klimmen","omni5","Klimmen",[IMGB("klimmen"),
   H("Les 1"),F("klimmen les 1","klimmen les 1.docx"),
   H("Les 2"),F("klimmen les 2","klimmen les 2.docx"),
   H("Puntensleutel test klimmen"),F("puntensleutel muurklimmen toprope","puntensleutel muurklimmen toprope.xlsx")]);
-pg("padel","omni5","padel",[IMGB("padel"),
+pg("padel","omni5","Padel",[IMGB("padel"),
   H("spelregels padel"),V("Spelregels Padel Tennis Vlaanderen","Spelregels Padel Tennis Vlaanderen.mp4"),
   H("lessenreeks padel"),F("lessenreeks padel","lessenreeks padel.docx")]);
 
 /* Home: sporttegels zoals op de oorspronkelijke site */
 const SPORTS = [
-  ["zwemmen","zwemmen",[["3de jaar","zwem3"],["4de jaar","zwem4"]]],
-  ["gymnastiek","gymnastiek",[["3de jaar","gym3"],["4de jaar"],["5de jaar","gym5"],["6de jaar"]]],
+  ["zwemmen","zwemmen",[["3SPW","zwem3"],["4SPW","zwem4"]]],
+  ["gymnastiek","gymnastiek",[["3SPW","gym3"],["4SPW"],["5SPW","gym5"],["6SPW"]]],
   ["balsporten","balsporten",[]],
-  ["dans/atletiek","atletiek",[["3de jaar","atl3"]]],
-  ["gevechtssport","gevechtssport",[["4de jaar","gv4"]]],
-  ["basketbal","basketbal",[["4de jaar","bb4"],["5de jaar"],["6de jaar"]]],
-  ["omnisport","omnisport",[["5de jaar","omni5"],["6de jaar"]]]
+  ["dans/atletiek","atletiek",[["3SPW","atl3"]]],
+  ["gevechtssport","gevechtssport",[["4SPW","gv4"]]],
+  ["basketbal","basketbal",[["4SPW","bb4"],["5SPW"],["6SPW"]]],
+  ["omnisport","omnisport",[["5SPW","omni5"],["6SPW"]]]
 ];
 
 /* ===== Weergave ===== */
@@ -588,6 +669,8 @@ function block(b){
     case "links": return `<div class="linklist">${b[1].map(([l,to])=>to&&to.startsWith("docs/")?`<a class="pill dl" href="${esc(to)}" download>${esc(l)}</a>`:to&&PAGES[to]?`<a class="pill" href="#${to}">${esc(l)}</a>`:`<span class="pill off" title="Nog geen pagina">${esc(l)}</span>`).join("")}</div>`;
     case "v": {
       const [,label,file,drive]=b;
+      const yt = drive && /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([\w-]{11})/.exec(drive);
+      if(yt) return `<div class="media"><div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/${yt[1]}?rel=0" allow="fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="${esc(label)}"></iframe></div><div class="meta"><b>${esc(label)}</b><a href="https://youtu.be/${yt[1]}" target="_blank" rel="noopener">Open op YouTube (trager afspelen via ⚙)</a></div></div>`;
       const local = drive && drive.startsWith("video/");
       if(local) return `<div class="media"><div class="frame"><video src="${esc(drive)}" controls preload="metadata" playsinline></video></div><div class="meta"><b>${esc(label)}</b><span>${esc(file)}</span></div></div>`;
       const frame = drive && !framed
@@ -617,7 +700,7 @@ function renderHome(){
   const years=[["3","3de-jaar"],["4","4de-jaar"],["5","5de-jaar"],["6",null]];
   return `<section class="hero">${img("hero","",true)}<div class="txt"><h1>Website Sportwetenschappen</h1><p>Oefeningen, demo's, prestatietabellen en afspraken voor het 3de tot 6de jaar sportwetenschappen.</p></div></section>
   <h2>Kies je jaar</h2>
-  <div class="years">${years.map(([n,id])=>id?`<a class="year" href="#${id}"><b>${n}</b><span>${n}de jaar</span></a>`:`<div class="year off"><b>${n}</b><span>${n}de jaar · binnenkort</span></div>`).join("")}</div>
+  <div class="years">${years.map(([n,id])=>id?`<a class="year" href="#${id}"><b>${n}</b><span>${n}SPW</span></a>`:`<div class="year off"><b>${n}</b><span>${n}SPW · binnenkort</span></div>`).join("")}</div>
   <h2>Per sport</h2>
   <div class="sports">${SPORTS.map(([name,key,yrs])=>`<article class="sport"><div class="pic">${key?img(key,name,true):""}</div><div class="body"><h2>${esc(name)}</h2><div class="chips">${yrs.length?yrs.map(([l,to])=>to?`<a class="chip" href="#${to}">${esc(l)}</a>`:`<span class="chip off">${esc(l)}</span>`).join(""):`<span class="chip off">nog geen pagina's</span>`}</div></div></article>`).join("")}</div>`;
 }
@@ -637,7 +720,7 @@ function renderTree(cur){
 }
 function renderTopnav(cur){
   const top=trail(cur)[1]?.id;
-  document.getElementById("topnav").innerHTML=[["home","Home"],["3de-jaar","3de jaar"],["4de-jaar","4de jaar"],["5de-jaar","5de jaar"]]
+  document.getElementById("topnav").innerHTML=[["home","Home"],["3de-jaar","3SPW"],["4de-jaar","4SPW"],["5de-jaar","5SPW"]]
     .map(([id,l])=>`<a href="#${id}" class="${(id===top||(id==="home"&&cur==="home"))?"on":""}">${l}</a>`).join("");
 }
 function route(){
