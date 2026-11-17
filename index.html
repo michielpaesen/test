@@ -1000,11 +1000,12 @@ pg("6de-jaar","home","6SPW",[L(["Zwemmen","zwem6"],["Dans","dans6"])]);
 pg("zwem6","6de-jaar","Zwemmen",[L(["Remediëringsoefeningen","z-rem"])]);
 pg("dans6","6de-jaar","Dans",[]);
 
-pg("z-rem","home","Remediëring zwemmen",[L(["Borstcrawl","z-rem-crawl"],["Schoolslag","z-rem-school"],["Rugcrawl"])]);
+/* Remediëring zwemmen: één keer gedefinieerd, wordt automatisch getoond onder Zwemmen van 3SPW, 4SPW, 5SPW en 6SPW (zie REMJAREN onderaan). Aanpassen = voor alle jaren. */
+pg("z-rem","zwem3","Remediëringsoefeningen",[L(["Borstcrawl","z-rem-crawl"],["Schoolslag","z-rem-school"],["Rugcrawl"])]);
 
 /* Home: sporttegels zoals op de oorspronkelijke site */
 const SPORTS = [
-  ["zwemmen","zwemmen",[["3SPW","zwem3"],["4SPW","zwem4"],["5SPW","zwem5"],["6SPW","zwem6"],["Remediëring","z-rem"]]],
+  ["zwemmen","zwemmen",[["3SPW","zwem3"],["4SPW","zwem4"],["5SPW","zwem5"],["6SPW","zwem6"]]],
   ["gymnastiek","gymnastiek",[["3SPW","gym3"],["4SPW","gym4"],["5SPW","gym5"],["6SPW"]]],
   ["balsporten","balsporten",[["3SPW","bal3"],["4SPW","bal4"],["5SPW","bal5"]]],
   ["dans","dans",[["3SPW","dans3"],["6SPW","dans6"]]],
@@ -1096,6 +1097,19 @@ function renderTopnav(cur){
     .map(([id,l])=>`<a href="#${id}" class="${(id===top||(id==="home"&&cur==="home"))?"on":""}">${l}</a>`).join("");
 }
 const ALIAS={"g5-b1-handstand":"g5-b1-grond","g5-b1-rondat":"g5-b1-grond","g5-b1-rondatsprong":"g5-b1-sprong","g5-b1-zolendraai":"g5-b1-rekstok","g5-b1-overslag":"g5-b2-grond","g5-b1-handstandoverslag":"g5-b2-sprong"};
+/* Remediëring zwemmen per jaar: kopieer de pagina's z-rem en alles eronder naar elk jaar (id + "-3", "-4", ...) */
+const REMJAREN=[3,4,5,6];
+(()=>{
+  const onder=p=>{for(let x=p;x;x=PAGES[x.p]) if(x.id==="z-rem") return true; return false;};
+  const basis=Object.values(PAGES).filter(onder), ids=new Set(basis.map(p=>p.id));
+  const zet=(c,j)=>c.map(b=>b[0]==="links"?["links",b[1].map(([l,to])=>ids.has(to)?[l,to+"-"+j]:[l,to])]:b);
+  basis.forEach(p=>delete PAGES[p.id]);
+  for(const j of REMJAREN){
+    for(const p of basis){ const id=p.id+"-"+j; PAGES[id]={...p,id,p:p.id==="z-rem"?"zwem"+j:p.p+"-"+j,c:zet(p.c,j)}; }
+    const z=PAGES["zwem"+j]; if(z) z.c=zet(z.c,j);
+  }
+  basis.forEach(p=>{ ALIAS[p.id]=p.id+"-3"; });
+})();
 function route(){
   let id=decodeURIComponent(location.hash.slice(1))||"home";
   id=ALIAS[id]||id;   // oude pagina-adressen doorsturen
