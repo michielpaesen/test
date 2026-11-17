@@ -416,16 +416,16 @@ pg("g-bundel","g-extra","Oefenbundel extra oefeningen gymnastiek 3SPW",[
 pg("g-inhaal","gym3","Inhaal data + deadlines",[
   F("inhaaldata gymnastiek","inhaaldata gymnastiek.xlsx"),
   F("Afspraken en deadlines 3SPW gymnastiek","Afspraken en deadlines 3SPW gymanstiek.docx"),
-  F("inleidende ppt gymnastiek","inleidende ppt gymnastiek.pptx")]);
+  F("inleidende ppt gymnastiek","inleidende ppt gymnastiek.pptx","docs/g-inhaal/inleidende_ppt_gymnastiek.pptx")]);
 
 pg("zwem3","3de-jaar","Zwemmen",[L(["Lesopbouw borstcrawl","z-crawl"],["Remediëringsoefeningen","z-rem"],["Lesopbouw schoolslag","z-school"],["Prestatietabellen","z-prest"])]);
 pg("z-crawl","zwem3","Lesopbouw borstcrawl",[
-  ...[1,2,3,4,5,6,7,8,9,11,12,13].map(n=>F(`effectieve leerlijn borstcrawl - les ${n}`,`effectieve leerlijn borstcrawl - les ${n}.docx`)),
-  F("fouten en remediëringen borstcrawl - bijlage les 13","fouten en remediëringen borstcrawl - bijlage les 13.docx")]);
-pg("z-school","zwem3","Lesopbouw schoolslag",[F("effectieve leerlijn schoolslag","effectieve leerlijn schoolslag.pdf")]);
+  ...[1,2,3,4,5,6,7,8,9,11,12,13].map(n=>F(`effectieve leerlijn borstcrawl - les ${n}`,`effectieve leerlijn borstcrawl - les ${n}.docx`,`docs/z-crawl/effectieve_leerlijn_borstcrawl_les_${n}.docx`)),
+  F("fouten en remediëringen borstcrawl - bijlage les 13","fouten en remediëringen borstcrawl - bijlage les 13.docx","docs/z-crawl/fouten_en_remedieringen_borstcrawl_bijlage_les_13.docx")]);
+pg("z-school","zwem3","Lesopbouw schoolslag",[F("effectieve leerlijn schoolslag","effectieve leerlijn schoolslag.pdf","docs/z-school/effectieve_leerlijn_schoolslag.pdf")]);
 pg("z-prest","zwem3","Prestatietabellen",[
-  H("100m borstcrawl"),F("prestatietabel 100m borstcrawl","prestatietabel 100m borstcrawl.xlsx"),
-  H("100m & 200m schoolslag"),F("prestatietabel 100m & 200m schoolslag","prestatietabel 100m & 200m schoolslag.xlsx")],"Prestatietabellen");
+  H("100m borstcrawl"),F("prestatietabel 100m borstcrawl","prestatietabel 100m borstcrawl.xlsx","docs/z-prest/prestatietabel_100m_borstcrawl.xlsx"),
+  H("100m & 200m schoolslag"),F("prestatietabel 100m & 200m schoolslag","prestatietabel 100m & 200m schoolslag.xlsx","docs/z-prest/prestatietabel_100m_200m_schoolslag.xlsx")],"Prestatietabellen");
 pg("z-rem-crawl","z-rem","Remediëringsoefeningen borstcrawl",[L(["Voorbereidende oefeningen","zr-voorb"],["Beenbeweging/Kick","zr-kick"],["Rotatie","zr-rotatie"],["Ademhaling","zr-adem"],["Reach","zr-reach"],["Catch","zr-catch"],["Pull","zr-pull"],["Push","zr-push"],["Recovery","zr-recovery"])]);
 pg("zr-voorb","z-rem-crawl","Voorbereidende oefeningen",[
   H("Drijven & pijlen"),
@@ -990,12 +990,12 @@ pg("speer-eval","speer","Evaluatie",[
   UL(["Hoge ellenboog (schilderen)","Polsslag (kloppen op speer – speer steekt (45°))","Punt blijft gecontroleerd (bij de slaap)","Speer vliegt recht (niet dwars door de lucht – schuine follow through – verlies punt op laatste moment)","Voorwaartse kruispas met versnelling in de laatste twee passen"]),
   P("=> punt op 10")],"Evaluatie");
 pg("klimmen","omni5","Klimmen",[IMGB("klimmen"),
-  H("Les 1"),F("klimmen les 1","klimmen les 1.docx"),
-  H("Les 2"),F("klimmen les 2","klimmen les 2.docx"),
-  H("Puntensleutel test klimmen"),F("puntensleutel muurklimmen toprope","puntensleutel muurklimmen toprope.xlsx")]);
+  H("Les 1"),F("klimmen les 1","klimmen les 1.docx","docs/klimmen/klimmen_les_1.docx"),
+  H("Les 2"),F("klimmen les 2","klimmen les 2.docx","docs/klimmen/klimmen_les_2.docx"),
+  H("Puntensleutel test klimmen"),F("puntensleutel muurklimmen toprope","puntensleutel muurklimmen toprope.xlsx","docs/klimmen/puntensleutel_muurklimmen_toprope.xlsx")]);
 pg("padel","omni5","Padel",[IMGB("padel"),
   H("spelregels padel"),V("Spelregels Padel Tennis Vlaanderen","Spelregels Padel Tennis Vlaanderen.mp4"),
-  H("lessenreeks padel"),F("lessenreeks padel","lessenreeks padel.docx")]);
+  H("lessenreeks padel"),F("lessenreeks padel","lessenreeks padel.docx","docs/padel/lessenreeks_padel.docx")]);
 
 /* --- 6de jaar --- */
 pg("6de-jaar","home","6SPW",[L(["Zwemmen","zwem6"],["Dans","dans6"])]);
