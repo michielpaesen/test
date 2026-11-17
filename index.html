@@ -156,7 +156,7 @@ const IM = {
   zwemmen:"img/sport/zwemmen.jpg",
   gymnastiek:"img/sport/gymnastiek.jpg",
   balsporten:"img/sport/balsporten.jpg",
-  atletiek:"img/sport/dans.jpg",
+  dans:"img/sport/dans.jpg",
   gevechtssport:"img/sport/gevechtssport.jpg",
   basketbal:"img/sport/basketbal.jpg",
   omnisport:"img/sport/omnisport.jpg",
@@ -192,7 +192,7 @@ function pg(id, p, t, c, m){ PAGES[id]={id,p,t,c:c||[],m:m||t}; }
 pg("home", null, "Home", []);
 
 /* --- 3de jaar --- */
-pg("3de-jaar","home","3SPW",[L(["Gymnastiek","gym3"],["Zwemmen","zwem3"],["Atletiek","atl3"],["Dans-ritmiek"],["Balsporten"])]);
+pg("3de-jaar","home","3SPW",[L(["Gymnastiek","gym3"],["Zwemmen","zwem3"],["Atletiek","atl3"],["Dans","dans3"],["Balsporten","bal3"])]);
 pg("gym3","3de-jaar","Gymnastiek",[
   H("Demo's blok 1"),L(["Grond","g-b1-grond"],["Herenbrug","g-b1-herenbrug"],["Rekstok","g-b1-rekstok"],["Sprong","g-b1-sprong"]),
   H("Demo's blok 2"),L(["Grond","g-b2-grond"],["Herenbrug","g-b2-herenbrug"],["Rekstok","g-b2-rekstok"],["Sprong","g-b2-sprong"]),
@@ -398,7 +398,7 @@ pg("g-eind-grond","g-eind","Grond eindoefening",[
 pg("g-extra","gym3","Oefeningen voor extra punten",[
   IMGB("extra"),
   H("Oefenbundel"),L(["Oefenbundel bekijken","g-bundel"],["Oefenbundel downloaden","docs/Oefenbundel_extra_oefeningen_gymnastiek_3SPW.docx"]),
-  H("Wat moet je bereiken?"),["html","<p>Elke voltooide opdracht levert 1 bonuspunt op per trimester (7 punten per trimester, 21 punten in totaal). Ofwel lukt de opdracht (1 punt), ofwel mislukt ze (0 punten). Bij stretching moet het been horizontaal met de muur zijn en de muur niet raken; bij lenigheid schoudergordel meet je de hoek tussen steel en hand.</p> <div class=\"tablewrap\"><table><thead><tr><th>#</th><th>Oefening</th><th>3SPW</th><th>4SPW</th><th>5SPW</th><th>6SPW</th></tr></thead><tbody><tr><td>1</td><td>Pompen</td><td>25 x</td><td>30 x</td><td>35 x</td><td>40 x</td></tr><tr><td>2</td><td>Optrekken (bovenhandse greep)</td><td>2 x</td><td>4 x</td><td>6 x</td><td>10 x</td></tr><tr><td>3</td><td>Stretching (één been tegen muur, ander been gestrekt langs muur), 5 tellen houden</td><td>90°</td><td>95°</td><td>100°</td><td>105°</td></tr><tr><td>4</td><td>Spreidzit</td><td>120°</td><td>125°</td><td>130°</td><td>135°</td></tr><tr><td>5</td><td>Plankhouding</td><td>2 min</td><td>2 min 30 s</td><td>3 min</td><td>3 min 30 s</td></tr><tr><td>6</td><td>Hazensprong</td><td>1 lengte</td><td></td><td></td><td></td></tr><tr><td>7</td><td>Lenigheid schoudergordel: bezemsteel met gestrekte armen van voor het lichaam boven/achter het hoofd brengen</td><td>35°</td><td>40°</td><td>45°</td><td>50°</td></tr></tbody></table></div>"],
+  H("Wat moet je bereiken?"),["html","<p>Elke voltooide opdracht levert 1 bonuspunt op per trimester (4 punten per trimester, 12 punten in totaal). Ofwel lukt de opdracht (1 punt), ofwel mislukt ze (0 punten). Bij stretching moet het been horizontaal met de muur zijn en de muur niet raken; bij lenigheid schoudergordel meet je de hoek tussen steel en hand.</p> <div class=\"tablewrap\"><table><thead><tr><th>#</th><th>Oefening</th><th>3SPW</th><th>4SPW</th><th>5SPW</th><th>6SPW</th></tr></thead><tbody><tr><td>1</td><td>Pompen</td><td>25 x</td><td>30 x</td><td>35 x</td><td>40 x</td></tr><tr><td>2</td><td>Optrekken (bovenhandse greep)</td><td>2 x</td><td>4 x</td><td>6 x</td><td>10 x</td></tr><tr><td>3</td><td>Stretching (één been tegen muur, ander been gestrekt langs muur), 5 tellen houden</td><td>90°</td><td>95°</td><td>100°</td><td>105°</td></tr><tr><td>4</td><td>Lenigheid schoudergordel: bezemsteel met gestrekte armen van voor het lichaam boven/achter het hoofd brengen</td><td>35°</td><td>40°</td><td>45°</td><td>50°</td></tr></tbody></table></div>"],
   L(["Normen bonuspunten downloaden (Excel)","docs/Opdrachten_gymnastiek_SPW_bonuspunten.xlsx"]),
   H("Oefening 1 · Pompen"),V("Pompen","GH010989_1636722793096~2.mp4","video/Pompen.mp4"),ATT(),
   UL(["Neus komt steeds tot tegen de grond","Lichaam blijft gestrekt (poep hangt niet door of komt niet omhoog)"]),
@@ -408,13 +408,7 @@ pg("g-extra","gym3","Oefeningen voor extra punten",[
   UL(["Zitvlak en onderrug maken contact met de grond","Horizontaal been maakt contact met de grond en is volledig gestrekt","Verticaal been is los van de muur en volledig gestrekt"]),
   H("Oefening 3 · Stretching tegen muur rechts"),V("Stretching tegen muur rechts","GH010996_1636722613941~2.mp4","video/Lenigheid_Rbeen.mp4"),ATT(),
   UL(["Zitvlak en onderrug maken contact met de grond","Horizontaal been maakt contact met de grond en is volledig gestrekt","Verticaal been is los van de muur en volledig gestrekt"]),
-  H("Oefening 4 · Spreidzit"),V("Spreidzit","Spreidzit.mp4","video/Spreidzit.mp4"),ATT(),
-  UL(["Benen zijn volledig uitgestrekt en maken contact met de grond","Handen worden NIET gebruikt om de benen achteruit te duwen","Denkbeeldige hoek ter hoogte van het kruis is 120°"]),
-  H("Oefening 5 · Planken"),V("Planken","Planken.mp4","video/Planken.mp4"),ATT(),
-  UL(["Lichaam is mooi opgespannen, geen doorhangend of omhoogstekend zitvlak"]),
-  H("Oefening 6 · Hazensprong"),V("Hazensprong","Video van Michiel Paesen","video/hazensprong.mp4"),ATT(),
-  UL(["Voeten en benen blijven aaneengesloten","Benen blijven gestrekt","Afwisselend kaatsen op voeten en handen waarbij een zweeffase gecreëerd wordt"]),
-  H("Oefening 7 · Lenigheid schoudergordel"),V("Lenigheid schoudergordel","GH010988_1636722793096~2.mp4","video/Lenigheid_schoudergordel.mp4"),ATT(),
+  H("Oefening 4 · Lenigheid schoudergordel"),V("Lenigheid schoudergordel","GH010988_1636722793096~2.mp4","video/Lenigheid_schoudergordel.mp4"),ATT(),
   UL(["De denkbeeldige hoek tussen de hand en bezemsteel is 35°","De armen blijven gedurende de beweging/oefening gestrekt"]),
   IMGB("gymband")],"Extra oefeningen");
 pg("g-bundel","g-extra","Oefenbundel extra oefeningen gymnastiek 3SPW",[
@@ -433,7 +427,6 @@ pg("z-school","zwem3","Lesopbouw schoolslag",[F("effectieve leerlijn schoolslag"
 pg("z-prest","zwem3","Prestatietabellen",[
   H("100m borstcrawl"),F("prestatietabel 100m borstcrawl","prestatietabel 100m borstcrawl.xlsx"),
   H("100m & 200m schoolslag"),F("prestatietabel 100m & 200m schoolslag","prestatietabel 100m & 200m schoolslag.xlsx")],"Prestatietabellen");
-pg("z-rem","zwem3","Remediëringsoefeningen",[L(["Borstcrawl","z-rem-crawl"],["Schoolslag","z-rem-school"],["Rugcrawl"])]);
 pg("z-rem-crawl","z-rem","Remediëringsoefeningen borstcrawl",[L(["Voorbereidende oefeningen","zr-voorb"],["Beenbeweging/Kick","zr-kick"],["Rotatie","zr-rotatie"],["Ademhaling","zr-adem"],["Reach","zr-reach"],["Catch","zr-catch"],["Pull","zr-pull"],["Push","zr-push"],["Recovery","zr-recovery"])]);
 pg("zr-voorb","z-rem-crawl","Voorbereidende oefeningen",[
   H("Drijven & pijlen"),
@@ -499,8 +492,18 @@ pg("atl3-prest","atl3","Prestatietabellen",[
   S("Prestatietabel kogelstoten 3SPW","1wsK98MK6hIuPG9GNowvCF7XuMnkB9BtX1As306Of0PA"),
   S("Prestatietabel fosburyflop 3SPW","1gx6Jc-7U5HcvhlET0dgAJX8evfVM_PsgXKvIgU-fw7g")]);
 
+pg("dans3","3de-jaar","Dans",[]);
+pg("bal3","3de-jaar","Balsporten",[L(["Volleybal","bal3-volley"],["Voetbal","bal3-voet"],["Handbal","bal3-hand"])]);
+pg("bal3-volley","bal3","Volleybal",[]);
+pg("bal3-voet","bal3","Voetbal",[]);
+pg("bal3-hand","bal3","Handbal",[]);
+
 /* --- 4de jaar --- */
-pg("4de-jaar","home","4SPW",[L(["Basketbal","bb4"],["Gevechtssport","gv4"],["Zwemmen","zwem4"])]);
+pg("4de-jaar","home","4SPW",[L(["Gymnastiek","gym4"],["Basketbal","bb4"],["Gevechtssport","gv4"],["Zwemmen","zwem4"],["Atletiek","atl4"],["Balsporten","bal4"])]);
+pg("gym4","4de-jaar","Gymnastiek",[L(["Blok 1","g4-b1"],["Blok 2","g4-b2"],["Blok 3","g4-b3"])]);
+pg("g4-b1","gym4","Blok 1",[]);
+pg("g4-b2","gym4","Blok 2",[]);
+pg("g4-b3","gym4","Blok 3",[]);
 pg("bb4","4de-jaar","Basketbal",[L(["Test shot + lay-up","bb4-test"],["Fundamentals","bb4-fund"],["Spelregels 3x3","bb4-3x3"])]);
 pg("bb4-test","bb4","Test shot + lay-up",[
   H("Test shot (15 ptn)"),
@@ -551,12 +554,22 @@ pg("gv-bevr","gv4","Bevrijdingscombinaties",vids("",[
   ["Vast nemen bij de schouder langs achter","vast nemen bij de schouder langs achter.mp4"],
   ["Vast nemen bij de schouder langs voor","vast nemen bij de schouder langs voor.mp4"],
   ["Vast nemen bij de nek langs voor","vast nemen aan de nek langs voor.mp4"]]));
-pg("zwem4","4de-jaar","Zwemmen",[L(["Lesopbouw borstcrawl","z-crawl"],["Remediëringsoefeningen borstcrawl","z-rem-crawl"],["Prestatietabellen","z-prest"])]);
+pg("zwem4","4de-jaar","Zwemmen",[L(["Lesopbouw borstcrawl","z-crawl"],["Remediëringsoefeningen","z-rem"],["Prestatietabellen","z-prest"])]);
+
+pg("atl4","4de-jaar","Atletiek",[L(["Uithouding: 3-5 km","atl4-uith"],["Sprint uit blok: 60 m","atl4-sprint"],["Discuswerpen","atl4-discus"],["Verspringen","atl4-ver"])]);
+pg("atl4-uith","atl4","Uithouding: 3-5 km test",[],"Uithouding");
+pg("atl4-sprint","atl4","Sprint uit blok: 60 m",[],"Sprint 60 m");
+pg("atl4-discus","atl4","Discuswerpen",[]);
+pg("atl4-ver","atl4","Verspringen",[]);
+pg("bal4","4de-jaar","Balsporten",[L(["Volleybal","bal4-volley"],["Voetbal","bal4-voet"],["Handbal","bal4-hand"])]);
+pg("bal4-volley","bal4","Volleybal",[]);
+pg("bal4-voet","bal4","Voetbal",[]);
+pg("bal4-hand","bal4","Handbal",[]);
 
 /* --- 5de jaar --- */
-pg("5de-jaar","home","5SPW",[L(["Gymnastiek","gym5"],["Omnisport","omni5"])]);
+pg("5de-jaar","home","5SPW",[L(["Gymnastiek","gym5"],["Zwemmen","zwem5"],["Balsporten","bal5"],["Omnisport","omni5"])]);
 /* --- 5de jaar gymnastiek --- */
-pg("gym5","5de-jaar","Gymnastiek",[L(["Blok 1","g5-b1"],["Blok 2","g5-b2"])]);
+pg("gym5","5de-jaar","Gymnastiek",[L(["Blok 1","g5-b1"],["Blok 2","g5-b2"],["Blok 3","g5-b3"],["Blok 4","g5-b4"],["Blok 5","g5-b5"])]);
 pg("g5-b1","gym5","Blok 1",[L(["Grond","g5-b1-grond"],["Sprong","g5-b1-sprong"],["Rekstok","g5-b1-rekstok"])]);
 pg("g5-b1-grond","g5-b1","Blok 1 grond: handstand doorrollen + rondat",[
   SEC("Handstand doorrollen"),
@@ -628,7 +641,15 @@ pg("g5-b2-sprong","g5-b2","Blok 2 sprong: handstandoverslag",[
   V("Niveau 4","Contentmap Gymnastiek, PXL Education","https://youtu.be/YIWEy2SGUQY"),
   V("Niveau 5","Contentmap Gymnastiek, PXL Education","https://youtu.be/l_Q45A-wNVk")],"Sprong");
 pg("g5-b2-rekstok","g5-b2","Blok 2 rekstok: zweefkip",[],"Rekstok");
-pg("omni5","5de-jaar","Omnisport",[L(["Speerwerpen","speer"],["Padel","padel"],["Basketbal"],["Klimmen","klimmen"])]);
+pg("g5-b3","gym5","Blok 3",[]);
+pg("g5-b4","gym5","Blok 4",[]);
+pg("g5-b5","gym5","Blok 5",[]);
+pg("zwem5","5de-jaar","Zwemmen",[L(["Remediëringsoefeningen","z-rem"])]);
+pg("bal5","5de-jaar","Balsporten",[L(["Volleybal","bal5-volley"],["Voetbal","bal5-voet"],["Handbal","bal5-hand"])]);
+pg("bal5-volley","bal5","Volleybal",[]);
+pg("bal5-voet","bal5","Voetbal",[]);
+pg("bal5-hand","bal5","Handbal",[]);
+pg("omni5","5de-jaar","Omnisport",[L(["Speerwerpen","speer"],["Padel","padel"],["Klimmen","klimmen"])]);
 pg("speer","omni5","Speerwerpen",[IMGB("speerwerpen"),L(["Kijkwijzers werpanalyse","speer-werp"],["Kijkwijzers foutenanalyse","speer-fout"],["Evaluatie","speer-eval"])]);
 pg("speer-werp","speer","Kijkwijzers werpanalyse",[IMGB("werp1"),IMGB("werp2"),IMGB("werp3")]);
 pg("speer-fout","speer","Kijkwijzers foutenanalyse",[IMGB("fout1"),IMGB("fout2"),IMGB("fout3"),IMGB("fout4")]);
@@ -646,14 +667,22 @@ pg("padel","omni5","Padel",[IMGB("padel"),
   H("spelregels padel"),V("Spelregels Padel Tennis Vlaanderen","Spelregels Padel Tennis Vlaanderen.mp4"),
   H("lessenreeks padel"),F("lessenreeks padel","lessenreeks padel.docx")]);
 
+/* --- 6de jaar --- */
+pg("6de-jaar","home","6SPW",[L(["Zwemmen","zwem6"],["Dans","dans6"])]);
+pg("zwem6","6de-jaar","Zwemmen",[L(["Remediëringsoefeningen","z-rem"])]);
+pg("dans6","6de-jaar","Dans",[]);
+
+pg("z-rem","home","Remediëring zwemmen",[L(["Borstcrawl","z-rem-crawl"],["Schoolslag","z-rem-school"],["Rugcrawl"])]);
+
 /* Home: sporttegels zoals op de oorspronkelijke site */
 const SPORTS = [
-  ["zwemmen","zwemmen",[["3SPW","zwem3"],["4SPW","zwem4"]]],
-  ["gymnastiek","gymnastiek",[["3SPW","gym3"],["4SPW"],["5SPW","gym5"],["6SPW"]]],
-  ["balsporten","balsporten",[]],
-  ["dans/atletiek","atletiek",[["3SPW","atl3"]]],
+  ["zwemmen","zwemmen",[["3SPW","zwem3"],["4SPW","zwem4"],["5SPW","zwem5"],["6SPW","zwem6"],["Remediëring","z-rem"]]],
+  ["gymnastiek","gymnastiek",[["3SPW","gym3"],["4SPW","gym4"],["5SPW","gym5"],["6SPW"]]],
+  ["balsporten","balsporten",[["3SPW","bal3"],["4SPW","bal4"],["5SPW","bal5"]]],
+  ["dans","dans",[["3SPW","dans3"],["6SPW","dans6"]]],
+  ["atletiek","",[["3SPW","atl3"],["4SPW","atl4"]]],
   ["gevechtssport","gevechtssport",[["4SPW","gv4"]]],
-  ["basketbal","basketbal",[["4SPW","bb4"],["5SPW"],["6SPW"]]],
+  ["basketbal","basketbal",[["4SPW","bb4"]]],
   ["omnisport","omnisport",[["5SPW","omni5"],["6SPW"]]]
 ];
 
@@ -711,7 +740,7 @@ function renderBlocks(list){
   flush(); return out;
 }
 function renderHome(){
-  const years=[["3","3de-jaar"],["4","4de-jaar"],["5","5de-jaar"],["6",null]];
+  const years=[["3","3de-jaar"],["4","4de-jaar"],["5","5de-jaar"],["6","6de-jaar"]];
   return `<section class="hero">${img("hero","",true)}<div class="txt"><h1>Website Sportwetenschappen</h1><p>Oefeningen, demo's, prestatietabellen en afspraken voor het 3de tot 6de jaar sportwetenschappen.</p></div></section>
   <h2>Kies je jaar</h2>
   <div class="years">${years.map(([n,id])=>id?`<a class="year" href="#${id}"><b>${n}</b><span>${n}SPW</span></a>`:`<div class="year off"><b>${n}</b><span>${n}SPW · binnenkort</span></div>`).join("")}</div>
@@ -734,7 +763,7 @@ function renderTree(cur){
 }
 function renderTopnav(cur){
   const top=trail(cur)[1]?.id;
-  document.getElementById("topnav").innerHTML=[["home","Home"],["3de-jaar","3SPW"],["4de-jaar","4SPW"],["5de-jaar","5SPW"]]
+  document.getElementById("topnav").innerHTML=[["home","Home"],["3de-jaar","3SPW"],["4de-jaar","4SPW"],["5de-jaar","5SPW"],["6de-jaar","6SPW"]]
     .map(([id,l])=>`<a href="#${id}" class="${(id===top||(id==="home"&&cur==="home"))?"on":""}">${l}</a>`).join("");
 }
 const ALIAS={"g5-b1-handstand":"g5-b1-grond","g5-b1-rondat":"g5-b1-grond","g5-b1-rondatsprong":"g5-b1-sprong","g5-b1-zolendraai":"g5-b1-rekstok","g5-b1-overslag":"g5-b2-grond","g5-b1-handstandoverslag":"g5-b2-sprong"};
