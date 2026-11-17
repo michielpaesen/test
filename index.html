@@ -485,11 +485,13 @@ pg("zr-push","z-rem-crawl","Push",[]);
 pg("zr-recovery","z-rem-crawl","Recovery",[]);
 pg("z-rem-school","z-rem","Remediëringsoefeningen schoolslag",[]);
 
-pg("atl3","3de-jaar","Atletiek",[L(["Prestatietabellen","atl3-prest"])]);
-pg("atl3-prest","atl3","Prestatietabellen",[
-  S("Prestatietabel 3km 3SPW","1EmvXc8oYuDpwndgUZqbrxs8k3bFRhCxUHoNe4DPDDQU"),
-  S("Prestatietabel kogelstoten 3SPW","1wsK98MK6hIuPG9GNowvCF7XuMnkB9BtX1As306Of0PA"),
-  S("Prestatietabel fosburyflop 3SPW","1gx6Jc-7U5HcvhlET0dgAJX8evfVM_PsgXKvIgU-fw7g")]);
+pg("atl3","3de-jaar","Atletiek",[L(["Uithouding: 3 km","atl3-uith"],["Kogelstoten","atl3-kogel"],["Hoogspringen","atl3-hoog"])]);
+pg("atl3-uith","atl3","Uithouding: 3 km test",[
+  SEC("Documenten"),S("Prestatietabel 3 km 3SPW","1EmvXc8oYuDpwndgUZqbrxs8k3bFRhCxUHoNe4DPDDQU")],"Uithouding");
+pg("atl3-kogel","atl3","Kogelstoten: O'Brientechniek",[
+  SEC("Documenten"),S("Prestatietabel kogelstoten 3SPW","1wsK98MK6hIuPG9GNowvCF7XuMnkB9BtX1As306Of0PA")],"Kogelstoten");
+pg("atl3-hoog","atl3","Hoogspringen: fosburyflop",[
+  SEC("Documenten"),S("Prestatietabel fosburyflop 3SPW","1gx6Jc-7U5HcvhlET0dgAJX8evfVM_PsgXKvIgU-fw7g")],"Hoogspringen");
 
 pg("dans3","3de-jaar","Dans",[]);
 pg("bal3","3de-jaar","Balsporten",[L(["Volleybal","bal3-volley"],["Voetbal","bal3-voet"],["Handbal","bal3-hand"])]);
@@ -1096,7 +1098,7 @@ function renderTopnav(cur){
   document.getElementById("topnav").innerHTML=[["home","Home"],["3de-jaar","3SPW"],["4de-jaar","4SPW"],["5de-jaar","5SPW"],["6de-jaar","6SPW"]]
     .map(([id,l])=>`<a href="#${id}" class="${(id===top||(id==="home"&&cur==="home"))?"on":""}">${l}</a>`).join("");
 }
-const ALIAS={"g5-b1-handstand":"g5-b1-grond","g5-b1-rondat":"g5-b1-grond","g5-b1-rondatsprong":"g5-b1-sprong","g5-b1-zolendraai":"g5-b1-rekstok","g5-b1-overslag":"g5-b2-grond","g5-b1-handstandoverslag":"g5-b2-sprong"};
+const ALIAS={"atl3-prest":"atl3","g5-b1-handstand":"g5-b1-grond","g5-b1-rondat":"g5-b1-grond","g5-b1-rondatsprong":"g5-b1-sprong","g5-b1-zolendraai":"g5-b1-rekstok","g5-b1-overslag":"g5-b2-grond","g5-b1-handstandoverslag":"g5-b2-sprong"};
 /* Remediëring zwemmen per jaar: kopieer de pagina's z-rem en alles eronder naar elk jaar (id + "-3", "-4", ...) */
 const REMJAREN=[3,4,5,6];
 (()=>{
