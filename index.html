@@ -501,9 +501,67 @@ pg("bal3-hand","bal3","Handbal",[]);
 /* --- 4de jaar --- */
 pg("4de-jaar","home","4SPW",[L(["Gymnastiek","gym4"],["Basketbal","bb4"],["Gevechtssport","gv4"],["Zwemmen","zwem4"],["Atletiek","atl4"],["Balsporten","bal4"])]);
 pg("gym4","4de-jaar","Gymnastiek",[L(["Blok 1","g4-b1"],["Blok 2","g4-b2"],["Blok 3","g4-b3"])]);
-pg("g4-b1","gym4","Blok 1",[]);
-pg("g4-b2","gym4","Blok 2",[]);
-pg("g4-b3","gym4","Blok 3",[]);
+pg("g4-b1","gym4","Blok 1",[L(["Grond","g4-b1-grond"],["Sprong","g4-b1-sprong"],["Rekstok","g4-b1-rekstok"],["Balk (meisjes)","g4-b1-balk"],["Herenbrug (jongens)","g4-b1-herenbrug"])]);
+pg("g4-b1-grond","g4-b1","Blok 1 grond: radslag",[
+  SEC("Eindvorm"),
+  P("Radslag 2x vlot achter elkaar."),
+  P("Uitbreiding: met 1 hand of zonder handen.")],"Grond");
+pg("g4-b1-sprong","g4-b1","Blok 1 sprong: tussensteunsprong",[
+  SEC("Eindvorm"),
+  P("Tussensteunsprong (tijgersprong) in de lengte van de plint.")],"Sprong");
+pg("g4-b1-rekstok","g4-b1","Blok 1 rekstok: kniekip + molendraai achterwaarts",[
+  SEC("Eindvorm"),
+  P("Opzwaai-kniekip + molendraai achterwaarts.")],"Rekstok");
+pg("g4-b1-balk","g4-b1","Blok 1 balk: opsprong en spreidsprong",[
+  SEC("Eindvorm"),
+  P("Voor de meisjes."),
+  UL(["Opsprong op de balk met springplank","3/4 x voorwaarts vorderen","Spreidsprong + landing","Inhaken en komen tot zit","Rechtkomen met steun op één been"])],"Balk (meisjes)");
+pg("g4-b1-herenbrug","g4-b1","Blok 1 herenbrug: opsprong en schouderstand",[
+  SEC("Eindvorm"),
+  P("Voor de jongens."),
+  UL(["Opsprong met springplank","Schouderstand: komen tot evenwicht","Evenwichtsverlies + koprol en komen tot armsteun"])],"Herenbrug (jongens)");
+pg("g4-b2","gym4","Blok 2",[L(["Grond","g4-b2-grond"],["Sprong","g4-b2-sprong"],["Rekstok","g4-b2-rekstok"],["Balk (meisjes)","g4-b2-balk"],["Herenbrug (jongens)","g4-b2-herenbrug"])]);
+pg("g4-b2-grond","g4-b2","Blok 2 grond: rondat",[
+  SEC("Eindvorm"),
+  P("Rondat 2x vanuit aanloop (= 2 lengtes lange mat).")],"Grond");
+pg("g4-b2-sprong","g4-b2","Blok 2 sprong: neksteunlendenslag + voorwaartse salto",[
+  SEC("Eindvormen"),
+  H("Eindvorm 1: neksteunlendenslag"),
+  P("Neksteunlendenslag over de breedte van de plint."),
+  H("Eindvorm 2: voorwaartse salto"),
+  P("Voorwaartse salto met dubbele springplank.")],"Sprong");
+pg("g4-b2-rekstok","g4-b2","Blok 2 rekstok: achterwaartse buikdraai",[
+  SEC("Eindvorm"),
+  UL(["Opsprong, achterwaartse buikdraai en komen tot streksteun","+ achterwaartse buikdraai, afsprong"])],"Rekstok");
+pg("g4-b2-balk","g4-b2","Blok 2 balk: opsprong en kaarshouding",[
+  SEC("Eindvorm"),
+  P("Voor de meisjes."),
+  UL(["Opsprong op de balk met springplank","3/4 x voorwaarts vorderen","Komen tot zit naar kaarshouding + volledige draai"])],"Balk (meisjes)");
+pg("g4-b2-herenbrug","g4-b2","Blok 2 herenbrug: opstutten en uitkronen",[
+  SEC("Eindvorm"),
+  P("Voor de jongens."),
+  UL(["Opsprong met aanloop via springplank","Zwaaien in de brug in armsteun","Zwaaien en achterwaarts opstutten","+ uitkronen uit de brug met ½ draai"])],"Herenbrug (jongens)");
+pg("g4-b3","gym4","Blok 3",[P("3de trimester."),L(["Grond","g4-b3-grond"],["Sprong","g4-b3-sprong"],["Rekstok","g4-b3-rekstok"],["Balk (meisjes)","g4-b3-balk"],["Herenbrug (jongens)","g4-b3-herenbrug"])]);
+pg("g4-b3-grond","g4-b3","Blok 3 grond: combinatieoefening lange mat",[
+  SEC("Eindvorm"),
+  P("Combinatieoefening op de lange mat."),
+  UL(["Lengte 1: koprol voorwaarts – sprong met volledige draai – zweefrol – ½ draai – koprol achterwaarts","Lengte 2: hazensprong over de volledige lengte en overgaan naar koprol om te eindigen","Lengte 3: aanloop – radslag – bijtrekpas – koprol voorwaarts","Lengte 4: radslag uit stand – aanloop – rondat","Lengte 5: handstand doorrollen – kopstand"])],"Grond");
+pg("g4-b3-sprong","g4-b3","Blok 3 sprong: achterwaartse salto",[
+  SEC("Eindvorm"),
+  P("Achterwaartse salto vanop een verhoogd vlak (max. 3 delen)."),
+  P("Uitbreiding: achterwaartse salto vanuit rondat, of vanuit stand.")],"Sprong");
+pg("g4-b3-rekstok","g4-b3","Blok 3 rekstok: combinatieoefening",[
+  SEC("Eindvorm"),
+  P("Combinatieoefening."),
+  UL(["Opkomen op de rekstok via achterwaartse buikdraai","Molendraai voorwaarts","Molendraai achterwaarts","Achterwaartse buikdraai","Afsprong via achterwaartse buikdraai + onderzwaai tot landing in evenwicht"])],"Rekstok");
+pg("g4-b3-balk","g4-b3","Blok 3 balk: combinatieoefening",[
+  SEC("Eindvorm"),
+  P("Voor de meisjes."),
+  UL(["Opsprong op de balk met springplank","3 x voorwaarts vorderen","Kattensprong + landing","Inhaken en komen tot zit","Opduwen tot kaarshouding","Rechtkomen op één been","Afsprong: rondat"])],"Balk (meisjes)");
+pg("g4-b3-herenbrug","g4-b3","Blok 3 herenbrug: combinatieoefening",[
+  SEC("Eindvorm"),
+  P("Voor de jongens."),
+  UL(["Opstutten op de brug uit vouwhang","Zwaaien in de brug in armsteun","Schouderstand","Doorrollen naar armsteun","Zwaaien in armsteun en achteropzet","Zwaaien in armsteun en uitkronen uit de brug met ½ draai"])],"Herenbrug (jongens)");
 pg("bb4","4de-jaar","Basketbal",[L(["Test shot + lay-up","bb4-test"],["Fundamentals","bb4-fund"],["Spelregels 3x3","bb4-3x3"])]);
 pg("bb4-test","bb4","Test shot + lay-up",[
   H("Test shot (15 ptn)"),
