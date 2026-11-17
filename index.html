@@ -62,6 +62,12 @@ h3{font:600 1.15rem/1.25 var(--display);margin:22px 0 8px;color:var(--ink)}
 .prose li{margin:3px 0}
 .attn{font:700 .85rem var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin:8px 0 4px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:6px 0 18px}
+.grid.vids{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media (max-width:640px){.grid.vids{grid-template-columns:minmax(0,1fr)}}
+.speed{display:flex;gap:6px;margin:6px 0 2px;flex-wrap:wrap}
+.speed button{font:600 .85rem var(--display);min-height:32px;padding:4px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--accent);cursor:pointer}
+.speed button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.speed button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .media{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
 .media .frame{aspect-ratio:16/9;max-width:100%;background:var(--court-soft);display:grid;place-items:center;position:relative}
 .media .frame video{position:absolute;inset:0;width:100%;height:100%;background:#000}
@@ -765,6 +771,7 @@ const esc = s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;
 const kids = id=>Object.values(PAGES).filter(p=>p.p===id);
 const trail = id=>{const a=[];let p=PAGES[id];while(p){a.unshift(p);p=PAGES[p.p];}return a;};
 const PLAY='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>';
+const SPEED='<div class="speed" role="group" aria-label="Afspeelsnelheid"><button type="button" data-r="1" class="on">1x</button><button type="button" data-r="0.5">0,5x</button><button type="button" data-r="0.25">0,25x</button></div>';
 
 function img(key, alt, deco){
   const src = IM[key].startsWith("img/") ? IM[key] : IMG + IM[key];
@@ -786,9 +793,9 @@ function block(b){
     case "v": {
       const [,label,file,drive]=b;
       const yt = drive && /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([\w-]{11})/.exec(drive);
-      if(yt) return `<div class="media"><div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/${yt[1]}?rel=0" allow="fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="${esc(label)}"></iframe></div><div class="meta"><b>${esc(label)}</b><a href="https://youtu.be/${yt[1]}" target="_blank" rel="noopener">Open op YouTube (trager afspelen via ⚙)</a></div></div>`;
+      if(yt) return `<div class="media"><div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/${yt[1]}?rel=0&enablejsapi=1&origin=${encodeURIComponent(location.origin)}" allow="fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="${esc(label)}"></iframe></div><div class="meta"><b>${esc(label)}</b>${SPEED}<a href="https://youtu.be/${yt[1]}" target="_blank" rel="noopener">Open op YouTube</a></div></div>`;
       const local = drive && drive.startsWith("video/");
-      if(local) return `<div class="media"><div class="frame"><video src="${esc(drive)}" controls preload="metadata" playsinline></video></div><div class="meta"><b>${esc(label)}</b><span>${esc(file)}</span></div></div>`;
+      if(local) return `<div class="media"><div class="frame"><video src="${esc(drive)}" controls preload="metadata" playsinline></video></div><div class="meta"><b>${esc(label)}</b>${SPEED}</div></div>`;
       const frame = drive && !framed
         ? `<iframe src="https://drive.google.com/file/d/${esc(drive)}/preview" allow="autoplay" allowfullscreen title="${esc(label)}"></iframe>`
         : PLAY;
@@ -806,10 +813,10 @@ function block(b){
   return "";
 }
 function renderBlocks(list){
-  // opeenvolgende video's/bestanden samen in een raster
-  let out="",buf=[];
-  const flush=()=>{if(buf.length){out+=`<div class="grid">${buf.join("")}</div>`;buf=[];}};
-  for(const b of list){ if(["v","f","s"].includes(b[0])) buf.push(block(b)); else {flush(); out+=block(b);} }
+  // opeenvolgende video's/bestanden samen in een raster (video's: 2 per rij)
+  let out="",buf=[],vid=false;
+  const flush=()=>{if(buf.length){out+=`<div class="grid${vid?" vids":""}">${buf.join("")}</div>`;buf=[];vid=false;}};
+  for(const b of list){ if(["v","f","s"].includes(b[0])){ buf.push(block(b)); if(b[0]==="v") vid=true; } else {flush(); out+=block(b);} }
   flush(); return out;
 }
 function renderHome(){
@@ -852,6 +859,25 @@ function route(){
   window.scrollTo(0,0);
 }
 window.addEventListener("hashchange",route);
+/* snelheidsknoppen: eigen video's via playbackRate, YouTube via de IFrame-API (postMessage) */
+const ytSend=(f,cmd,args)=>f.contentWindow&&f.contentWindow.postMessage(JSON.stringify({event:"command",func:cmd,args:args||[]}),"*");
+document.addEventListener("click",e=>{
+  const btn=e.target.closest(".speed button"); if(!btn) return;
+  const media=btn.closest(".media"), r=parseFloat(btn.dataset.r);
+  media.querySelectorAll(".speed button").forEach(x=>x.classList.toggle("on",x===btn));
+  const v=media.querySelector("video"), f=media.querySelector("iframe");
+  if(v) v.playbackRate=r;
+  if(f){ f.dataset.rate=r; ytSend(f,"setPlaybackRate",[r]); }
+});
+// YouTube negeert de snelheid soms vóór het afspelen: opnieuw instellen zodra de video start
+document.addEventListener("load",e=>{ const f=e.target; if(f.tagName==="IFRAME"&&f.src.includes("enablejsapi")) f.contentWindow.postMessage(JSON.stringify({event:"listening"}),"*"); },true);
+window.addEventListener("message",e=>{
+  let host; try{ host=new URL(e.origin).hostname; }catch(_){ return; }
+  if(!/youtube(-nocookie)?\.com$/.test(host)) return;
+  let d; try{ d=JSON.parse(e.data); }catch(_){ return; }
+  const f=[...document.querySelectorAll("iframe[data-rate]")].find(x=>x.contentWindow===e.source);
+  if(f && d.info && d.info.playerState===1 && d.info.playbackRate!==+f.dataset.rate) ytSend(f,"setPlaybackRate",[+f.dataset.rate]);
+});
 document.getElementById("treeToggle").addEventListener("click",e=>{
   const t=document.getElementById("tree"); t.classList.toggle("open");
   e.currentTarget.setAttribute("aria-expanded",t.classList.contains("open"));
