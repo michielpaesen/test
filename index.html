@@ -119,6 +119,16 @@ a.year:hover{border-color:var(--brand);box-shadow:inset 0 -4px 0 var(--brand)}
 .chip{font:600 .9rem var(--display);padding:5px 10px;border-radius:4px;background:var(--accent);color:var(--accent-ink);text-decoration:none}
 .chip.off{background:var(--chip-off);color:var(--muted)}
 .docbody{max-width:900px}
+.docview{border:1px solid var(--line,#dfe7e6);border-radius:8px;margin:14px 0;background:var(--surface,#fff)}
+.docview>summary{display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;list-style:none;font:600 1rem var(--display)}
+.docview>summary::-webkit-details-marker{display:none}
+.docview>summary::after{content:"▾";margin-left:auto;color:var(--accent);transition:transform .2s}
+.docview:not([open])>summary::after{transform:rotate(-90deg)}
+.docview>summary .ico{flex:none;padding:3px 8px;border-radius:4px;background:var(--court-soft);color:var(--court);font:700 .72rem var(--display);letter-spacing:.06em;text-transform:uppercase}
+.docview .docin{padding:4px 16px 8px;overflow-x:auto}
+.docview>.docbtns{padding:0 16px 14px;max-width:320px}
+.pdfview{width:100%;height:80vh;border:1px solid var(--line,#dfe7e6);border-radius:6px}
+.pdfalt{font-size:.85rem;margin:4px 0 0}
 .docbody p,.docbody li{max-width:68ch}
 .docbody h2{margin-top:36px}
 .docbody .tablewrap{overflow-x:auto;margin:10px 0 16px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
@@ -1006,7 +1016,7 @@ pg("klimmen","omni5","Klimmen",[IMGB("klimmen"),
   H("Les 2"),F("klimmen les 2","klimmen les 2.docx","docs/klimmen/klimmen_les_2.docx","doc-klimmen-klimmen-les-2"),
   H("Puntensleutel test klimmen"),F("puntensleutel muurklimmen toprope","puntensleutel muurklimmen toprope.xlsx","docs/klimmen/puntensleutel_muurklimmen_toprope.xlsx","doc-klimmen-puntensleutel-muurklimmen-toprope")]);
 pg("padel","omni5","Padel",[IMGB("padel"),
-  H("spelregels padel"),V("Spelregels Padel Tennis Vlaanderen","Spelregels Padel Tennis Vlaanderen.mp4"),
+  H("spelregels padel"),V("Spelregels Padel Tennis Vlaanderen","Spelregels Padel by Tennis Vlaanderen (YouTube, Tennis Vlaanderen)","https://youtu.be/9Reo9tRbjOs"),
   H("lessenreeks padel"),F("lessenreeks padel","lessenreeks padel.docx","docs/padel/lessenreeks_padel.docx","doc-padel-lessenreeks-padel")]);
 
 /* --- 6de jaar --- */
@@ -1098,6 +1108,18 @@ function img(key, alt, deco){
   return `<img src="${esc(src)}" alt="${esc(alt||"")}" loading="lazy" onerror="${fail}">`;
 }
 function ext(f){const m=/\.([a-z0-9]+)$/i.exec(f);return m?m[1].toLowerCase():"";}
+// Documenten: inhoud meteen op de pagina (leespagina-html of pdf), downloadknop onderaan.
+let DOCOPEN=true;
+function docInline(b){
+  if(b[0]!=="f") return "";
+  const [,label,file,drive,bekijk]=b;
+  const pg = bekijk && (PAGES[bekijk] || PAGES[ALIAS[bekijk]]);
+  const h = pg && pg.c.find(x=>x[0]==="html");
+  if(h) return `<div class="docbody">${h[1]}</div>`;
+  const pdf = bekijk && /\.pdf$/i.test(bekijk) ? bekijk : (drive && /\.pdf$/i.test(drive) ? drive : "");
+  if(pdf) return `<iframe class="pdfview" src="${esc(pdf)}#view=FitH" title="${esc(label)}" loading="lazy"></iframe><p class="pdfalt"><a href="${esc(pdf)}" target="_blank" rel="noopener">Pdf openen in een nieuw venster</a></p>`;
+  return "";
+}
 function block(b){
   switch(b[0]){
     case "h": return `<h3>${esc(b[1])}</h3>`;
@@ -1123,6 +1145,11 @@ function block(b){
     }
     case "f": {
       const [,label,file,drive,bekijk]=b;
+      const inl = docInline(b);
+      if(inl){
+        const dl = drive && drive.startsWith("docs/") ? `<div class="docbtns"><a class="btn" href="${esc(drive)}" download>Downloaden (${esc(ext(file)||"bestand")})</a></div>` : "";
+        return `<details class="docview"${DOCOPEN?" open":""}><summary><span class="ico">${esc(ext(file)||"doc")}</span><b>${esc(label)}</b></summary><div class="docin">${inl}</div>${dl}</details>`;
+      }
       const pdf = drive && /\.pdf$/i.test(drive);
       const view = bekijk ? ((PAGES[bekijk]||ALIAS[bekijk]) ? "#"+bekijk : bekijk) : (pdf ? drive : "");
       const act = drive && drive.startsWith("docs/")
@@ -1138,7 +1165,8 @@ function renderBlocks(list){
   // opeenvolgende video's/bestanden samen in een raster (video's: 2 per rij)
   let out="",buf=[],vid=false;
   const flush=()=>{if(buf.length){out+=`<div class="grid${vid?" vids":""}">${buf.join("")}</div>`;buf=[];vid=false;}};
-  for(const b of list){ if(["v","f","s"].includes(b[0])){ buf.push(block(b)); if(b[0]==="v") vid=true; } else {flush(); out+=block(b);} }
+  DOCOPEN = list.filter(b=>docInline(b)).length<=1;
+  for(const b of list){ if(["v","f","s"].includes(b[0]) && !docInline(b)){ buf.push(block(b)); if(b[0]==="v") vid=true; } else {flush(); out+=block(b);} }
   flush(); return out;
 }
 function renderHome(){
@@ -1153,7 +1181,7 @@ function renderPage(id){
   const p=PAGES[id]; const t=trail(id);
   const crumbs=t.slice(0,-1).map(x=>`<a href="#${x.id}">${esc(x.m)}</a><span>›</span>`).join("");
   let body=renderBlocks(p.c);
-  const sub=kids(id);
+  const sub=kids(id).filter(k=>!k.id.startsWith("doc-")); // leespagina's staan al open op de pagina
   if(!p.c.some(b=>b[0]==="links") && sub.length) body+=`<div class="linklist">${sub.map(k=>`<a class="pill" href="#${k.id}">${esc(k.m)}</a>`).join("")}</div>`;
   if(!body) body=`<p class="empty">Deze pagina heeft nog geen inhoud.</p>`;
   return `<nav class="crumbs" aria-label="Kruimelpad">${crumbs}</nav><h1>${esc(p.t)}</h1>${body}`;
